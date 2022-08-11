@@ -10,7 +10,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Category
 
-    name = fake.lexify(text="category_name_?????")
+    category_name = fake.lexify(text="category_name_?????")
     description = fake.lexify(text="description_?????")
     image = "images/default.png"
 
