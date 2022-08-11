@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fxecommerce.dashboard'
+    'fxecommerce.dashboard',
+    'fxecommerce.inventory'
 ]
 
 MIDDLEWARE = [
