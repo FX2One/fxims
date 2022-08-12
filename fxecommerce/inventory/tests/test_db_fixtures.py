@@ -26,9 +26,9 @@ def test_inventory_category_dbfixture(
 @pytest.mark.parametrize(
     "category_name, description, image",
     [
-        ('football','footbal','images/default.png'),
-        ('basketball','basketball','images/default.png'),
-        ('volleyball','volleyball','images/default.png')
+        ('football','All football equipment','default.png'),
+        ('basketball','All basketball equipment','default.png'),
+        ('volleyball','All volleyball equipment','default.png')
     ],
 )
 def test_inventory_category_dbfixture_insert_fb(
