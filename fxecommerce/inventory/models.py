@@ -18,14 +18,14 @@ class Category(models.Model):
         max_length=100,
         db_index=True,
         blank=False,
-        help_text=_("format: required,max-100")
+        help_text=_("format: required. Max_length: 100")
     )
     description = models.TextField(
         verbose_name=_('Description'),
         db_column='Description',
         max_length=150,
         blank=False,
-        help_text=_("format: required,max-150")
+        help_text=_("format: required. Max_length: 150")
     )
     image = models.ImageField(
         verbose_name=_('Image'),
@@ -36,6 +36,7 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'categories'
+        verbose_name_plural = _("Product categories")
 
     def __str__(self):
         return self.category_name
