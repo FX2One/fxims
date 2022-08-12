@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 
 
-
 '''
 creating default superuser
 @pytest.fixture
@@ -14,8 +13,6 @@ def create_admin(django_user_model):
 '''
 
 
-
-
 """ 
 https://pytest-django.readthedocs.io/en/latest/database.html 
 more on setting database fixture with pytest
@@ -24,7 +21,6 @@ the best way is to run shell in project
 from django.contrib.auth.hashers import make_password
 make_password('your_password') and copy result into .json file
 """
-
 @pytest.fixture(scope='session')
 def django_database_fixture_setup(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():

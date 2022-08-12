@@ -42,3 +42,25 @@ def test_inventory_category_dbfixture_insert_fb(
     assert result.category_name == category_name
     assert result.description == description
     assert result.image == image
+
+"""parametrize using factory.Sequence to autopopulate not defined field"""
+"""parametrize with FactoryBoy package"""
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "category_name, image",
+    [
+        ('football','default.png'),
+        ('basketball','default.png'),
+        ('volleyball','default.png')
+    ],
+)
+def test_inventory_category_dbfixture_insert_fb2(
+        db, category_factory, category_name, image
+):
+    result = category_factory.create(
+        category_name=category_name,
+        image=image
+    )
+    print(result.description)
+    assert result.category_name == category_name
+    assert result.image == image
