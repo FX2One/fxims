@@ -7,7 +7,7 @@ from django.db import models
 # Create your models here.
 
 class Category(models.Model):
-    id = models.AutoField(
+    category_id = models.AutoField(
         verbose_name=_('Category ID'),
         db_column='CategoryID',
         primary_key=True
@@ -18,15 +18,14 @@ class Category(models.Model):
         max_length=100,
         db_index=True,
         blank=False,
-        helptext=_("format: required,max-100")
+        help_text=_("format: required,max-100")
     )
     description = models.TextField(
         verbose_name=_('Description'),
         db_column='Description',
         max_length=150,
         blank=False,
-        null=False,
-        helptext=_("format: required,max-150")
+        help_text=_("format: required,max-150")
     )
     image = models.ImageField(
         verbose_name=_('Image'),
