@@ -8,26 +8,28 @@ from django.db import models
 
 class Category(models.Model):
     id = models.AutoField(
-        _('Category ID'),
+        verbose_name=_('Category ID'),
         db_column='CategoryID',
         primary_key=True
     )
     category_name = models.CharField(
-        _('Category name'),
+        verbose_name=_('Category name'),
         db_column='CategoryName',
         max_length=100,
         db_index=True,
-        blank=False
+        blank=False,
+        helptext=_("format: required,max-100")
     )
     description = models.TextField(
-        _('Description'),
+        verbose_name=_('Description'),
         db_column='Description',
-        max_length=200,
-        blank=True,
-        null=True
+        max_length=150,
+        blank=False,
+        null=False,
+        helptext=_("format: required,max-150")
     )
     image = models.ImageField(
-        _('Image'),
+        verbose_name=_('Image'),
         db_column='Image',
         blank=True,
         null=True
