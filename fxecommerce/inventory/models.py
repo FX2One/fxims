@@ -3,6 +3,7 @@
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 
+
 # Create your models here.
 
 class Category(models.Model):
@@ -14,12 +15,14 @@ class Category(models.Model):
     category_name = models.CharField(
         _('Category name'),
         db_column='CategoryName',
-        max_length=15,
-        db_index=True
+        max_length=100,
+        db_index=True,
+        blank=False
     )
     description = models.TextField(
         _('Description'),
         db_column='Description',
+        max_length=200,
         blank=True,
         null=True
     )
@@ -32,3 +35,6 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'categories'
+
+    def __str__(self):
+        return self.category_name
