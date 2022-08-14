@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Local Apps
     'fxecommerce.dashboard',
-    'fxecommerce.inventory'
+    'fxecommerce.inventory',
+    'fxecommerce.custom_cmd'
 ]
 
 MIDDLEWARE = [
