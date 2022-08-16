@@ -40,6 +40,94 @@ class Category(models.Model):
         return self.category_name
 
 
+class Supplier(models.Model):
+    supplier_id = models.AutoField(
+        verbose_name=_('Supplier ID'),
+        db_column='SupplierID',
+        primary_key=True
+    )
+    company_name = models.CharField(
+        verbose_name=_('Company name'),
+        db_column='CompanyName',
+        max_length=40,
+        blank=False,
+        null=False
+    )
+    contact_name = models.CharField(
+        verbose_name=_('Contact name'),
+        db_column='ContactName',
+        max_length=30,
+        blank=False,
+        null=False
+    )
+    contact_title = models.CharField(
+        verbose_name=_('Contact title'),
+        db_column='ContactTitle',
+        max_length=30,
+        blank=False,
+        null=False
+    )
+    address = models.CharField(
+        verbose_name=_('Address'),
+        db_column='Address',
+        max_length=60,
+        blank=False,
+        null=False
+    )
+    city = models.CharField(
+        verbose_name=_('City'),
+        db_column='City',
+        max_length=15,
+        blank=False,
+        null=False
+    )
+    region = models.CharField(
+        verbose_name=_('Region'),
+        db_column='Region',
+        max_length=15,
+        blank=False,
+        null=False
+    )
+    postal_code = models.CharField(
+        verbose_name=_('Postal code'),
+        db_column='PostalCode',
+        max_length=10,
+        blank=False,
+        null=False
+    )
+    country = models.CharField(
+        verbose_name=_('Country'),
+        db_column='Country',
+        max_length=15,
+        blank=False,
+        null=False
+    )
+    phone = models.CharField(
+        verbose_name=_('Phone'),
+        db_column='Phone',
+        max_length=24,
+        blank=False,
+        null=False
+    )
+    fax = models.CharField(
+        verbose_name=_('Fax'),
+        db_column='Fax',
+        max_length=24,
+        blank=False,
+        null=False
+    )
+    homepage = models.TextField(
+        verbose_name=_('HomePage'),
+        db_column='HomePage',
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        db_table = 'supplier'
+        verbose_name_plural = _("Suppliers")
+
+
 class Product(models.Model):
     product_id = models.AutoField(
         verbose_name=_('Product ID'),
@@ -58,9 +146,9 @@ class Product(models.Model):
     description = models.TextField(
         verbose_name=_('Description'),
         db_column='Description',
+        max_length=255,
         null=False,
         blank=False,
-        max_length=255,
         help_text=_('format: required, max_length: 255')
     )
     supplier_id = models.ForeignKey(
@@ -120,11 +208,3 @@ class Product(models.Model):
     class Meta:
         db_table = 'product'
         verbose_name_plural = _("Products")
-
-
-class Supplier(models.Model):
-    pass
-
-    class Meta:
-        db_table = 'supplier'
-        verbose_name_plural = _("Suppliers")
