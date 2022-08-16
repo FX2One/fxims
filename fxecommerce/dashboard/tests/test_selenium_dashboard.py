@@ -4,9 +4,9 @@ from selenium.webdriver.common.by import By
 
 
 
-'''@pytest.mark.selenium
+@pytest.mark.selenium
 def test_new_admin_user(create_admin):
-    assert create_admin.username == "admin"'''
+    assert create_admin.username == "admin"
 
 @pytest.mark.selenium
 def test_dashboard_admin_login(live_server, chrome_browser, django_database_fixture_setup):

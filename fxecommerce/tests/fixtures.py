@@ -3,14 +3,14 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 
 
-'''
-creating default superuser
+
+'''creating default superuser'''
 @pytest.fixture
 def create_admin(django_user_model):
     """return default admin user"""
 
     return django_user_model.objects.create_superuser("admin","admin@admin.com","password")
-'''
+
 
 
 """ 
