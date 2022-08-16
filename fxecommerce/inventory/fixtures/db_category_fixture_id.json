@@ -1,0 +1,12 @@
+[
+  {
+    "model": "inventory.category",
+    "pk": 1,
+    "fields": {
+      "category_id" : 1,
+      "category_name": "football",
+      "description": "All equipment related to Sports",
+      "image": "default.png"
+    }
+  }
+]

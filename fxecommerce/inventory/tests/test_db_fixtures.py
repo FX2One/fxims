@@ -3,22 +3,20 @@ from fxecommerce.inventory import models
 
 
 """regular parametrize test"""
-'''@pytest.mark.dbfixture
+@pytest.mark.dbfixture
 @pytest.mark.parametrize(
-    "id, category_name, description, image",
+    "category_id, category_name, description, image",
     [
-        (1,'football','footbal','images/default.png'),
-        (10,'basketball','basketball','images/default.png'),
-        (101,'volleyball','volleyball','images/default.png')
+        (1,'football','All equipment related to Sports','default.png')
     ],
 )
 def test_inventory_category_dbfixture(
-  db, django_database_fixture_setup, id, category_name, description, image
+  db, django_database_fixture_setup, category_id, category_name, description, image
 ):
-    result = models.Category.objects.get(id=id)
+    result = models.Category.objects.get(category_id=category_id)
     assert result.category_name == category_name
     assert result.description == description
-    assert result.image == image'''
+    assert result.image == image
 
 
 """parametrize with FactoryBoy package"""

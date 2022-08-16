@@ -26,4 +26,4 @@ def django_database_fixture_setup(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
         """ can be used as a context manager to enable database access for the specified fixture"""
         call_command('loaddata', 'db_admin_fixture.json')
-        call_command('loaddata', 'db_category_fixture.json')
+        call_command('loaddata', 'db_category_fixture_id.json')

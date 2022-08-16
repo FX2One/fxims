@@ -4,8 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 
-# Create your models here.
-
 class Category(models.Model):
     category_id = models.AutoField(
         verbose_name=_('Category ID'),
