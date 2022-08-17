@@ -1,0 +1,11 @@
+[
+  {
+    "model": "inventory.product",
+    "pk": 1,
+    "fields": {
+      "product_name": "Nike Football v2",
+      "description": "New 2022 football model",
+      "quantity_per_unit": "24 - 500ml bottles",
+    }
+  }
+]

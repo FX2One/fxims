@@ -1,0 +1,10 @@
+[
+  {
+    "model": "inventory.supplier",
+    "pk": 1,
+    "fields": {
+      "category_name": "Sports",
+      "description": "All equipment related to Sports",
+      "image": "default.png"
+    }
+]
