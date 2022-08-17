@@ -43,7 +43,6 @@ def test_inventory_category_dbfixture_insert_fb(
 
 """parametrize using factory.Sequence to autopopulate not defined field"""
 """parametrize with FactoryBoy package"""
-@pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_name, image",
     [
@@ -59,6 +58,35 @@ def test_inventory_category_dbfixture_insert_fb2(
         category_name=category_name,
         image=image
     )
-    print(result.description)
+    print(result.category_name)
     assert result.category_name == category_name
     assert result.image == image
+
+
+
+
+
+'''@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "product_name","description","supplier_id","category_id","unit_price","units_in_stock","units_on_order","reorder_level","discontinued",
+    [
+        ('Nike Football v2','New 2022 football model',1,1,'24 - 500ml bottles',18,3,1,1,0)
+    ],
+)
+def test_inventory_product_dbfixture(
+        db, product_factory,product_name,description,supplier_id,category_id,unit_price,units_in_stock,units_on_order,reorder_level,discontinued
+):
+    result = product_factory.create(
+        product_name=product_name,
+        description=description,
+        supplier_id=supplier_id,
+        category_id=category_id,
+        unit_price=unit_price,
+        units_in_stock=units_in_stock,
+        units_on_order=units_on_order,
+        reorder_level=reorder_level,
+        discontinued=discontinued
+    )
+    assert result.product_name == product_name'''
+
+
