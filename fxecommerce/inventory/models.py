@@ -201,7 +201,7 @@ class Product(models.Model):
         null=True
     )
     discontinued = models.IntegerField(
-        _('Discontinued'),
+        verbose_name=_('Discontinued'),
         db_column='Discontinued'
     )
 
