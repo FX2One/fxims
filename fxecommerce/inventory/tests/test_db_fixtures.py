@@ -3,10 +3,13 @@ from fxecommerce.inventory import models
 import json
 from utils import JsonLoadData, ConfigFixture
 
+jld = JsonLoadData()
+cf = ConfigFixture()
+
+
+
 """regular parametrize test"""
 """asserts against db_category_fixture_id.json"""
-
-
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_id, category_name, description, image",
@@ -22,6 +25,8 @@ def test_inventory_category_dbfixture(
     assert result.category_name == category_name
     assert result.description == description
     assert result.image == image
+
+
 
 
 """parametrize with FactoryBoy package"""
@@ -48,6 +53,8 @@ def test_inventory_category_dbfixture_insert_fb(
     assert result.image == image
 
 
+
+
 """parametrize using factory.Sequence to autopopulate not defined field"""
 """parametrize with FactoryBoy package"""
 @pytest.mark.parametrize(
@@ -69,17 +76,16 @@ def test_inventory_category_dbfixture_insert_fb2(
     assert result.image == image
 
 
-jld = JsonLoadData()
-cf = ConfigFixture()
+
 
 
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
-    # parametrize pattern example
+    # parametrize pattern example utils
     # "company_name,contact_name,contact_title,address,city,region,postal_code,country,phone,fax,homepage"
     jld.load_keys(cf.SUPPLIER_FIXTURE),
     [
-        # parameters example
+        # parameters example utils
         # ('Adeedas','Adee Das','Adeedas Company','Adee address','Munich','Bavaria','11-222','Germany','777-777-777','777-777-778','adeedas.com'),
         jld.load_values(cf.SUPPLIER_FIXTURE, 0),
         jld.load_values(cf.SUPPLIER_FIXTURE, 1),
