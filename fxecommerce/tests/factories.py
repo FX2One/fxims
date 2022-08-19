@@ -4,6 +4,7 @@ import string
 from faker import Faker
 from pytest_factoryboy import register
 from fxecommerce.inventory import models
+import factory.fuzzy
 
 fake = Faker()
 
@@ -21,17 +22,20 @@ class SupplierFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Supplier
 
-    company_name = factory.Sequence(lambda x: f"company_name_{x}")
-    contact_name = factory.Sequence(lambda x: f"contact_name_{x}")
+
+    company_name = fake.lexify(text="company_name_??????")
+    contact_name = fake.lexify(text="contact_name_??????")
     contact_title = factory.Sequence(lambda x: f"contact_title_{x}")
-    address = factory.Sequence(lambda x: f"address_{x}")
-    city = factory.Sequence(lambda x:f"city_{x}")
-    region = factory.Sequence(lambda x: f"region_{x}")
-    postal_code = factory.Sequence(lambda a,b,c,d,e: f"zip_code: {a}{b}:{c}{d}{e}")
-    country = factory.Sequence(lambda x: f"country_{x}")
-    phone = factory.Sequence(lambda a,b,c,d,e,f,g,h,j: f"phone: {a}{b}{c}-{d}{e}{f}-{g}{h}{j}")
-    fax = factory.Sequence(lambda a,b,c,d,e,f,g,h,j: f"fax: {a}{b}{c}-{d}{e}{f}-{g}{h}{j}")
-    homepage = factory.Sequence(lambda x: f"www.{x}_homepage_{x}")
+    address = factory.Faker('address')
+    city = factory.Faker('city')
+    region = fake.lexify(text="region_??????")
+    postal_code = factory.Faker('zipcode')
+    country = fake.lexify(text="country_??????")
+    phone = fake.lexify(text="phone_??????")
+    fax = fake.lexify(text="fax_??????")
+    homepage = fake.lexify(text="homepage_??????")
+
+
 
 
 '''class ProductFactory(factory.django.DjangoModelFactory):
@@ -51,4 +55,4 @@ class SupplierFactory(factory.django.DjangoModelFactory):
 
 
 register(CategoryFactory)
-
+register(SupplierFactory)
