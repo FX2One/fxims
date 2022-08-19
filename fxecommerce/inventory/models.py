@@ -127,6 +127,11 @@ class Supplier(models.Model):
         db_table = 'supplier'
         verbose_name_plural = _("Suppliers")
 
+    def __str__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+
 
 class Product(models.Model):
     product_id = models.AutoField(
