@@ -12,7 +12,6 @@ def create_admin(django_user_model):
     return django_user_model.objects.create_superuser("admin","admin@admin.com","password")
 
 
-
 """ 
 https://pytest-django.readthedocs.io/en/latest/database.html 
 more on setting database fixture with pytest

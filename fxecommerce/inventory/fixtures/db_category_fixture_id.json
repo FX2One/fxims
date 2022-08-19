@@ -3,9 +3,49 @@
     "model": "inventory.category",
     "pk": 1,
     "fields": {
-      "category_id" : 1,
+      "category_id": 1,
       "category_name": "football",
       "description": "All equipment related to Sports",
+      "image": "default.png"
+    }
+  },
+  {
+    "model": "inventory.category",
+    "pk": 18,
+    "fields": {
+      "category_id": 2,
+      "category_name": "E-Games",
+      "description": "Video games",
+      "image": "default.png"
+    }
+  },
+  {
+    "model": "inventory.category",
+    "pk": 10,
+    "fields": {
+      "category_id": 3,
+      "category_name": "football",
+      "description": "All football equipment",
+      "image": "default.png"
+    }
+  },
+  {
+    "model": "inventory.category",
+    "pk": 35,
+    "fields": {
+      "category_id": 4,
+      "category_name": "basketball",
+      "description": "All basketball equipment",
+      "image": "default.png"
+    }
+  },
+  {
+    "model": "inventory.category",
+    "pk": 44,
+    "fields": {
+      "category_id": 5,
+      "category_name": "volleyball",
+      "description": "All volleyball equipment",
       "image": "default.png"
     }
   }

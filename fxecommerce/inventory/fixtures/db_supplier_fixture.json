@@ -1,0 +1,53 @@
+[
+  {
+    "model": "inventory.supplier",
+    "pk": 1,
+    "fields": {
+      "company_name": "Nike",
+      "contact_name": "Najk",
+      "contact_title": "ContactNike",
+      "address": "USA somethin 5",
+      "city": "Ohio",
+      "region": "Ohio",
+      "postal_code": "11-555",
+      "country": "USA",
+      "phone": "777-888-999",
+      "fax": "777-888-989",
+      "homepage": "najk.com"
+    }
+  },
+  {
+    "model": "inventory.supplier",
+    "pk": 2,
+    "fields": {
+      "company_name": "Pumba",
+      "contact_name": "Pumba Co.",
+      "contact_title": "ContactPumba",
+      "address": "New York 5/6",
+      "city": "New York",
+      "region": "New York",
+      "postal_code": "67-856",
+      "country": "USA",
+      "phone": "111-222-333",
+      "fax": "111-222-334",
+      "homepage": "Pumba.com"
+    }
+  },
+  {
+    "model": "inventory.supplier",
+    "pk": 3,
+    "fields": {
+      "company_name": "Pumba-ClassLoad",
+      "contact_name": "Pumba Co.",
+      "contact_title": "ContactPumba",
+      "address": "New York 5/6",
+      "city": "New York",
+      "region": "New York",
+      "postal_code": "67-856",
+      "country": "USA",
+      "phone": "111-222-333",
+      "fax": "111-222-334",
+      "homepage": "Pumba.com"
+    }
+  }
+]
