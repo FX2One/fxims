@@ -22,7 +22,6 @@ class SupplierFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Supplier
 
-
     company_name = fake.lexify(text="company_name_??????")
     contact_name = fake.lexify(text="contact_name_??????")
     contact_title = factory.Sequence(lambda x: f"contact_title_{x}")
