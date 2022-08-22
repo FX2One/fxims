@@ -82,7 +82,7 @@ def test_inventory_category_dbfixture_insert_fb2(
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     # parametrize pattern example utils
-    # "company_name,contact_name,contact_title,address,city,region,postal_code,country,phone,fax,homepage"
+    # "company_name,contact_name,contact_title,address,city,region,postal_code,country,phone,fax,homepage",
     jld.load_keys(cf.SUPPLIER_FIXTURE),
     [
         # parameters example utils
@@ -110,6 +110,7 @@ def test_inventory_supplier_dbfixture_insert(
         homepage=homepage
     )
     assert result.company_name == company_name
+    assert result.contact_name == contact_name
     assert result.contact_title == contact_title
     assert result.city == city
     assert result.region == region
@@ -118,5 +119,31 @@ def test_inventory_supplier_dbfixture_insert(
     assert result.phone == phone
     assert result.fax == fax
     assert result.homepage == homepage
+
+
+# test against supplier_factory
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "contact_name",
+    [
+        ('Adeedas'),
+    ],
+)
+def test_supplier_factory(
+        db, supplier_factory, contact_name
+):
+    result = supplier_factory.create(
+        contact_name=contact_name)
+    print(f'contact name: {result.contact_name}')
+    print(f'company name: {result.company_name}')
+    print(f'contact title: {result.contact_title}')
+    print(f'city: {result.city}')
+    print(f'region: {result.region}')
+    print(f'zip code: {result.postal_code}')
+    print(f'country: {result.country}')
+    print(f'phone: {result.phone}')
+    print(f'fax: {result.fax}')
+    print(f'homepage: {result.homepage}')
+    assert result.contact_name == contact_name
 
 
