@@ -22,16 +22,16 @@ class SupplierFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Supplier
 
-    company_name = fake.lexify(text="company_name_??????")
+    company_name = factory.Faker('company')
     contact_name = fake.lexify(text="contact_name_??????")
     contact_title = factory.Sequence(lambda x: f"contact_title_{x}")
     address = factory.Faker('address')
     city = factory.Faker('city')
-    region = fake.lexify(text="region_??????")
+    region = factory.Faker('state')
     postal_code = factory.Faker('zipcode')
-    country = fake.lexify(text="country_??????")
-    phone = fake.lexify(text="phone_??????")
-    fax = fake.lexify(text="fax_??????")
+    country = factory.Faker('country')
+    phone = factory.Faker('phone_number')
+    fax = factory.Faker('fax')
     homepage = fake.lexify(text="homepage_??????")
 
 
@@ -42,7 +42,7 @@ class SupplierFactory(factory.django.DjangoModelFactory):
         model = models.Product
 
     product_name = factory.Sequence(lambda x: f"product_name_{x}")
-    description = factory.Sequence(lambda x: f"description_{x}_{x}_{x} with some long text")
+    description = factory.Sequence(lambda x: f"description_{x} with some long text")
     supplier_id = factory.Sequence(lambda x: x)
     category_id = factory.Sequence(lambda x: x)
     quantity_per_unit = factory.Sequence(lambda x, y: f"amount of {x} in {y} boxes")
