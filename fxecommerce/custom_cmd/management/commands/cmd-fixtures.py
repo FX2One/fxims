@@ -9,3 +9,4 @@ class Command(BaseCommand):
         call_command("loaddata","db_category_fixture_id.json")
         call_command("loaddata","db_supplier_fixture.json")
         call_command("loaddata","db_product_fixture.json")
+        call_command("loaddata","db_order_fixture.json")
