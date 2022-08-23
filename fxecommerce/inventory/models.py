@@ -113,8 +113,8 @@ class Supplier(models.Model):
         verbose_name=_('Fax'),
         db_column='Fax',
         max_length=24,
-        blank=False,
-        null=False
+        blank=True,
+        null=True
     )
     homepage = models.TextField(
         verbose_name=_('HomePage'),
