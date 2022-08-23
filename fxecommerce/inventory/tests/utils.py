@@ -20,6 +20,7 @@ class JsonLoadData:
 
 
 class ConfigFixture:
+    CATEGORY_FIXTURE = '../fixtures/db_category_fixture_id.json'
     SUPPLIER_FIXTURE = '../fixtures/db_supplier_fixture.json'
     PRODUCT_FIXTURE = '../fixtures/db_product_fixture.json'
 
