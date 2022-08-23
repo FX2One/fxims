@@ -7,7 +7,7 @@ jld = JsonLoadData()
 cf = ConfigFixture()
 
 
-
+"""CATEGORY TESTS"""
 """regular parametrize test"""
 """asserts against db_category_fixture_id.json"""
 @pytest.mark.dbfixture
@@ -93,7 +93,7 @@ def test_inventory_category_dbfixture_insert_fb(
 
 
 
-
+"""SUPPLIER TESTS"""
 
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
@@ -163,6 +163,9 @@ def test_inventory_supplier_factory_insert(
     print(f'fax: {result.fax}')
     print(f'homepage: {result.homepage}')
     assert result.company_name == company_name
+
+
+
 
 
 
