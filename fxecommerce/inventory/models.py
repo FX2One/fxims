@@ -127,8 +127,8 @@ class Supplier(models.Model):
         db_table = 'supplier'
         verbose_name_plural = _("Suppliers")
 
-    def __str__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __str__(self):
+        return self.company_name
 
 
 
@@ -198,10 +198,15 @@ class Product(models.Model):
         blank=True,
         null=True
     )
-    discontinued = models.IntegerField(
+    discontinued = models.BooleanField(
         verbose_name=_('Discontinued'),
-        db_column='Discontinued'
+        db_column='Discontinued',
+        blank=False,
+        null=False,
     )
+
+    def __str__(self):
+        return self.product_name
 
     class Meta:
         db_table = 'product'
