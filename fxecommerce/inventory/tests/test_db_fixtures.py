@@ -27,9 +27,25 @@ def test_inventory_category_dbfixture(
     assert result.image == image
 
 
+"""regular parametrize test"""
+"""asserts against db_category_fixture_id.json"""
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.CATEGORY_FIXTURE),
+    [
+        jld.load_values(cf.CATEGORY_FIXTURE, 0),
+        jld.load_values(cf.CATEGORY_FIXTURE, 1)
+    ],
+)
+def test_inventory_category_dbfixture_json_file(
+        db, django_database_fixture_setup, category_id, category_name, description, image
+):
+    result = models.Category.objects.get(category_id=category_id)
+    assert result.category_name == category_name
+    assert result.description == description
+    assert result.image == image
 
 
-"""parametrize with FactoryBoy package"""
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_name, description, image",
@@ -40,7 +56,7 @@ def test_inventory_category_dbfixture(
 
     ],
 )
-def test_inventory_category_dbfixture_insert_fb(
+def test_inventory_category_dbfixture_insert(
         db, category_factory, category_name, description, image
 ):
     result = category_factory.create(
@@ -65,7 +81,7 @@ def test_inventory_category_dbfixture_insert_fb(
         ('volleyball', 'default.png')
     ],
 )
-def test_inventory_category_dbfixture_insert_fb2(
+def test_inventory_category_dbfixture_insert_fb(
         db, category_factory, category_name, image
 ):
     result = category_factory.create(
@@ -124,18 +140,20 @@ def test_inventory_supplier_dbfixture_insert(
 # test against supplier_factory
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
-    "contact_name",
+    "company_name",
     [
         ('Adeedas'),
+        ('Beedas'),
+        ('Locas')
     ],
 )
-def test_supplier_factory(
-        db, supplier_factory, contact_name
+def test_inventory_supplier_factory_insert(
+        db, supplier_factory, company_name
 ):
     result = supplier_factory.create(
-        contact_name=contact_name)
-    print(f'contact name: {result.contact_name}')
+        company_name=company_name)
     print(f'company name: {result.company_name}')
+    print(f'contact name: {result.contact_name}')
     print(f'contact title: {result.contact_title}')
     print(f'city: {result.city}')
     print(f'region: {result.region}')
@@ -144,6 +162,8 @@ def test_supplier_factory(
     print(f'phone: {result.phone}')
     print(f'fax: {result.fax}')
     print(f'homepage: {result.homepage}')
-    assert result.contact_name == contact_name
+    assert result.company_name == company_name
+
+
 
 
