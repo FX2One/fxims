@@ -3,6 +3,7 @@
     "model": "inventory.supplier",
     "pk": 1,
     "fields": {
+      "supplier_id": 1,
       "company_name": "Nike",
       "contact_name": "Najk",
       "contact_title": "ContactNike",
@@ -20,6 +21,7 @@
     "model": "inventory.supplier",
     "pk": 2,
     "fields": {
+      "supplier_id": 2,
       "company_name": "Pumba",
       "contact_name": "Pumba Co.",
       "contact_title": "ContactPumba",
@@ -37,6 +39,7 @@
     "model": "inventory.supplier",
     "pk": 3,
     "fields": {
+      "supplier_id": 3,
       "company_name": "Pumba-ClassLoad",
       "contact_name": "Pumba Co.",
       "contact_title": "ContactPumba",

@@ -4,7 +4,6 @@
     "pk": 1,
     "fields": {
       "product_name": "Football shoes",
-      "description": "Football shoes v1 ",
       "supplier_id": 1,
       "category_id": 1,
       "quantity_per_unit": "1 pair",
@@ -20,7 +19,6 @@
     "pk": 20,
     "fields": {
       "product_name": "Basketball Shoes",
-      "description": "Basketball Shoes v1",
       "supplier_id": 2,
       "category_id": 1,
       "quantity_per_unit": "1 pair",
@@ -36,7 +34,6 @@
     "pk": 27,
     "fields": {
       "product_name": "Volleyball shoes",
-      "description": "Volleyball shoes v1",
       "supplier_id": 3,
       "category_id": 1,
       "quantity_per_unit": "1 pair",
