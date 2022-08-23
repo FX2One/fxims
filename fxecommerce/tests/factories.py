@@ -22,16 +22,16 @@ class SupplierFactory(factory.django.DjangoModelFactory):
         model = models.Supplier
 
     company_name = factory.Faker('company')
-    contact_name = fake.lexify(text="contact_name_??????")
-    contact_title = factory.Sequence(lambda x: f"contact_title_{x}")
+    contact_name = factory.Faker('name_nonbinary')
+    contact_title = factory.Faker('job')
     address = factory.Faker('address')
     city = factory.Faker('city')
     region = factory.Faker('state')
     postal_code = factory.Faker('zipcode')
     country = factory.Faker('country')
     phone = factory.Faker('phone_number')
-    fax = factory.Faker('fax')
-    homepage = fake.lexify(text="www.???????.com")
+    fax = factory.Faker('phone_number')
+    homepage = factory.Faker('domain_name')
 
 
 
@@ -41,7 +41,6 @@ class ProductFactory(factory.django.DjangoModelFactory):
         model = models.Product
 
     product_name = fake.lexify(text='product_??????????')
-    description = fake.lexify(text='description_??????????')
     supplier_id = fake.random_digit_not_null()
     category_id = fake.random_digit_not_null()
     quantity_per_unit = fake.lexify(text='amount ?? in 1 box which contains ?? on pallete')
