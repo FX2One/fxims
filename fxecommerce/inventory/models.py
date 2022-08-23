@@ -148,14 +148,7 @@ class Product(models.Model):
         db_index=True,
         help_text=_("format: required. max_length: 100")
     )
-    description = models.TextField(
-        verbose_name=_('Description'),
-        db_column='Description',
-        max_length=255,
-        null=False,
-        blank=False,
-        help_text=_('format: required, max_length: 255')
-    )
+
     supplier_id = models.ForeignKey(
         Supplier,
         db_column='SupplierID',
