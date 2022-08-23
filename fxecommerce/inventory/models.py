@@ -211,3 +211,116 @@ class Product(models.Model):
     class Meta:
         db_table = 'product'
         verbose_name_plural = _("Products")
+
+
+class Orders(models.Model):
+    order_id = models.AutoField(
+        verbose_name=_('Order ID'),
+        db_column='OrderID',
+        primary_key=True
+    )
+    customer = models.ForeignKey(
+        Customer, #create
+        db_column='CustomerID',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        db_index=True
+    )
+    employee = models.ForeignKey(
+        Employee, #create
+        db_column='EmployeeID',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        db_index=True
+    )
+    order_date = models.DateField(
+        verbose_name=_('Order date'),
+        db_column='OrderDate',
+        blank=True,
+        null=True,
+        db_index=True
+    )
+    required_date = models.DateField(
+        verbose_name=_('Required_date'),
+        db_column='RequiredDate',
+        blank=True,
+        null=True
+    )
+    shipped_date = models.DateField(
+        verbose_name=_('Shipped date'),
+        db_column='ShippedDate',
+        blank=True,
+        null=True,
+        db_index=True
+    )
+    ship_via = models.ForeignKey(
+        Shipper, #create
+        db_column='ShipVia',
+        blank=True,
+        null=True,
+        db_index=True,
+        on_delete=models.CASCADE,
+    )
+    freight = models.DecimalField(
+        verbose_name=_('Freight'),
+        db_column='Freight',
+        blank=True,
+        null=True,
+        max_digits=19,
+        decimal_places=4
+    )
+    ship_name = models.CharField(
+        verbose_name=_('Ship name'),
+        db_column='ShipName',
+        max_length=40,
+        blank=True,
+        null=True
+    )
+    ship_address = models.CharField(
+        verbose_name=_('Ship address'),
+        db_column='ShipAddress',
+        max_length=60,
+        blank=True,
+        null=True
+    )
+    ship_city = models.CharField(
+        verbose_name=_('Ship city'),
+        db_column='ShipCity',
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    ship_region = models.CharField(
+        verbose_name=_('Ship region'),
+        db_column='ShipRegion',
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    ship_postal_code = models.CharField(
+        verbose_name=_('Ship postal code'),
+        db_column='ShipPostalCode',
+        max_length=10,
+        blank=True,
+        null=True,
+        db_index=True
+    )
+    ship_country = models.CharField(
+        verbose_name=_('Shipped country'),
+        db_column='ShipCountry',
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    order_details = models.ManyToManyField(
+        Product,
+        verbose_name=_('Products'),
+        blank=True,
+        through='OrderDetails'
+    )
+
+    class Meta:
+        db_table = 'order'
+        verbose_name_plural = _("Orders")
