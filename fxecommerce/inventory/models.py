@@ -14,8 +14,9 @@ class Category(models.Model):
         verbose_name=_('Category name'),
         db_column='CategoryName',
         max_length=100,
-        db_index=True,
+        null=False,
         blank=False,
+        db_index=True,
         help_text=_("format: required. Max_length: 100")
     )
     description = models.TextField(
@@ -132,7 +133,6 @@ class Supplier(models.Model):
 
 
 
-
 class Product(models.Model):
     product_id = models.AutoField(
         verbose_name=_('Product ID'),
@@ -148,7 +148,6 @@ class Product(models.Model):
         db_index=True,
         help_text=_("format: required. max_length: 100")
     )
-
     supplier_id = models.ForeignKey(
         Supplier,
         db_column='SupplierID',
@@ -169,7 +168,7 @@ class Product(models.Model):
         verbose_name=_('Quantity per Unit'),
         db_column='QuantityPerUnit',
         max_length=20,
-        blank=True,
+        blank=False,
         null=False
     )
     unit_price = models.DecimalField(
@@ -213,27 +212,27 @@ class Product(models.Model):
         verbose_name_plural = _("Products")
 
 
-class Orders(models.Model):
+'''class Orders(models.Model):
     order_id = models.AutoField(
         verbose_name=_('Order ID'),
         db_column='OrderID',
         primary_key=True
     )
     customer = models.ForeignKey(
-        Customer, #create
+        Customer,
         db_column='CustomerID',
-        on_delete=models.CASCADE,
         blank=True,
         null=True,
-        db_index=True
+        db_index=True,
+        on_delete=models.CASCADE,
     )
     employee = models.ForeignKey(
         Employee, #create
         db_column='EmployeeID',
-        on_delete=models.CASCADE,
         blank=True,
         null=True,
-        db_index=True
+        db_index=True,
+        on_delete=models.CASCADE,
     )
     order_date = models.DateField(
         verbose_name=_('Order date'),
@@ -321,6 +320,100 @@ class Orders(models.Model):
         through='OrderDetails'
     )
 
+    def __str__(self):
+        return self.order_id
+
     class Meta:
         db_table = 'order'
-        verbose_name_plural = _("Orders")
+        verbose_name_plural = _("Orders")'''
+
+
+'''class Customer(models.Model):
+    customer_id = models.CharField(
+        verbose_name=_('Customer ID'),
+        db_column='CustomerID',
+        primary_key=True,
+        max_length=5
+    )
+    company_name = models.CharField(
+        verbose_name=_('Company name'),
+        db_column='CompanyName',
+        max_length=40
+    )
+    contact_name = models.CharField(
+        verbose_name=_('Contact name'),
+        db_column='ContactName',
+        max_length=30,
+        blank=True,
+        null=True
+    )
+    contact_title = models.CharField(
+        verbose_name=_('Contact title'),
+        db_column='ContactTitle',
+        max_length=30,
+        blank=True,
+        null=True
+    )
+    address = models.CharField(
+        verbose_name=_('Address'),
+        db_column='Address',
+        max_length=60,
+        blank=True,
+        null=True
+    )
+    city = models.CharField(
+        verbose_name=_('City'),
+        db_column='City',
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    region = models.CharField(
+        verbose_name=_('Region'),
+        db_column='Region',
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    postal_code = models.CharField(
+        verbose_name=_('Postal code'),
+        db_column='PostalCode',
+        max_length=10,
+        blank=True,
+        null=True
+    )
+    country = models.CharField(
+        verbose_name=_('Country'),
+        db_column='Country',
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    phone = models.CharField(
+        verbose_name=_('Phone'),
+        db_column='Phone',
+        max_length=24,
+        blank=True,
+        null=True
+    )
+    fax = models.CharField(
+        verbose_name=_('Fax'),
+        db_column='Fax',
+        max_length=24,
+        blank=True,
+        null=True
+    )
+
+    #CustomersDemographics ManyToManyField to be added
+
+    class Meta:
+        db_table = 'customer'
+        verbose_name_plural = _("Customers")
+
+
+class Employee:
+    pass
+
+
+class Shipper:
+    pass'''
