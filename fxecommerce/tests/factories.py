@@ -14,7 +14,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 
     category_name = factory.Sequence(lambda x: f"category_name_{x}")
     description = factory.Sequence(lambda x: f"description_{x}")
-    image = "images/default.png"
+    image = factory.Sequence(lambda x: f"images{x}/default.png")
 
 
 class SupplierFactory(factory.django.DjangoModelFactory):
