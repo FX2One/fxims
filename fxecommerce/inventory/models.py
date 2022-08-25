@@ -403,8 +403,12 @@ class Customer(models.Model):
         blank=True,
         null=True
     )
-
-    #CustomersDemographics ManyToManyField to be added
+    customer_customer_demo = models.ManyToManyField(
+        CustomerDemographics,
+        verbose_name=_('Customer customer demo'),
+        db_table='CustomerCustomerDemo',
+        blank=True,
+    )
 
     class Meta:
         db_table = 'customer'
@@ -413,6 +417,22 @@ class Customer(models.Model):
     def __str__(self):
         return self.company_name
 
+class CustomerDemographics(models.Model):
+    customer_type_id = models.CharField(
+        varbose_name = _('Customer typeID'),
+        db_column='CustomerTypeID',
+        primary_key=True,
+        max_length=5
+    )
+    customer_desc = models.TextField(
+        verbose_name = _('Customer description'),
+        db_column='CustomerDesc',
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        db_table = 'customerdemographics'
 
 '''class Employee:
     pass
