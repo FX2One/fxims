@@ -209,24 +209,66 @@ def test_supplier_on_jld_db_json(
     print(result.homepage)
     print(result.city)
     assert result.company_name == company_name
-    assert contact_name == contact_name
-    assert contact_title == contact_title
-    assert address == address
-    assert city == city
-    assert region == region
-    assert postal_code == postal_code
-    assert country == country
-    assert phone == phone
-    assert fax == fax
-    assert homepage == homepage
+    assert result.contact_name == contact_name
+    assert result.contact_title == contact_title
+    assert result.address == address
+    assert result.city == city
+    assert result.region == region
+    assert result.postal_code == postal_code
+    assert result.country == country
+    assert result.phone == phone
+    assert result.fax == fax
+    assert result.homepage == homepage
 
 
 """ TEST PRODUCTS """
 
 #test with database
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.PRODUCT_FIXTURE),
+    [
+        jld.load_values(cf.PRODUCT_FIXTURE, 0),
+        jld.load_values(cf.PRODUCT_FIXTURE, 1),
+        jld.load_values(cf.PRODUCT_FIXTURE, 2),
+    ],
+)
+def test_inventory_product_dbfixture(
+        db, django_database_fixture_setup,product_id, product_name,supplier_id,category_id,quantity_per_unit,unit_price,units_in_stock,units_on_order,reorder_level,discontinued
+):
+    result = models.Product.objects.get(product_id=product_id)
+    assert result.product_name == product_name
+    assert result.quantity_per_unit == quantity_per_unit
+    assert result.unit_price == unit_price
+    assert result.units_in_stock == units_in_stock
+    assert result.units_on_order == units_on_order
+    assert result.reorder_level == reorder_level
+    assert result.discontinued == discontinued
 
 
-#test with factory
+#test with factory creation
+pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.PRODUCT_FIXTURE),
+    [
+        jld.load_values(cf.PRODUCT_FIXTURE, 0),
+        jld.load_values(cf.PRODUCT_FIXTURE, 1),
+        jld.load_values(cf.PRODUCT_FIXTURE, 2),
+    ],
+)
+def test_inventory_product_factory(
+    db, product_factory, product_id, product_name,supplier_id,category_id,quantity_per_unit,unit_price,units_in_stock,units_on_order,reorder_level,discontinued
+):
+    result = product_factory.create(product_id=product_id)
+    print(result.product_id)
+    print(result.product_name)
+    print(result.quantity_per_unit)
+    print(result.unit_price)
+    print(result.units_in_stock)
+    print(result.units_on_order)
+    print(result.reorder_level)
+    print(result.discontinued)
+    assert result.product_id == product_id
 
 
 
