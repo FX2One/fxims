@@ -274,22 +274,22 @@ class Order(models.Model):
         verbose_name=_('Ship name'),
         db_column='ShipName',
         max_length=40,
-        blank=True,
-        null=True
+        blank=False,
+        null=False,
     )
     ship_address = models.CharField(
         verbose_name=_('Ship address'),
         db_column='ShipAddress',
         max_length=60,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     ship_city = models.CharField(
         verbose_name=_('Ship city'),
         db_column='ShipCity',
         max_length=15,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     ship_region = models.CharField(
         verbose_name=_('Ship region'),
@@ -302,16 +302,16 @@ class Order(models.Model):
         verbose_name=_('Ship postal code'),
         db_column='ShipPostalCode',
         max_length=10,
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         db_index=True
     )
     ship_country = models.CharField(
         verbose_name=_('Shipped country'),
         db_column='ShipCountry',
         max_length=15,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     order_details = models.ManyToManyField(
         Product,
@@ -419,24 +419,43 @@ class Customer(models.Model):
 
 class CustomerDemographics(models.Model):
     customer_type_id = models.CharField(
-        varbose_name = _('Customer typeID'),
+        varbose_name=_('Customer typeID'),
         db_column='CustomerTypeID',
         primary_key=True,
         max_length=5
     )
     customer_desc = models.TextField(
-        verbose_name = _('Customer description'),
+        verbose_name=_('Customer description'),
         db_column='CustomerDesc',
         blank=True,
         null=True
     )
-
     class Meta:
         db_table = 'customerdemographics'
 
+
+class Shipper(models.Model):
+    shipper_id = models.AutoField(
+        verbose_name=_('Shipper ID'),
+        db_column='ShipperID',
+        primary_key=True
+    )
+    company_name = models.CharField(
+        _('Company name'),
+        db_column='CompanyName',
+        max_length=40
+    )
+    phone = models.CharField(
+        _('Phone'),
+        db_column='Phone',
+        max_length=24,
+        blank=False,
+        null=False
+    )
+
+    class Meta:
+        db_table = 'shipper'
+        verbose_name_plural = _('Shippers')
+
 '''class Employee:
-    pass
-
-
-class Shipper:
     pass'''
