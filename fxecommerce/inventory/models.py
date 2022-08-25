@@ -328,6 +328,36 @@ class Order(models.Model):
         verbose_name_plural = _("Orders")
 
 
+class OrderDetails(models.Model):
+    order_id = models.ForeignKey(
+        Order,
+        db_column='OrderID',
+        on_delete=models.CASCADE
+    )
+    product_id = models.ForeignKey(
+        Product,
+        db_column='ProductID',
+        on_delete=models.CASCADE
+    )
+    unit_price = models.DecimalField(
+        verbose_name=_('Unit price'),
+        db_column='UnitPrice',
+        max_digits=19,
+        decimal_places=4
+    )
+    quantity = models.SmallIntegerField(
+        verbose_name=_('Quantity'),
+        db_column='Quantity'
+    )
+    discount = models.FloatField(
+        verbose_name=_('Discount'),
+        db_column='Discount'
+    )
+
+    class Meta:
+        db_table = 'order_details'
+
+
 class Customer(models.Model):
     customer_id = models.CharField(
         verbose_name=_('Customer ID'),
