@@ -457,5 +457,137 @@ class Shipper(models.Model):
         db_table = 'shipper'
         verbose_name_plural = _('Shippers')
 
-'''class Employee:
-    pass'''
+class Employee(models.Model):
+    employee_id = models.AutoField(
+        verbose_name=_('Employee id'),
+        db_column='EmployeeID',
+        primary_key=True,
+    )
+    last_name = models.CharField(
+        verbose_name=_('Last name'),
+        db_column='LastName',
+        max_length=20,
+        blank=False,
+        null=False,
+        db_index=True
+    )
+    first_name = models.CharField(
+        verbose_name=_('First name'),
+        db_column='FirstName',
+        max_length=10,
+        blank=False,
+        null=False
+    )
+    title = models.CharField(
+        verbose_name=_('title'),
+        db_column='Title',
+        max_length=30,
+        blank=False,
+        null=False
+    )
+    title_of_courtesy = models.CharField(
+        verbose_name=_('Title of Courtesy'),
+        db_column='TitleOfCourtesy',
+        max_length=25,
+        blank=True,
+        null=True
+    )
+    birth_date = models.DateTimeField(
+        verbose_name=_('Birth date'),
+        db_column='BirthDate',
+        blank=True,
+        null=True
+    )
+    hire_date = models.DateTimeField(
+        verbose_name=_('Hire date'),
+        db_column='HireDate',
+        blank=True,
+        null=True
+    )
+    address = models.CharField(
+        verbose_name=_('address'),
+        db_column='Address',
+        max_length=60,
+        blank=False,
+        null=False
+    )
+    city = models.CharField(
+        verbose_name=_('City'),
+        db_column='City',
+        max_length=15,
+        blank=False,
+        null=False
+    )
+    region = models.CharField(
+        verbose_name=_('Region'),
+        db_column='Region',
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    postal_code = models.CharField(
+        verbose_name=_('Postal code'),
+        db_column='PostalCode',
+        max_length=10,
+        blank=False,
+        null=False,
+        db_index=True
+    )
+    country = models.CharField(
+        verbose_name=_('Country'),
+        db_column='Country',
+        max_length=15,
+        blank=False,
+        null=False
+    )
+    home_phone = models.CharField(
+        verbose_name=_('Home phone'),
+        db_column='HomePhone',
+        max_length=24,
+        blank=False,
+        null=False
+    )
+    extension = models.CharField(
+        verbose_name=_('Extension'),
+        db_column='Extension',
+        max_length=4,
+        blank=False,
+        null=False
+    )
+    photo = models.BinaryField(
+        verbose_name=_('Photo'),
+        db_column='Photo',
+        blank=True,
+        null=True
+    )
+    notes = models.TextField(
+        verbose_name=_('Notes'),
+        db_column='Notes',
+        blank=True,
+        null=True
+    )
+    reports_to = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        db_column='ReportsTo',
+        on_delete=models.PROTECT,
+    )
+    photo_path = models.CharField(
+        verbose_name=_('Photo path'),
+        db_column='PhotoPath',
+        max_length=255,
+        blank=True,
+        null=True
+    )
+    territories = models.ManyToManyField(
+        Territory,
+        verbose_name=_('Territories'),
+        db_table='EmployeeTerritories',
+        blank=True,
+    )
+
+    class Meta:
+        db_table = 'employee'
+        verbose_name_plural = _('Employees')
+
