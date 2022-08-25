@@ -591,3 +591,42 @@ class Employee(models.Model):
         db_table = 'employee'
         verbose_name_plural = _('Employees')
 
+
+class Territory(models.Model):
+    territory_id = models.CharField(
+        verbose_name=_('Territory id'),
+        db_column='TerritoryID',
+        primary_key=True,
+        max_length=20
+    )
+    territory_description = models.CharField(
+        verbose_name=_('Territory description'),
+        db_column='TerritoryDescription',
+        max_length=50
+    )
+    region_id = models.ForeignKey(
+        Region,
+        db_column='RegionID',
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        db_table = 'territory'
+        verbose_name_plural=_('Territories')
+
+
+class Region(models.Model):
+    region_id = models.PositiveSmallIntegerField(
+        verbose_name=_('Region id'),
+        db_column='RegionID',
+        primary_key=True
+    )
+    region_description = models.CharField(
+        verbose_name=_('Region description'),
+        db_column='RegionDescription',
+        max_length=50
+    )
+
+    class Meta:
+        db_table = 'region'
+        verbose_name_plural = _('Regions')
