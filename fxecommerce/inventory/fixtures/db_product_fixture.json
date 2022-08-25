@@ -3,6 +3,7 @@
     "model": "inventory.product",
     "pk": 1,
     "fields": {
+      "product_id": 1,
       "product_name": "Chai",
       "supplier_id": 1,
       "category_id": 1,
@@ -18,6 +19,7 @@
     "model": "inventory.product",
     "pk": 2,
     "fields": {
+      "product_id": 2,
       "product_name": "Chang",
       "supplier_id": 2,
       "category_id": 2,
@@ -33,6 +35,7 @@
     "model": "inventory.product",
     "pk": 3,
     "fields": {
+      "product_id": 3,
       "product_name": "Aniseed Syrup",
       "supplier_id": 3,
       "category_id": 3,
