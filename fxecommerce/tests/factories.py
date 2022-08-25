@@ -6,6 +6,7 @@ from pytest_factoryboy import register
 from fxecommerce.inventory import models
 
 fake = Faker()
+fake.seed_instance(4321)
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
@@ -40,15 +41,13 @@ class ProductFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Product
 
-    product_name = fake.lexify(text='product_??????????')
-    supplier_id = fake.random_digit_not_null()
-    category_id = fake.random_digit_not_null()
-    quantity_per_unit = fake.lexify(text='amount ?? in 1 box which contains ?? on pallete')
-    unit_price = fake.random_number(digits=5, fix_len=False)
-    units_in_stock = fake.random_number(digits=5, fix_len=False)
-    units_on_order = fake.random_number(digits=5, fix_len=False)
-    reorder_level = fake.random_number(digits=5, fix_len=False)
-    discontinued = fake.random_int(min=0, max=1, step=1)
+    product_name = factory.Faker('bothify', text='Product_?????####', letters='ABCDE')
+    quantity_per_unit = factory.Faker('bothify', text='## boxes x ## bags')
+    unit_price = factory.Faker('random_number',digits=5, fix_len=False)
+    units_in_stock = factory.Faker('random_number',digits=5, fix_len=False)
+    units_on_order = factory.Faker('random_number',digits=5, fix_len=False)
+    reorder_level = factory.Faker('random_number',digits=5, fix_len=False)
+    discontinued = factory.Faker('random_int',min=0, max=1, step=1)
 
 
 register(CategoryFactory)
