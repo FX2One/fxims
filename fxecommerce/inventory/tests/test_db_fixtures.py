@@ -163,7 +163,6 @@ def test_inventory_supplier_dbfixture_insert(
 
 
 # test against supplier_factory
-#@pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "company_name",
     [
@@ -247,7 +246,6 @@ def test_inventory_product_dbfixture(
 
 
 #test with factory creation
-pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.PRODUCT_FIXTURE),
     [

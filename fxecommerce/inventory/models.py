@@ -227,7 +227,7 @@ class Order(models.Model):
         on_delete=models.CASCADE,
     )
     employee = models.ForeignKey(
-        Employee, #create
+        Employee,
         db_column='EmployeeID',
         blank=True,
         null=True,
