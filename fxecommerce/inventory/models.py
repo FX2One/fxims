@@ -212,7 +212,7 @@ class Product(models.Model):
         verbose_name_plural = _("Products")
 
 
-'''class Orders(models.Model):
+class Order(models.Model):
     order_id = models.AutoField(
         verbose_name=_('Order ID'),
         db_column='OrderID',
@@ -325,10 +325,10 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'order'
-        verbose_name_plural = _("Orders")'''
+        verbose_name_plural = _("Orders")
 
 
-'''class Customer(models.Model):
+class Customer(models.Model):
     customer_id = models.CharField(
         verbose_name=_('Customer ID'),
         db_column='CustomerID',
@@ -410,8 +410,11 @@ class Product(models.Model):
         db_table = 'customer'
         verbose_name_plural = _("Customers")
 
+    def __str__(self):
+        return self.company_name
 
-class Employee:
+
+'''class Employee:
     pass
 
 
