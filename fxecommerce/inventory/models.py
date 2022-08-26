@@ -20,6 +20,9 @@ class Region(models.Model):
         db_table = 'region'
         verbose_name_plural = _('Regions')
 
+    def __str__(self):
+        return self.region_description
+
 
 class Territory(models.Model):
     territory_id = models.CharField(
@@ -42,6 +45,9 @@ class Territory(models.Model):
     class Meta:
         db_table = 'territory'
         verbose_name_plural=_('Territories')
+
+    def __str__(self):
+        return self.territory_description
 
 
 class Employee(models.Model):
@@ -170,7 +176,7 @@ class Employee(models.Model):
     territories = models.ManyToManyField(
         Territory,
         verbose_name=_('Territories'),
-        db_table='EmployeeTerritories',
+        db_table='employee_territories',
         blank=True,
     )
 
@@ -178,6 +184,8 @@ class Employee(models.Model):
         db_table = 'employee'
         verbose_name_plural = _('Employees')
 
+    def __str__(self):
+        return f'{self.title_of_courtesy} {self.first_name} {self.last_name}'
 
 class Shipper(models.Model):
     shipper_id = models.AutoField(
@@ -186,9 +194,11 @@ class Shipper(models.Model):
         primary_key=True
     )
     company_name = models.CharField(
-        _('Company name'),
+        verbose_name=_('Company name'),
         db_column='CompanyName',
-        max_length=40
+        max_length=40,
+        blank=False,
+        null=False
     )
     phone = models.CharField(
         _('Phone'),
@@ -202,10 +212,13 @@ class Shipper(models.Model):
         db_table = 'shipper'
         verbose_name_plural = _('Shippers')
 
+    def __str__(self):
+        return self.company_name
+
 
 class CustomerDemographics(models.Model):
     customer_type_id = models.CharField(
-        varbose_name=_('Customer typeID'),
+        verbose_name=_('Customer Type_ID'),
         db_column='CustomerTypeID',
         primary_key=True,
         max_length=5
@@ -219,6 +232,9 @@ class CustomerDemographics(models.Model):
     class Meta:
         db_table = 'customerdemographics'
 
+    def __str__(self):
+        return self.customer_type_id
+
 
 class Customer(models.Model):
     customer_id = models.CharField(
@@ -230,75 +246,77 @@ class Customer(models.Model):
     company_name = models.CharField(
         verbose_name=_('Company name'),
         db_column='CompanyName',
-        max_length=40
+        max_length=40,
+        blank=False,
+        null=False
     )
     contact_name = models.CharField(
         verbose_name=_('Contact name'),
         db_column='ContactName',
         max_length=30,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     contact_title = models.CharField(
         verbose_name=_('Contact title'),
         db_column='ContactTitle',
         max_length=30,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     address = models.CharField(
         verbose_name=_('Address'),
         db_column='Address',
         max_length=60,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     city = models.CharField(
         verbose_name=_('City'),
         db_column='City',
         max_length=15,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     region = models.CharField(
         verbose_name=_('Region'),
         db_column='Region',
         max_length=15,
         blank=True,
-        null=True
+        null=False
     )
     postal_code = models.CharField(
         verbose_name=_('Postal code'),
         db_column='PostalCode',
         max_length=10,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     country = models.CharField(
         verbose_name=_('Country'),
         db_column='Country',
         max_length=15,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     phone = models.CharField(
         verbose_name=_('Phone'),
         db_column='Phone',
         max_length=24,
-        blank=True,
-        null=True
+        blank=False,
+        null=False
     )
     fax = models.CharField(
         verbose_name=_('Fax'),
         db_column='Fax',
         max_length=24,
         blank=True,
-        null=True
+        null=False
     )
     customer_customer_demo = models.ManyToManyField(
         CustomerDemographics,
         verbose_name=_('Customer customer demo'),
-        db_table='CustomerCustomerDemo',
+        db_table='customer_customer_demo',
         blank=True,
     )
 
@@ -330,13 +348,13 @@ class Category(models.Model):
         db_column='Description',
         max_length=150,
         blank=False,
+        null=False,
         help_text=_("format: required. Max_length: 150")
     )
     image = models.ImageField(
         verbose_name=_('Image'),
         db_column='Image',
         blank=True,
-        null=True
     )
 
     class Meta:
@@ -392,7 +410,7 @@ class Supplier(models.Model):
         verbose_name=_('Region'),
         db_column='Region',
         max_length=15,
-        blank=False,
+        blank=True,
         null=False
     )
     postal_code = models.CharField(
@@ -421,13 +439,13 @@ class Supplier(models.Model):
         db_column='Fax',
         max_length=24,
         blank=True,
-        null=True
+        null=False
     )
     homepage = models.TextField(
         verbose_name=_('HomePage'),
         db_column='HomePage',
         blank=True,
-        null=True
+        null=False
     )
 
     class Meta:
@@ -561,7 +579,7 @@ class Order(models.Model):
         db_index=True
     )
     ship_via = models.ForeignKey(
-        Shipper, #create
+        Shipper,
         db_column='ShipVia',
         blank=True,
         null=True,
@@ -602,7 +620,7 @@ class Order(models.Model):
         db_column='ShipRegion',
         max_length=15,
         blank=True,
-        null=True
+        null=False
     )
     ship_postal_code = models.CharField(
         verbose_name=_('Ship postal code'),
@@ -626,12 +644,13 @@ class Order(models.Model):
         through='OrderDetails'
     )
 
-    def __str__(self):
-        return self.order_id
 
     class Meta:
         db_table = 'order'
         verbose_name_plural = _("Orders")
+
+    def __str__(self):
+        return f'Order No. {str(self.order_id)}'
 
 
 class OrderDetails(models.Model):
@@ -662,8 +681,10 @@ class OrderDetails(models.Model):
 
     class Meta:
         db_table = 'order_details'
+        verbose_name_plural = _('Order details')
 
-
+    def __str__(self):
+        return f'{str(self.order_id)} for {str(self.product_id)}'
 
 
 
