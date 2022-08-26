@@ -650,7 +650,7 @@ class Order(models.Model):
         verbose_name_plural = _("Orders")
 
     def __str__(self):
-        return f'Order No. {str(self.order_id)}'
+        return f'Order ID: {str(self.order_id)} [ordered by {self.customer}]'
 
 
 class OrderDetails(models.Model):
