@@ -1,0 +1,62 @@
+[
+  {
+    "model": "inventory.order",
+    "pk": 1,
+    "fields": {
+      "order_id": "10255",
+      "customer_id": "RICSU",
+      "employee_id": 9,
+      "order_date": "1996-07-12",
+      "required_date": "1996-08-09",
+      "shipped_date": "1996-07-15",
+      "ship_via": 3,
+      "freight": 148.330002,
+      "ship_name": "Richter Supermarkt",
+      "ship_address": "Starenweg 5",
+      "ship_city": "Genève",
+      "ship_region": null,
+      "ship_postal_code": "1204",
+      "ship_country": "Switzerland"
+    }
+  },
+  {
+    "model": "inventory.order",
+    "pk": 2,
+    "fields": {
+      "order_id": "10269",
+      "customer_id": "WHITC",
+      "employee_id": 5,
+      "order_date": "1996-07-31",
+      "required_date": "1996-08-14",
+      "shipped_date": "1996-08-09",
+      "ship_via": 1,
+      "freight": 4.55999994,
+      "ship_name": "White Clover Markets",
+      "ship_address": "1029 - 12th Ave. S.",
+      "ship_city": "Seattle",
+      "ship_region": null,
+      "ship_postal_code": "98124",
+      "ship_country": "USA"
+    }
+  },
+  {
+    "model": "inventory.order",
+    "pk": 3,
+    "fields": {
+      "order_id": 10276,
+      "customer_id": "TORTU",
+      "employee_id": 8,
+      "order_date": "1996-07-12",
+      "required_date": "1996-08-09",
+      "shipped_date": "1996-08-14",
+      "ship_via": 3,
+      "freight": 25.8299999,
+      "ship_name": "Lehmanns Marktstand",
+      "ship_address": "Magazinweg 7",
+      "ship_city": "Frankfurt a.M.",
+      "ship_region": "GER",
+      "ship_postal_code": "60528",
+      "ship_country": "Germany"
+    }
+  }
+]
