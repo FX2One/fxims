@@ -542,7 +542,7 @@ class Order(models.Model):
         db_column='OrderID',
         primary_key=True
     )
-    customer = models.ForeignKey(
+    customer_id = models.ForeignKey(
         Customer,
         db_column='CustomerID',
         blank=True,
@@ -550,7 +550,7 @@ class Order(models.Model):
         db_index=True,
         on_delete=models.CASCADE,
     )
-    employee = models.ForeignKey(
+    employee_id = models.ForeignKey(
         Employee,
         db_column='EmployeeID',
         blank=True,
