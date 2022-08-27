@@ -28,5 +28,5 @@ def django_database_fixture_setup(django_db_setup, django_db_blocker):
         call_command('loaddata', 'db_category_fixture.json')
         call_command('loaddata','db_supplier_fixture.json')
         call_command('loaddata','db_product_fixture.json')
-        #call_command('loaddata','db_order_fixture.json')
+        call_command('loaddata','db_order_fixture.json')
 
