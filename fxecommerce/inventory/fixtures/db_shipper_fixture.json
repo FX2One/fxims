@@ -1,0 +1,29 @@
+[
+  {
+    "model": "inventory.shipper",
+    "pk": 1,
+    "fields": {
+      "shipper_id": 1,
+      "company_name": "Speedy Express",
+      "phone": "(503) 555-9831"
+    }
+  },
+  {
+    "model": "inventory.shipper",
+    "pk": 2,
+    "fields": {
+      "shipper_id": 2,
+      "company_name": "United Package",
+      "phone": "(503) 555-3199"
+    }
+  },
+  {
+    "model": "inventory.shipper",
+    "pk": 3,
+    "fields": {
+      "shipper_id": 3,
+      "company_name": "Federal Shipping",
+      "phone": "(503) 555-9931"
+    }
+  }
+]

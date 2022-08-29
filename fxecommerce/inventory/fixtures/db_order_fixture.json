@@ -43,7 +43,7 @@
     "model": "inventory.order",
     "pk": 3,
     "fields": {
-      "order_id": 10276,
+      "order_id": "10276",
       "customer_id": "TORTU",
       "employee_id": 8,
       "order_date": "1996-07-12",

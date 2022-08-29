@@ -1,0 +1,53 @@
+[
+  {
+    "model": "inventory.customer",
+    "pk": 1,
+    "fields": {
+      "customer_id": "RICSU",
+      "company_name": "Richter Supermarkt",
+      "contact_name": "Michael Holz",
+      "contact_title": "Sales Manager",
+      "address": "Grenzacherweg 237",
+      "city": "Genève",
+      "region": null,
+      "postal_code": "1203",
+      "country": "Switzerland",
+      "phone": "0897-034214",
+      "fax": null,
+    }
+  },
+  {
+    "model": "inventory.customer",
+    "pk": 2,
+    "fields": {
+      "customer_id": "WHITC",
+      "company_name": "White Clover Markets",
+      "contact_name": "Karl Jablonski",
+      "contact_title": "Owner",
+      "address": "305 - 14th Ave. S. Suite 3B",
+      "city": "Seattle",
+      "region": "Seattle",
+      "postal_code": "98128",
+      "country": "USA",
+      "phone": "(206) 555-4112",
+      "fax": "(206) 555-4115"
+    }
+  },
+  {
+    "model": "inventory.customer",
+    "pk": 3,
+    "fields": {
+      "customer_id": "TORTU",
+      "company_name": "Tortuga Restaurante",
+      "contact_name": "Miguel Angel Paolino",
+      "contact_title": "Owner",
+      "address": "Avda. Azteca 123",
+      "city": "México D.F.",
+      "region": null,
+      "postal_code": "05033",
+      "country": "Mexico",
+      "phone": "(5) 555-2933",
+      "fax": null
+    }
+  }
+]

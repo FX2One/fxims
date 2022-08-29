@@ -1,0 +1,35 @@
+[
+  {
+    "model": "inventory.order_details",
+    "pk": 1,
+    "fields": {
+      "order_id": 10255,
+      "product_id": 1,
+      "unit_price": 150,
+      "quantity": 12,
+      "discount": 0
+    }
+  },
+  {
+    "model": "inventory.order_details",
+    "pk": 2,
+    "fields": {
+      "order_id": 10269,
+      "product_id": 2,
+      "unit_price": 165,
+      "quantity": 35,
+      "discount": 0.150000006
+    }
+  },
+  {
+    "model": "inventory.order_details",
+    "pk": 3,
+    "fields": {
+      "order_id": 10276,
+      "product_id": 3,
+      "unit_price": 110,
+      "quantity": 40,
+      "discount": 0.0500000007
+    }
+  }
+]

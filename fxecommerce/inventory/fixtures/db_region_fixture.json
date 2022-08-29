@@ -1,0 +1,34 @@
+[
+  {
+    "model": "inventory.region",
+    "pk": 1,
+    "fields": {
+      "region_id": 1,
+      "region_description": "Eastern"
+    }
+  },
+  {
+    "model": "inventory.region",
+    "pk": 2,
+    "fields": {
+      "region_id": 2,
+      "region_description": "Western"
+    }
+  },
+  {
+    "model": "inventory.region",
+    "pk": 3,
+    "fields": {
+      "region_id": 3,
+      "region_description": "Northern"
+    }
+  },
+  {
+    "model": "inventory.region",
+    "pk": 4,
+    "fields": {
+      "region_id": 4,
+      "region_description": "Southern"
+    }
+  }
+]

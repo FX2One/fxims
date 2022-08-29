@@ -1,0 +1,26 @@
+[
+  {
+    "model": "inventory.region",
+    "pk": 1,
+    "fields": {
+      "employee_id": 1,
+      "territory_id": "01581"
+    }
+  },
+  {
+    "model": "inventory.region",
+    "pk": 2,
+    "fields": {
+      "employee_id": 2,
+      "territory_id": "60179"
+    }
+  },
+  {
+    "model": "inventory.region",
+    "pk": 3,
+    "fields": {
+      "employee_id": 3,
+      "territory_id": "55113"
+    }
+  }
+]

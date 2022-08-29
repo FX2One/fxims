@@ -1,0 +1,38 @@
+[
+  {
+    "model": "inventory.territory",
+    "pk": 1,
+    "fields": {
+      "territory_id": "01581",
+      "region_description": "Westboro",
+      "region_id": 1
+    }
+  },
+  {
+    "model": "inventory.territory",
+    "pk": 2,
+    "fields": {
+      "territory_id": "60179",
+      "region_description": "Hoffman Estates",
+      "region_id": 2
+    }
+  },
+  {
+    "model": "inventory.territory",
+    "pk": 3,
+    "fields": {
+      "territory_id": "55113",
+      "region_description": "Roseville",
+      "region_id": 3
+    }
+  },
+  {
+    "model": "inventory.territory",
+    "pk": 4,
+    "fields": {
+      "territory_id": "75234",
+      "region_description": "Dallas",
+      "region_id": 4
+    }
+  }
+]
