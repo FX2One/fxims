@@ -269,8 +269,6 @@ def test_inventory_product_factory(
     assert result.product_id == product_id
 
 
-
-
 """ TEST EMPLOYEE """
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
@@ -304,4 +302,24 @@ def test_inventory_employee_dbfixture(
         photo_path
 ):
     result = models.Employee.objects.get(employee_id=employee_id)
+    result_birth_date = str(result.birth_date)
+    result_hire_date = str(result.hire_date)
     assert result.employee_id == employee_id
+    assert first_name == first_name
+    assert last_name == last_name
+    assert title == title
+    assert title_of_courtesy == title_of_courtesy
+    assert result_birth_date == birth_date
+    assert result_hire_date == hire_date
+    assert address == address
+    assert city == city
+    assert region == region
+    assert postal_code == postal_code
+    assert country == country
+    assert home_phone == home_phone
+    assert extension == extension
+    assert photo == photo
+    assert notes == notes
+    assert reports_to == reports_to
+    assert photo_path == photo_path
+
