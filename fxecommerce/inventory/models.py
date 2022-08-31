@@ -116,7 +116,7 @@ class Employee(models.Model):
         db_column='Region',
         max_length=15,
         blank=True,
-        null=False
+        null=True
     )
     postal_code = models.CharField(
         verbose_name=_('Postal code'),
@@ -147,11 +147,10 @@ class Employee(models.Model):
         blank=False,
         null=False
     )
-    photo = models.BinaryField(
+    photo = models.ImageField(
         verbose_name=_('Photo'),
         db_column='Photo',
-        blank=True,
-        null=True
+        blank=True
     )
     notes = models.TextField(
         verbose_name=_('Notes'),
@@ -283,7 +282,7 @@ class Customer(models.Model):
         db_column='Region',
         max_length=15,
         blank=True,
-        null=False
+        null=True
     )
     postal_code = models.CharField(
         verbose_name=_('Postal code'),
@@ -311,7 +310,7 @@ class Customer(models.Model):
         db_column='Fax',
         max_length=24,
         blank=True,
-        null=False
+        null=True
     )
     customer_customer_demo = models.ManyToManyField(
         CustomerDemographics,
@@ -359,7 +358,7 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'category'
-        verbose_name_plural = _("Product categories")
+        verbose_name_plural = _("Categories")
 
     def __str__(self):
         return self.category_name
@@ -411,7 +410,7 @@ class Supplier(models.Model):
         db_column='Region',
         max_length=15,
         blank=True,
-        null=False
+        null=True
     )
     postal_code = models.CharField(
         verbose_name=_('Postal code'),
@@ -439,13 +438,13 @@ class Supplier(models.Model):
         db_column='Fax',
         max_length=24,
         blank=True,
-        null=False
+        null=True
     )
     homepage = models.TextField(
         verbose_name=_('HomePage'),
         db_column='HomePage',
         blank=True,
-        null=False
+        null=True
     )
 
     class Meta:
@@ -620,7 +619,7 @@ class Order(models.Model):
         db_column='ShipRegion',
         max_length=15,
         blank=True,
-        null=False
+        null=True
     )
     ship_postal_code = models.CharField(
         verbose_name=_('Ship postal code'),
