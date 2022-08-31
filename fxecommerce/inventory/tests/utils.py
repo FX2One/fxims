@@ -25,4 +25,11 @@ class ConfigFixture:
     SUPPLIER_FIXTURE = f'{path}db_supplier_fixture.json'
     PRODUCT_FIXTURE = f'{path}db_product_fixture.json'
     ORDER_FIXTURE = f'{path}db_order_fixture.json'
+    TERRITORY_FIXTURE = f'{path}db_territory_fixture.json'
+    EMPLOYEE_FIXTURE = f'{path}db_employee_fixture.json'
+    SHIPPER_FIXTURE = f'{path}db_shipper_fixture.json'
+    CUSTOMER_FIXTURE = f'{path}db_customer_fixture.json'
+    ORDER_DETAILS_FIXTURE = f'{path}db_order_details_fixture.json'
+    REGION_FIXTURE = f'{path}db_region_fixture.json'
+
 
