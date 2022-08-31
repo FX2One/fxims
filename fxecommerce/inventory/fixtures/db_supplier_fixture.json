@@ -13,7 +13,7 @@
       "postal_code": "EC1 4SD",
       "country": "UK",
       "phone": "(171) 555-2222",
-      "fax": "",
+      "fax": null,
       "homepage": "Exliq.com"
     }
   },
@@ -31,7 +31,7 @@
       "postal_code": "70117",
       "country": "USA",
       "phone": "111-222-333",
-      "fax": "111-222-334",
+      "fax": null,
       "homepage": "Cajun.com"
     }
   },
@@ -45,12 +45,12 @@
       "contact_title": "Marketing Manager",
       "address": "9-8 Sekimai Musashino-shi",
       "city": "Tokyo",
-      "region": "NULL",
+      "region": null,
       "postal_code": "100",
       "country": "Japan",
       "phone": "111-222-333",
       "fax": "111-322-233",
-      "homepage": ""
+      "homepage": null
     }
   }
 ]
