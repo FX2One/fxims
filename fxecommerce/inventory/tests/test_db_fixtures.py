@@ -271,3 +271,37 @@ def test_inventory_product_factory(
 
 
 
+""" TEST EMPLOYEE """
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.EMPLOYEE_FIXTURE),
+    [
+        jld.load_values(cf.EMPLOYEE_FIXTURE, 0),
+        jld.load_values(cf.EMPLOYEE_FIXTURE, 1),
+        jld.load_values(cf.EMPLOYEE_FIXTURE, 2),
+    ],
+)
+def test_inventory_employee_dbfixture(
+        db,
+        django_database_fixture_setup,
+        employee_id,
+        last_name,
+        first_name,
+        title,
+        title_of_courtesy,
+        birth_date,
+        hire_date,
+        address,
+        city,
+        region,
+        postal_code,
+        country,
+        home_phone,
+        extension,
+        photo,
+        notes,
+        reports_to,
+        photo_path
+):
+    result = models.Employee.objects.get(employee_id=employee_id)
+    assert result.employee_id == employee_id
