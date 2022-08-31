@@ -85,13 +85,13 @@ class Employee(models.Model):
         blank=True,
         null=False
     )
-    birth_date = models.DateTimeField(
+    birth_date = models.DateField(
         verbose_name=_('Birth date'),
         db_column='BirthDate',
         blank=True,
         null=True
     )
-    hire_date = models.DateTimeField(
+    hire_date = models.DateField(
         verbose_name=_('Hire date'),
         db_column='HireDate',
         blank=True,
