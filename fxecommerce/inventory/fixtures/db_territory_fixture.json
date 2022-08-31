@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "territory_id": "01581",
-      "region_description": "Westboro",
+      "territory_description": "Westboro",
       "region_id": 1
     }
   },
@@ -13,7 +13,7 @@
     "pk": 2,
     "fields": {
       "territory_id": "60179",
-      "region_description": "Hoffman Estates",
+      "territory_description": "Hoffman Estates",
       "region_id": 2
     }
   },
@@ -22,7 +22,7 @@
     "pk": 3,
     "fields": {
       "territory_id": "55113",
-      "region_description": "Roseville",
+      "territory_description": "Roseville",
       "region_id": 3
     }
   },
@@ -31,7 +31,7 @@
     "pk": 4,
     "fields": {
       "territory_id": "75234",
-      "region_description": "Dallas",
+      "territory_description": "Dallas",
       "region_id": 4
     }
   }

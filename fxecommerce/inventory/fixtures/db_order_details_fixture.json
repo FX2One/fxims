@@ -1,6 +1,6 @@
 [
   {
-    "model": "inventory.order_details",
+    "model": "inventory.orderdetails",
     "pk": 1,
     "fields": {
       "order_id": 10255,
@@ -11,7 +11,7 @@
     }
   },
   {
-    "model": "inventory.order_details",
+    "model": "inventory.orderdetails",
     "pk": 2,
     "fields": {
       "order_id": 10269,
@@ -22,7 +22,7 @@
     }
   },
   {
-    "model": "inventory.order_details",
+    "model": "inventory.orderdetails",
     "pk": 3,
     "fields": {
       "order_id": 10276,
