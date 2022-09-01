@@ -330,7 +330,7 @@ def test_inventory_employee_dbfixture(
     [
         jld.load_values(cf.EMPLOYEE_TERRITORIES_FIXTURE, 0),
         jld.load_values(cf.EMPLOYEE_TERRITORIES_FIXTURE, 1),
-        jld.load_values(cf.EMPLOYEE_TERRITORIES_FIXTURE, 2),
+        jld.load_values(cf.EMPLOYEE_TERRITORIES_FIXTURE, 2)
     ],
 )
 def test_inventory_employee_territories_dbfixture(
@@ -340,42 +340,28 @@ def test_inventory_employee_territories_dbfixture(
         territory_id
 ):
     '''
-    tackling ManyToManyField to better understand how the test works
+    how to tackle ManyToMany relationship in test
     https://www.revsys.com/tidbits/tips-using-djangos-manytomanyfield/?fbclid=IwAR33HITPlrZhaPmpPtZR9mQDpjLV_ERWcpFASMtqJELTPNSaEac6mEn_0Mw
     '''
 
-    #get Employee objects by ID <containing model contains M2M>
+    # get Employee objects by ID <containing model contains M2M>
     emp = models.Employee.objects.get(employee_id=employee_id)
 
-    #get Territory objects by ID <other mother M2M is pointed to>
+    # get Territory objects by ID <other mother M2M is pointed to>
     ter = models.Territory.objects.get(territory_id=territory_id)
 
-    #add Territory to relation
+    # add Territory to Relation
     emp.territories.add(ter)
 
-    #get first Territory object of M2M relationship between Employee and Territory models
-    #Territory models has to return territory_id as __str__
-    db_emp_ter = str(emp.territories.first())
+    # get first Territory object of M2M relationship between Employee and Territory models
+    db_employee_to_territories = emp.territories.first()
 
+    # set two way relationship
+    db_territories_set_employee = ter.employee_set.first()
 
-    print(f'get territories added to employee territories filtered by ter_id {emp.territories.filter(territory_id=territory_id).first()}')
-    print(f'Set employees to territories {ter.employee_set.all()}')
+    assert db_employee_to_territories.territory_id == ter.territory_id
+    assert db_territories_set_employee.employee_id == emp.employee_id
 
-    # two street the beginning
-    # get first object of filter in object
-    #nn = models.Employee.objects.filter(last_name=emp.last_name).first()
-    n1 = models.Employee.objects.first()
-    print(f'employee ID: {n1.employee_id}')
-    #print(f'nn = {nn}, type {type(nn)}')
-    print(f'n1 = {n1}, type {type(n1)}')
-
-    #set employee's to territories
-    #set employee to territories
-    db_ter_emp = ter.employee_set.first()
-    #print(str(db_ter_emp),str(nn))
-
-    assert db_emp_ter == ter.territory_id
-    #assert db_ter_emp == nn
 
 
 
