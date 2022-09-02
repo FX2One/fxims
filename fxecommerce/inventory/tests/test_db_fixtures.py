@@ -363,6 +363,58 @@ def test_inventory_employee_territories_dbfixture(
     assert db_territories_set_employee.employee_id == emp.employee_id
 
 
+""" TEST ORDER """
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.ORDER_FIXTURE),
+    [
+        jld.load_values(cf.ORDER_FIXTURE, 0),
+        jld.load_values(cf.ORDER_FIXTURE, 1),
+        jld.load_values(cf.ORDER_FIXTURE, 2)
+    ],
+)
+def test_inventory_order_dbfixture(
+        db,
+        django_database_fixture_setup,
+        order_id,
+        customer_id,
+        employee_id,
+        order_date,
+        required_date,
+        shipped_date,
+        ship_via,
+        freight,
+        ship_name,
+        ship_address,
+        ship_city,
+        ship_region,
+        ship_postal_code,
+        ship_country
+):
+    result_order = models.Order.objects.get(order_id=order_id)
+    result_customer = models.Customer.objects.get(customer_id=customer_id)
+    result_employee = models.Employee.objects.get(employee_id=employee_id)
+    result_shipper = models.Shipper.objects.get(shipper_id=ship_via)
+    result_order_date = str(result_order.order_date)
+    result_required_date = str(result_order.required_date)
+    result_shipped_date = str(result_order.shipped_date)
+
+    assert result_customer.customer_id == customer_id
+    assert result_employee.employee_id == employee_id
+    assert result_order_date == order_date
+    assert result_required_date == required_date
+    assert result_shipped_date == shipped_date
+    assert result_shipper.shipper_id == ship_via
+
+    assert str(result_order.ship_via) == str(ship_via)
+    assert str(result_order.freight) == str(freight)
+
+    assert result_order.ship_name == ship_name
+    assert result_order.ship_address == ship_address
+    assert result_order.ship_city == ship_city
+    assert result_order.ship_region == ship_region
+    assert result_order.ship_postal_code == ship_postal_code
+    assert result_order.ship_country == ship_country
 
 
 
