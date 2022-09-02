@@ -212,7 +212,9 @@ class Shipper(models.Model):
         verbose_name_plural = _('Shippers')
 
     def __str__(self):
-        return self.company_name
+        return str(self.company_name)
+
+
 
 
 class CustomerDemographics(models.Model):
@@ -649,7 +651,7 @@ class Order(models.Model):
         verbose_name_plural = _("Orders")
 
     def __str__(self):
-        return f'Order ID: {str(self.order_id)} [ordered by {self.customer}]'
+        return f'Order ID: {str(self.order_id)} [ordered by {self.customer_id}]'
 
 
 class OrderDetails(models.Model):
