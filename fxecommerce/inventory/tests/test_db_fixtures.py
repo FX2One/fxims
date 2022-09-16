@@ -445,6 +445,38 @@ def test_inventory_order_details_dbfixture(
     assert result_order_details.discount == discount
 
 
+"""TEST CUSTOMER"""
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.CUSTOMER_FIXTURE),
+    [
+        jld.load_values(cf.CUSTOMER_FIXTURE, 0),
+        jld.load_values(cf.CUSTOMER_FIXTURE, 1),
+        jld.load_values(cf.CUSTOMER_FIXTURE, 2)
+    ],
+)
+def test_customer_dbfixture(
+        db,
+        django_database_fixture_setup,
+        customer_id,
+        company_name,
+        contact_name,
+        contact_title,
+        address,
+        city,
+        region,
+        postal_code,
+        country,
+        phone,
+        fax
+):
+    result = models.Customer.objects.get(customer_id=customer_id)
+
+
+
+
+
+
 
 
 
