@@ -347,7 +347,7 @@ def test_inventory_employee_territories_dbfixture(
     # get Employee objects by ID <containing model contains M2M>
     emp = models.Employee.objects.get(employee_id=employee_id)
 
-    # get Territory objects by ID <other mother M2M is pointed to>
+    # get Territory objects by ID <other model M2M is pointed to>
     ter = models.Territory.objects.get(territory_id=territory_id)
 
     # add Territory to Relation
@@ -455,7 +455,7 @@ def test_inventory_order_details_dbfixture(
         jld.load_values(cf.CUSTOMER_FIXTURE, 2)
     ],
 )
-def test_customer_dbfixture(
+def test_inventory_customer_dbfixture(
         db,
         django_database_fixture_setup,
         customer_id,
@@ -471,10 +471,51 @@ def test_customer_dbfixture(
         fax
 ):
     result = models.Customer.objects.get(customer_id=customer_id)
+    assert result.customer_id == customer_id
+    assert result.company_name == company_name
+    assert result.contact_name == contact_name
+    assert result.contact_title == contact_title
+    assert result.address == address
+    assert result.city == city
+    assert result.region == region
+    assert result.postal_code == postal_code
+    assert result.country == country
+    assert result.phone == phone
+    assert result.fax == fax
 
 
+"""TEST CUSTOMER CUSTOMER DEMO"""
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.CUSTOMER_CUSTOMER_DEMO_FIXTURE),
+    [
+        jld.load_values(cf.CUSTOMER_CUSTOMER_DEMO_FIXTURE, 0),
+        jld.load_values(cf.CUSTOMER_CUSTOMER_DEMO_FIXTURE, 1),
+        jld.load_values(cf.CUSTOMER_CUSTOMER_DEMO_FIXTURE, 2)
+    ],
+)
+def test_inventory_customer_customer_demo_fixture(
+        db,
+        django_database_fixture_setup,
+        customer_id,
+        customerdemographics_id
+):
 
+    cust = models.Customer.objects.get(customer_id=customer_id)
 
+    cust_demo = models.CustomerDemographics.objects.get(customer_type_id=customerdemographics_id)
+
+    # add Customer Demographics to relation
+    cust.customer_customer_demo.add(cust_demo)
+
+    # get first Customer Demogprahics object of M2M relationship between Customer and CustomerDemographics models
+    db_customer_to_customerdemographics = cust.customer_customer_demo.first()
+
+    # two way relationship
+    db_customerdemographics_set_customer = cust_demo.customer_set.first()
+
+    assert db_customer_to_customerdemographics.customer_type_id == cust_demo.customer_type_id
+    assert db_customerdemographics_set_customer.customer_id == cust.customer_id
 
 
 
