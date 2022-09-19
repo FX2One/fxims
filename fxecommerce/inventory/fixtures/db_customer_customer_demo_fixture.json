@@ -1,0 +1,26 @@
+[
+  {
+    "model": "inventory.customer_customer_demo",
+    "pk": 1,
+    "fields": {
+      "customer_id": "RICSU",
+      "customerdemographics_id": "REG"
+    }
+  },
+  {
+    "model": "inventory.customer_customer_demo",
+    "pk": 2,
+    "fields": {
+      "customer_id": "WHITC",
+      "customerdemographics_id": "VIP"
+    }
+  },
+  {
+    "model": "inventory.customer_customer_demo",
+    "pk": 3,
+    "fields": {
+      "customer_id": "TORTU",
+      "customerdemographics_id": "REG"
+    }
+  }
+]
