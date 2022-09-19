@@ -3,7 +3,7 @@
     "model": "inventory.customerdemographics",
     "pk": 1,
     "fields": {
-      "customer_type_id": 1,
+      "customer_type_id": "REG",
       "customer_desc": "Regular Customer"
     }
   },
@@ -11,16 +11,8 @@
     "model": "inventory.customerdemographics",
     "pk": 2,
     "fields": {
-      "customer_type_id": 2,
+      "customer_type_id": "VIP",
       "customer_desc": "Premium Customer"
-    }
-  },
-  {
-    "model": "inventory.customerdemographics",
-    "pk": 3,
-    "fields": {
-      "customer_type_id": 3,
-      "customer_desc": "VIP Customer"
     }
   }
 ]
