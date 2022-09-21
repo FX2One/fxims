@@ -550,8 +550,6 @@ def test_inventory_customer_customer_demo_dbfixture(
 
 
 """ TEST TERRITORY """
-
-
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.TERRITORY_FIXTURE),
@@ -580,3 +578,26 @@ def test_inventory_territory_dbfixture(
 
 
 """ TEST REGION """
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.REGION_FIXTURE),
+    [
+        jld.load_values(cf.REGION_FIXTURE, 0),
+        jld.load_values(cf.REGION_FIXTURE, 1),
+        jld.load_values(cf.REGION_FIXTURE, 2)
+    ],
+)
+def test_inventory_region_dbfixture(
+        db,
+        django_database_fixture_setup,
+        region_id,
+        region_description
+):
+    result_region = models.Region.objects.get(region_id=region_id)
+
+    assert result_region.region_id == region_id
+    assert result_region.region_description == region_description
+
+
+"""TEST SHIPPER """
+
