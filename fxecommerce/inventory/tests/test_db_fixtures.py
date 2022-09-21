@@ -621,3 +621,27 @@ def test_inventory_shipper_dbfixture(
     assert result_shipper.shipper_id == shipper_id
     assert result_shipper.company_name == company_name
     assert result_shipper.phone == phone
+
+
+
+
+"""TEST CUSTOMER DEMOGRAPHICS """
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.CUSTOMER_DEMO_FIXTURE),
+    [
+        jld.load_values(cf.CUSTOMER_DEMO_FIXTURE, 0),
+        jld.load_values(cf.CUSTOMER_DEMO_FIXTURE, 1)
+    ],
+)
+def test_inventory_customer_demo_dbfixture(
+        db,
+        django_database_fixture_setup,
+        customer_type_id,
+        customer_desc
+):
+    result_customer_demo = models.CustomerDemographics.objects.get(customer_type_id=customer_type_id)
+
+
+    assert result_customer_demo.customer_type_id == customer_type_id
+    assert result_customer_demo.customer_desc == customer_desc
