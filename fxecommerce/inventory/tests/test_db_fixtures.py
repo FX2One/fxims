@@ -600,4 +600,24 @@ def test_inventory_region_dbfixture(
 
 
 """TEST SHIPPER """
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.SHIPPER_FIXTURE),
+    [
+        jld.load_values(cf.SHIPPER_FIXTURE, 0),
+        jld.load_values(cf.SHIPPER_FIXTURE, 1),
+        jld.load_values(cf.SHIPPER_FIXTURE, 2)
+    ],
+)
+def test_inventory_shipper_dbfixture(
+        db,
+        django_database_fixture_setup,
+        shipper_id,
+        company_name,
+        phone
+):
+    result_shipper = models.Shipper.objects.get(shipper_id=shipper_id)
 
+    assert result_shipper.shipper_id == shipper_id
+    assert result_shipper.company_name == company_name
+    assert result_shipper.phone == phone
