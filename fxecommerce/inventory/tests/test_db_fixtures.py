@@ -7,8 +7,6 @@ jld = JsonLoadData()
 cf = ConfigFixture()
 
 """CATEGORY TESTS"""
-"""regular parametrize test"""
-"""asserts against db_category_fixture_id.json"""
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_id, category_name, description, image",
@@ -17,17 +15,19 @@ cf = ConfigFixture()
         (2, 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', 'default.png')
     ],
 )
-def test_inventory_category_dbfixture(
+def test_inventory_category_dbfixture_regular(
         db, django_database_fixture_setup, category_id, category_name, description, image
 ):
     result = models.Category.objects.get(category_id=category_id)
+
+    assert result.category_id == category_id
     assert result.category_name == category_name
     assert result.description == description
     assert result.image == image
 
 
 """regular parametrize test"""
-"""asserts against db_category_fixture_id.json"""
+"""asserts against db_category_fixture.json"""
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CATEGORY_FIXTURE),
@@ -36,15 +36,18 @@ def test_inventory_category_dbfixture(
         jld.load_values(cf.CATEGORY_FIXTURE, 1)
     ],
 )
-def test_inventory_category_dbfixture_json_file(
+def test_inventory_category_dbfixture(
         db, django_database_fixture_setup, category_id, category_name, description, image
 ):
     result = models.Category.objects.get(category_id=category_id)
+
+    assert result.category_id == category_id
     assert result.category_name == category_name
     assert result.description == description
     assert result.image == image
 
 
+"""regular factory boy test with manual parameters"""
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_name, description",
@@ -54,21 +57,24 @@ def test_inventory_category_dbfixture_json_file(
         ('volleyball', 'All volleyball equipment')
     ],
 )
-def test_inventory_category_dbfixture_insert(
+def test_inventory_category_regular_factory(
         db, category_factory, category_name, description
 ):
     result = category_factory.create(
         category_name=category_name,
         description=description,
     )
+
     print(result.category_id)
     print(result.category_name)
     print(result.description)
     print(result.image)
+
     assert result.category_name == category_name
     assert result.description == description
 
 
+"""factory boy against json file load"""
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CATEGORY_FIXTURE),
@@ -78,17 +84,17 @@ def test_inventory_category_dbfixture_insert(
         jld.load_values(cf.CATEGORY_FIXTURE, 2),
     ],
 )
-def test_inventory_category_insert_some_db(
+def test_inventory_category_dbfixture_factory(
         db, category_factory, category_id, category_name, description, image
 ):
     result = category_factory.create(
         category_id=category_id,
         category_name=category_name,
-        description=description
+        description=description,
     )
-    print(result.category_id)
-    print(result.category_name)
-    print(result.description)
+
+    print(result.image)
+
     assert result.category_name == category_name
     assert result.description == description
 
@@ -110,8 +116,11 @@ def test_inventory_category_dbfixture_insert_fb(
         category_name=category_name,
         image=image
     )
+
     assert result.category_name == category_name
     assert result.image == image
+
+
 
 
 """SUPPLIER TESTS"""
@@ -173,6 +182,8 @@ def test_inventory_supplier_factory_insert(
 ):
     result = supplier_factory.create(
         company_name=company_name)
+
+    # prints check factory creations
     print(f'company name: {result.company_name}')
     print(f'contact name: {result.contact_name}')
     print(f'contact title: {result.contact_title}')
@@ -201,10 +212,7 @@ def test_supplier_on_jld_db_json(
         region, postal_code, country, phone, fax, homepage
 ):
     result = models.Supplier.objects.get(supplier_id=supplier_id)
-    print(result.fax)
-    print(result.company_name)
-    print(result.homepage)
-    print(result.city)
+
     assert result.company_name == company_name
     assert result.contact_name == contact_name
     assert result.contact_title == contact_title
@@ -216,6 +224,8 @@ def test_supplier_on_jld_db_json(
     assert result.phone == phone
     assert result.fax == fax
     assert result.homepage == homepage
+
+
 
 
 """ TEST PRODUCTS """
@@ -277,6 +287,8 @@ def test_inventory_product_factory(
     print(result.reorder_level)
     print(result.discontinued)
     assert result.product_id == product_id
+
+
 
 
 """ TEST EMPLOYEE """
@@ -381,6 +393,8 @@ def test_inventory_employee_territories_dbfixture(
     assert db_territories_set_employee.employee_id == emp.employee_id
 
 
+
+
 """ TEST ORDER """
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
@@ -433,9 +447,9 @@ def test_inventory_order_dbfixture(
     assert result_order.ship_country == ship_country
 
 
+
+
 """ TEST ORDER DETAILS """
-
-
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.ORDER_DETAILS_FIXTURE),
@@ -473,9 +487,9 @@ def test_inventory_order_details_dbfixture(
     #print(f'{result_product.product_id} == {result_order_details.product_id.product_id}')
 
 
+
+
 """TEST CUSTOMER"""
-
-
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CUSTOMER_FIXTURE),
@@ -549,6 +563,8 @@ def test_inventory_customer_customer_demo_dbfixture(
     assert db_customerdemographics_set_customer.customer_id == cust.customer_id
 
 
+
+
 """ TEST TERRITORY """
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
@@ -577,6 +593,8 @@ def test_inventory_territory_dbfixture(
     assert result_territory.region_id.region_id == result_region.region_id
 
 
+
+
 """ TEST REGION """
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
@@ -597,6 +615,8 @@ def test_inventory_region_dbfixture(
 
     assert result_region.region_id == region_id
     assert result_region.region_description == region_description
+
+
 
 
 """TEST SHIPPER """

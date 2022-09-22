@@ -34,3 +34,5 @@ class ConfigFixture:
     CUSTOMER_CUSTOMER_DEMO_FIXTURE = f'{path}db_customer_customer_demo_fixture.json'
     ORDER_DETAILS_FIXTURE = f'{path}db_order_details_fixture.json'
     REGION_FIXTURE = f'{path}db_region_fixture.json'
+
+
