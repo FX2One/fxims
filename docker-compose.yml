@@ -6,8 +6,6 @@ services:
     restart: always
     ports:
       - 5432:5432
-    networks:
-      - flask_network
     environment:
       - POSTGRES_USER=postres
       - POSTGRES_PASSWORD=postgres
