@@ -47,7 +47,7 @@ class Territory(models.Model):
         verbose_name_plural=_('Territories')
 
     def __str__(self):
-        return self.territory_id
+        return self.territory_description
 
 
 class Employee(models.Model):
