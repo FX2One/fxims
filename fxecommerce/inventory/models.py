@@ -176,6 +176,7 @@ class Employee(models.Model):
         Territory,
         verbose_name=_('Territories'),
         db_table='employee_territories',
+        through='EmployeeTerritory',
         blank=True,
     )
 
@@ -185,6 +186,19 @@ class Employee(models.Model):
 
     def __str__(self):
         return f'{self.title_of_courtesy} {self.first_name} {self.last_name}'
+
+class EmployeeTerritory(models.Model):
+    employee_id = models.ForeignKey(
+        Employee,
+        db_column='EmployeeID',
+        on_delete=models.CASCADE
+    )
+    territory_id = models.ForeignKey(
+        Territory,
+        db_column='TerritoryID',
+        on_delete=models.CASCADE
+    )
+
 
 class Shipper(models.Model):
     shipper_id = models.AutoField(
@@ -318,6 +332,7 @@ class Customer(models.Model):
         CustomerDemographics,
         verbose_name=_('Customer customer demo'),
         db_table='customer_customer_demo',
+        through='CustomerCustomerDemo',
         blank=True,
     )
 
@@ -328,6 +343,17 @@ class Customer(models.Model):
     def __str__(self):
         return self.company_name
 
+class CustomerCustomerDemo(models.Model):
+    customer_id = models.ForeignKey(
+        Customer,
+        db_column='CustomerID',
+        on_delete=models.CASCADE
+    )
+    customer_type_id = models.ForeignKey(
+        CustomerDemographics,
+        db_column='CustomerDemographicsID',
+        on_delete=models.CASCADE
+    )
 
 class Category(models.Model):
     category_id = models.AutoField(
@@ -644,7 +670,6 @@ class Order(models.Model):
         blank=True,
         through='OrderDetails'
     )
-
 
     class Meta:
         db_table = 'order'
