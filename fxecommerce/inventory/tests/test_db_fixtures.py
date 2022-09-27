@@ -6,7 +6,53 @@ from utils import JsonLoadData, ConfigFixture
 jld = JsonLoadData()
 cf = ConfigFixture()
 
-"""CATEGORY TESTS"""
+
+''' CATEGORY TESTS '''
+""" parametrize with FactoryBoy, manual parameters """
+@pytest.mark.parametrize(
+    "category_name, image",
+    [
+        ('football', 'default.png'),
+        ('basketball', 'default.png'),
+        ('volleyball', 'default.png')
+    ],
+)
+def test_inventory_category_dbfixture_insert_fb(
+        db, category_factory, category_name, image
+):
+    result = category_factory.create(
+        category_name=category_name,
+        image=image
+    )
+
+    assert result.category_name == category_name
+    assert result.image == image
+
+
+""" factory boy against json file load """
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    jld.load_keys(cf.CATEGORY_FIXTURE),
+    [
+        jld.load_values(cf.CATEGORY_FIXTURE, 0),
+        jld.load_values(cf.CATEGORY_FIXTURE, 1),
+        jld.load_values(cf.CATEGORY_FIXTURE, 2),
+    ],
+)
+def test_inventory_category_dbfixture_factory(
+        db, category_factory, category_id, category_name, description, image
+):
+    result = category_factory.create(
+        category_id=category_id,
+        category_name=category_name,
+        description=description,
+    )
+
+    assert result.category_name == category_name
+    assert result.description == description
+
+
+""" regular test with manual parameters """
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_id, category_name, description, image",
@@ -26,28 +72,7 @@ def test_inventory_category_dbfixture_regular(
     assert result.image == image
 
 
-"""regular parametrize test"""
-"""asserts against db_category_fixture.json"""
-@pytest.mark.dbfixture
-@pytest.mark.parametrize(
-    jld.load_keys(cf.CATEGORY_FIXTURE),
-    [
-        jld.load_values(cf.CATEGORY_FIXTURE, 0),
-        jld.load_values(cf.CATEGORY_FIXTURE, 1)
-    ],
-)
-def test_inventory_category_dbfixture(
-        db, django_database_fixture_setup, category_id, category_name, description, image
-):
-    result = models.Category.objects.get(category_id=category_id)
-
-    assert result.category_id == category_id
-    assert result.category_name == category_name
-    assert result.description == description
-    assert result.image == image
-
-
-"""regular factory boy test with manual parameters"""
+"""regular factoryboy test with manual parameters"""
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_name, description",
@@ -74,91 +99,50 @@ def test_inventory_category_regular_factory(
     assert result.description == description
 
 
-"""factory boy against json file load"""
+"""regular parametrize test"""
+"""asserts against db_category_fixture.json"""
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CATEGORY_FIXTURE),
     [
         jld.load_values(cf.CATEGORY_FIXTURE, 0),
-        jld.load_values(cf.CATEGORY_FIXTURE, 1),
-        jld.load_values(cf.CATEGORY_FIXTURE, 2),
+        jld.load_values(cf.CATEGORY_FIXTURE, 1)
     ],
 )
-def test_inventory_category_dbfixture_factory(
-        db, category_factory, category_id, category_name, description, image
+def test_inventory_category_dbfixture(
+        db, django_database_fixture_setup, category_id, category_name, description, image
 ):
-    result = category_factory.create(
-        category_id=category_id,
-        category_name=category_name,
-        description=description,
-    )
+    result = models.Category.objects.get(category_id=category_id)
 
-    print(result.image)
-
+    assert result.category_id == category_id
     assert result.category_name == category_name
     assert result.description == description
-
-
-"""parametrize using factory.Sequence to autopopulate not defined field"""
-"""parametrize with FactoryBoy package"""
-@pytest.mark.parametrize(
-    "category_name, image",
-    [
-        ('football', 'default.png'),
-        ('basketball', 'default.png'),
-        ('volleyball', 'default.png')
-    ],
-)
-def test_inventory_category_dbfixture_insert_fb(
-        db, category_factory, category_name, image
-):
-    result = category_factory.create(
-        category_name=category_name,
-        image=image
-    )
-
-    assert result.category_name == category_name
     assert result.image == image
 
 
 
 
-"""SUPPLIER TESTS"""
+''' SUPPLIER TESTS '''
+# test against database
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
-    # parametrize pattern example utils
-    # "company_name,contact_name,contact_title,address,city,region,postal_code,country,phone,fax,homepage",
     jld.load_keys(cf.SUPPLIER_FIXTURE),
     [
-        # parameters example utils
-        # ('Adeedas','Adee Das','Adeedas Company','Adee address','Munich','Bavaria','11-222','Germany','777-777-777','777-777-778','adeedas.com'),
         jld.load_values(cf.SUPPLIER_FIXTURE, 0),
         jld.load_values(cf.SUPPLIER_FIXTURE, 1),
         jld.load_values(cf.SUPPLIER_FIXTURE, 2),
-    ],
+    ]
 )
-def test_inventory_supplier_dbfixture_insert(
-        db, supplier_factory, supplier_id, company_name, contact_name, contact_title, address, city, region,
-        postal_code, country,
-        phone, fax, homepage
+def test_supplier_on_jld_db_json(
+        db, django_database_fixture_setup, supplier_id, company_name, contact_name, contact_title, address, city,
+        region, postal_code, country, phone, fax, homepage
 ):
-    result = supplier_factory.create(
-        supplier_id=supplier_id,
-        company_name=company_name,
-        contact_name=contact_name,
-        contact_title=contact_title,
-        address=address,
-        city=city,
-        region=region,
-        postal_code=postal_code,
-        country=country,
-        phone=phone,
-        fax=fax,
-        homepage=homepage
-    )
+    result = models.Supplier.objects.get(supplier_id=supplier_id)
+
     assert result.company_name == company_name
     assert result.contact_name == contact_name
     assert result.contact_title == contact_title
+    assert result.address == address
     assert result.city == city
     assert result.region == region
     assert result.postal_code == postal_code
@@ -168,7 +152,8 @@ def test_inventory_supplier_dbfixture_insert(
     assert result.homepage == homepage
 
 
-# test against supplier_factory
+
+""" factoryboy with manual parameters ,test creation"""
 @pytest.mark.parametrize(
     "company_name",
     [
@@ -197,7 +182,7 @@ def test_inventory_supplier_factory_insert(
     assert result.company_name == company_name
 
 
-# test against database
+""" factoryboy against fixture.json ,exclude supplier_id to avoid unique constraint issue on test"""
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.SUPPLIER_FIXTURE),
@@ -205,18 +190,29 @@ def test_inventory_supplier_factory_insert(
         jld.load_values(cf.SUPPLIER_FIXTURE, 0),
         jld.load_values(cf.SUPPLIER_FIXTURE, 1),
         jld.load_values(cf.SUPPLIER_FIXTURE, 2),
-    ]
+    ],
 )
-def test_supplier_on_jld_db_json(
-        db, django_database_fixture_setup, supplier_id, company_name, contact_name, contact_title, address, city,
-        region, postal_code, country, phone, fax, homepage
+def test_inventory_supplier_dbfixture_insert(
+        db, supplier_factory, supplier_id, company_name, contact_name, contact_title, address, city, region,
+        postal_code, country,
+        phone, fax, homepage
 ):
-    result = models.Supplier.objects.get(supplier_id=supplier_id)
-
+    result = supplier_factory.create(
+        company_name=company_name,
+        contact_name=contact_name,
+        contact_title=contact_title,
+        address=address,
+        city=city,
+        region=region,
+        postal_code=postal_code,
+        country=country,
+        phone=phone,
+        fax=fax,
+        homepage=homepage
+    )
     assert result.company_name == company_name
     assert result.contact_name == contact_name
     assert result.contact_title == contact_title
-    assert result.address == address
     assert result.city == city
     assert result.region == region
     assert result.postal_code == postal_code
@@ -277,8 +273,7 @@ def test_inventory_product_factory(
         db, product_factory, product_id, product_name, supplier_id, category_id, quantity_per_unit, unit_price,
         units_in_stock, units_on_order, reorder_level, discontinued
 ):
-    result = product_factory.create(product_id=product_id)
-    print(result.product_id)
+    result = product_factory.create(product_name=product_name)
     print(result.product_name)
     print(result.quantity_per_unit)
     print(result.unit_price)
@@ -286,7 +281,7 @@ def test_inventory_product_factory(
     print(result.units_on_order)
     print(result.reorder_level)
     print(result.discontinued)
-    assert result.product_id == product_id
+    assert result.product_name == product_name
 
 
 
@@ -529,8 +524,6 @@ def test_inventory_customer_dbfixture(
 
 
 """TEST CUSTOMER CUSTOMER DEMO"""
-
-
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CUSTOMER_CUSTOMER_DEMO_FIXTURE),
@@ -544,11 +537,11 @@ def test_inventory_customer_customer_demo_dbfixture(
         db,
         django_database_fixture_setup,
         customer_id,
-        customerdemographics_id
+        customer_type_id
 ):
     cust = models.Customer.objects.get(customer_id=customer_id)
 
-    cust_demo = models.CustomerDemographics.objects.get(customer_type_id=customerdemographics_id)
+    cust_demo = models.CustomerDemographics.objects.get(customer_type_id=customer_type_id)
 
     # add Customer Demographics to relation
     cust.customer_customer_demo.add(cust_demo)
