@@ -175,7 +175,6 @@ class Employee(models.Model):
     territories = models.ManyToManyField(
         Territory,
         verbose_name=_('Territories'),
-        db_table='employee_territories',
         through='EmployeeTerritory',
         blank=True,
     )
@@ -198,6 +197,10 @@ class EmployeeTerritory(models.Model):
         db_column='TerritoryID',
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        db_table = 'employee_territories'
+        verbose_name_plural = _('Employee territories')
 
 
 class Shipper(models.Model):
@@ -330,8 +333,7 @@ class Customer(models.Model):
     )
     customer_customer_demo = models.ManyToManyField(
         CustomerDemographics,
-        verbose_name=_('Customer customer demo'),
-        db_table='customer_customer_demo',
+        verbose_name=_('CustomerCustomerDemos'),
         through='CustomerCustomerDemo',
         blank=True,
     )
@@ -351,9 +353,13 @@ class CustomerCustomerDemo(models.Model):
     )
     customer_type_id = models.ForeignKey(
         CustomerDemographics,
-        db_column='CustomerDemographicsID',
+        db_column='CustomerTypeID',
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        db_table = 'customer_customer_demo'
+        verbose_name_plural = _('CustomerCustomerDemos')
 
 class Category(models.Model):
     category_id = models.AutoField(
