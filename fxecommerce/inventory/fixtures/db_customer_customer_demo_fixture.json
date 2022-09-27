@@ -1,26 +1,26 @@
 [
   {
-    "model": "inventory.customer_customer_demo",
+    "model": "inventory.customercustomerdemo",
     "pk": 1,
     "fields": {
       "customer_id": "RICSU",
-      "customerdemographics_id": "REG"
+      "customer_type_id": "REG"
     }
   },
   {
-    "model": "inventory.customer_customer_demo",
+    "model": "inventory.customercustomerdemo",
     "pk": 2,
     "fields": {
       "customer_id": "WHITC",
-      "customerdemographics_id": "VIP"
+      "customer_type_id": "VIP"
     }
   },
   {
-    "model": "inventory.customer_customer_demo",
+    "model": "inventory.customercustomerdemo",
     "pk": 3,
     "fields": {
       "customer_id": "TORTU",
-      "customerdemographics_id": "REG"
+      "customer_type_id": "REG"
     }
   }
 ]
