@@ -77,16 +77,16 @@ WSGI_APPLICATION = 'fxecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-"""# sqlite default database connection
+# sqlite default database connection
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.sqlite3',
          'NAME': BASE_DIR / 'db.sqlite3',
      }
- }"""
+ }
 
 # postgres default database connection
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
@@ -95,7 +95,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'POST': '5432',
     }
-}
+}"""
 
 
 
