@@ -2,6 +2,7 @@
 # usage of ugettext_lazy
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from django.urls import reverse
 
 
 class Region(models.Model):
@@ -561,8 +562,17 @@ class Product(models.Model):
         null=False,
     )
 
+    slug = models.SlugField(
+        null=False,
+        unique=True
+    )
+
+
     def __str__(self):
         return self.product_name
+
+    def get_absolute_url(self):
+        return reverse('inventory:product_detail', kwargs={'slug': self.slug})
 
     class Meta:
         db_table = 'product'
