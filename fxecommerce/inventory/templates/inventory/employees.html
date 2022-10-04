@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+Products
+{% endblock %}
+
+{% block content %}
+<h1>Employee</h1>
+<br>
+{% for e in employees %}
+    <li>{{ e.first_name }}</li>
+{% endfor %}
+{% endblock %}

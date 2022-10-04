@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from .models import Category, Product
+from .models import Category, Product,Employee
 
 
 def home(request):
@@ -25,3 +25,9 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     template_name = "inventory/product_detail.html"
+
+def employees(request):
+    employees = Employee.objects.all()
+    return render(request,'employees.html',{'employees':employees})
+
+
