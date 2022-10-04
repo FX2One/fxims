@@ -12,7 +12,8 @@
       "units_in_stock": 2000,
       "units_on_order": 400,
       "reorder_level": 300,
-      "discontinued": true
+      "discontinued": true,
+      "slug": "chai"
     }
   },
   {
@@ -28,7 +29,8 @@
       "units_in_stock": 1000,
       "units_on_order": 300,
       "reorder_level": 200,
-      "discontinued": false
+      "discontinued": false,
+      "slug": "chang"
     }
   },
   {
@@ -44,7 +46,8 @@
       "units_in_stock": 500,
       "units_on_order": 100,
       "reorder_level": 80,
-      "discontinued": true
+      "discontinued": true,
+      "slug": "aniseed-syrup"
     }
   }
 ]
