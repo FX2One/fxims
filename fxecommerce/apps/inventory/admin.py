@@ -1,5 +1,5 @@
 from django.contrib import admin
-from fxecommerce.inventory.models import Category, Product, Supplier,Order,CustomerDemographics, Customer, Territory, Region, OrderDetails, Shipper, Employee
+from .models import Category, Product, Supplier,Order,CustomerDemographics, Customer, Territory, Region, OrderDetails, Shipper, Employee
 
 
 class ProductAdmin(admin.ModelAdmin):
