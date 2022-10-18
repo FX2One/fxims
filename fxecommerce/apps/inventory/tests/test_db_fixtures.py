@@ -1,5 +1,5 @@
 import pytest
-from fxecommerce.inventory import models
+from inventory import models
 import json
 from utils import JsonLoadData, ConfigFixture
 
@@ -237,7 +237,7 @@ def test_inventory_supplier_dbfixture_insert(
 )
 def test_inventory_product_dbfixture(
         db, django_database_fixture_setup, product_id, product_name, supplier_id, category_id, quantity_per_unit,
-        unit_price, units_in_stock, units_on_order, reorder_level, discontinued
+        unit_price, units_in_stock, units_on_order, reorder_level, discontinued, slug
 ):
     result_product = models.Product.objects.get(product_id=product_id)
     result_supplier = models.Supplier.objects.get(supplier_id=supplier_id)
@@ -250,6 +250,7 @@ def test_inventory_product_dbfixture(
     assert result_product.units_on_order == units_on_order
     assert result_product.reorder_level == reorder_level
     assert result_product.discontinued == discontinued
+    assert result_product.slug == slug
 
     #FK Product to Supplier
     assert result_product.supplier_id.supplier_id == result_supplier.supplier_id
@@ -271,7 +272,7 @@ def test_inventory_product_dbfixture(
 )
 def test_inventory_product_factory(
         db, product_factory, product_id, product_name, supplier_id, category_id, quantity_per_unit, unit_price,
-        units_in_stock, units_on_order, reorder_level, discontinued
+        units_in_stock, units_on_order, reorder_level, discontinued, slug
 ):
     result = product_factory.create(product_name=product_name)
     print(result.product_name)
@@ -281,6 +282,7 @@ def test_inventory_product_factory(
     print(result.units_on_order)
     print(result.reorder_level)
     print(result.discontinued)
+    print(result.slug)
     assert result.product_name == product_name
 
 
