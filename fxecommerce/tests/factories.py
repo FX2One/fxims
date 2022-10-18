@@ -3,7 +3,7 @@ import pytest
 import string
 from faker import Faker
 from pytest_factoryboy import register
-from fxecommerce.inventory import models
+from inventory import models
 
 fake = Faker()
 fake.seed_instance(4321)
