@@ -3,7 +3,6 @@ from typing import Tuple, List
 
 
 class JsonLoadData:
-
     def load_param_json(self, json_path: str) -> List:
         with open(json_path) as f:
             return json.load(f)
@@ -20,7 +19,7 @@ class JsonLoadData:
 
 
 class ConfigFixture:
-    path = '../fixtures/'
+    path = 'apps/inventory/fixtures/'
     CATEGORY_FIXTURE = f'{path}db_category_fixture.json'
     SUPPLIER_FIXTURE = f'{path}db_supplier_fixture.json'
     PRODUCT_FIXTURE = f'{path}db_product_fixture.json'
