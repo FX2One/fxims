@@ -8,27 +8,27 @@ def home(request):
 
 def employee(request):
     employees = Employee.objects.all()
-    return render(request, 'inventory/employees.html', {'employees': employees})
+    return render(request, 'employees.html', {'employees': employees})
 
 
 def product(request):
     products = Product.objects.all()
-    return render(request, "inventory/products.html", {"products": products})
+    return render(request, "products.html", {"products": products})
 
 
 def category(request):
     data = Category.objects.all()
-    return render(request, "inventory/categories.html", {"data": data})
+    return render(request, "categories.html", {"data": data})
 
 
 class ProductListView(ListView):
     model = Product
-    template_name = "inventory/product_list.html"
+    template_name = "product_list.html"
 
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = "inventory/product_detail.html"
+    template_name = "product_detail.html"
 
 
 
