@@ -7,6 +7,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("inventory/", include("inventory.urls", namespace="inventory")),
+    path('', include("inventory.urls", namespace="inventory")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
