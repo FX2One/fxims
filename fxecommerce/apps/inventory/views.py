@@ -17,8 +17,13 @@ def product(request):
 
 
 def category(request):
-    data = Category.objects.all()
-    return render(request, "categories.html", {"data": data})
+    category = Category.objects.all()
+    return render(request, "categories.html", {"category": category})
+
+def order(request):
+    order = Order.objects.all()
+    product = Product.objects.all()
+    return render(request, "orders.html", {'order': order, 'product':product})
 
 
 class ProductListView(ListView):
