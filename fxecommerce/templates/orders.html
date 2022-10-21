@@ -4,9 +4,37 @@ Orders
 {% endblock %}
 
 {% block content %}
+
 <h1>Orders</h1>
 <br>
-{% for o in order %}
-<li>{{o.order_id}} {{o.order_details.first}}</li>
-{% endfor %}
+<div class="row my-4">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <table class="table bg-white">
+            <thead class="bg-info text-white">
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Category</th>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Ordered By</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
+
+
+
+
