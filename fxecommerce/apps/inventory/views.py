@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from .models import Category, Product,Employee, Order
+from .models import Category, Product,Employee, Order, OrderDetails
 
 
 def home(request):
@@ -23,6 +23,7 @@ def category(request):
 def order(request):
     order = Order.objects.all()
     product = Product.objects.all()
+    order_details = OrderDetails.objects.all()
     return render(request, "orders.html", {'order': order, 'product':product})
 
 
