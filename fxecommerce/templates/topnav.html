@@ -14,18 +14,18 @@
             <div class="card-header bg-info text-white">
                 Dashboard Statistics
             </div>
+            <div class="col-md-4">
+                <a class="text-decoration-none text-dark" href="{% url 'inventory:employee' %}"
+                <div class="card my-card shadow">
+                    <div class="card-body text-center">
+                        <h4>Employees <i class="fas fa-users"></i></h4>
+                        <h3></h3>
+                    </div>
+                </div>
+                </a>
+            </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
-                        <a class="text-decoration-none text-dark" href="{% url 'inventory:employee' %}"
-                            <div class="card my-card shadow">
-                                <div class="card-body text-center">
-                                    <h4>Employees <i class="fas fa-users"></i></h4>
-                                    <h3></h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
                     <div class="col-md-4">
                         <a class="text-decoration-none text-dark" href="{% url 'inventory:product_list' %}">
                             <div class="card my-card shadow">

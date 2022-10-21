@@ -6,6 +6,33 @@
 {% block content %}
     <h1>Categories</h1>
     <br>
+<div class="row my-4">
+    <div class="col-md-4">
+
+        <div class="alert alert-">
+
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table bg-white">
+            <thead class="bg-info text-white">
+            <tr>
+                <th scope="col">Category Name</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
     {% for c in category %}
         <li>{{ c.category_name }}</li>
     {% endfor %}

@@ -3,6 +3,57 @@
 Products
 {% endblock %}
 {% block content %}
+<div class="row my-4">
+    <div class="col-md-4">
+
+        <div class="alert alert-">
+
+        </div>
+
+        <div class="card card-body">
+            <h5>Add New Products</h5>
+            <hr>
+            <form method="POST">
+
+                <input class="btn btn-success btn-block" type="submit" value="Add">
+            </form>
+        </div>
+    </div>
+    <div class="col-md-">
+        <table class="table bg-white">
+            <thead class="bg-info text-white">
+            <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Quantity per unit</th>
+                <th scope="col">Unit price</th>
+                <th scope="col">Units in stock</th>
+                <th scope="col">Units on order</th>
+                <th scope="col">Reorder level</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td> product.name</td>
+                <td> category</td>
+                <td> quantity.per.unit</td>
+                <td> unit.price</td>
+                <td> units.in.stock</td>
+                <td> units.on.order</td>
+                <td> reorder.level</td>
+                <td>
+                    <a class="btn btn-info btn-sm mr-2"
+                       href="">Edit</a>
+                    <a class="btn btn-danger btn-sm ml-2"
+                       href="">Delete</a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
 {% for product in object_list %}
 <ul>
     <a href="{{ product.get_absolute_url }}">{{product.product_name}}</a>
