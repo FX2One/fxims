@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # Local Apps
     'dashboard',
     'inventory',
-    'custom_cmd'
+    'user',
+    'custom_cmd',
 ]
 
 MIDDLEWARE = [
