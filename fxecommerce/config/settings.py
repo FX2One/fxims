@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'inventory',
     'user',
     'custom_cmd',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
