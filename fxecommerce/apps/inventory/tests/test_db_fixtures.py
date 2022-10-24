@@ -6,9 +6,10 @@ from utils import JsonLoadData, ConfigFixture
 jld = JsonLoadData()
 cf = ConfigFixture()
 
-
 ''' CATEGORY TESTS '''
 """ parametrize with FactoryBoy, manual parameters """
+
+
 @pytest.mark.parametrize(
     "category_name, image",
     [
@@ -30,6 +31,8 @@ def test_inventory_category_dbfixture_insert_fb(
 
 
 """ factory boy against json file load """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CATEGORY_FIXTURE),
@@ -53,6 +56,8 @@ def test_inventory_category_dbfixture_factory(
 
 
 """ regular test with manual parameters """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_id, category_name, description, image",
@@ -73,6 +78,8 @@ def test_inventory_category_dbfixture_regular(
 
 
 """regular factoryboy test with manual parameters"""
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     "category_name, description",
@@ -101,6 +108,8 @@ def test_inventory_category_regular_factory(
 
 """regular parametrize test"""
 """asserts against db_category_fixture.json"""
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CATEGORY_FIXTURE),
@@ -120,9 +129,9 @@ def test_inventory_category_dbfixture(
     assert result.image == image
 
 
-
-
 ''' SUPPLIER TESTS '''
+
+
 # test against database
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
@@ -152,8 +161,9 @@ def test_supplier_on_jld_db_json(
     assert result.homepage == homepage
 
 
-
 """ factoryboy with manual parameters ,test creation"""
+
+
 @pytest.mark.parametrize(
     "company_name",
     [
@@ -183,6 +193,8 @@ def test_inventory_supplier_factory_insert(
 
 
 """ factoryboy against fixture.json ,exclude supplier_id to avoid unique constraint issue on test"""
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.SUPPLIER_FIXTURE),
@@ -222,9 +234,9 @@ def test_inventory_supplier_dbfixture_insert(
     assert result.homepage == homepage
 
 
-
-
 """ TEST PRODUCTS """
+
+
 # test with database
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
@@ -252,13 +264,11 @@ def test_inventory_product_dbfixture(
     assert result_product.discontinued == discontinued
     assert result_product.slug == slug
 
-    #FK Product to Supplier
+    # FK Product to Supplier
     assert result_product.supplier_id.supplier_id == result_supplier.supplier_id
 
-    #FK Product to Category
+    # FK Product to Category
     assert result_product.category_id.category_id == result_category.category_id
-
-
 
 
 # test with factory creation
@@ -286,9 +296,9 @@ def test_inventory_product_factory(
     assert result.product_name == product_name
 
 
-
-
 """ TEST EMPLOYEE """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.EMPLOYEE_FIXTURE),
@@ -341,7 +351,6 @@ def test_inventory_employee_dbfixture(
     assert result.notes == notes
     assert result.photo_path == photo_path
 
-
     if result.reports_to is None:
         assert result.reports_to == reports_to
 
@@ -349,8 +358,9 @@ def test_inventory_employee_dbfixture(
         assert result.reports_to.employee_id == reports_to
 
 
-
 """ TEST EMPLOYEE TERRITORIES """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.EMPLOYEE_TERRITORIES_FIXTURE),
@@ -390,9 +400,9 @@ def test_inventory_employee_territories_dbfixture(
     assert db_territories_set_employee.employee_id == emp.employee_id
 
 
-
-
 """ TEST ORDER """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.ORDER_FIXTURE),
@@ -444,9 +454,9 @@ def test_inventory_order_dbfixture(
     assert result_order.ship_country == ship_country
 
 
-
-
 """ TEST ORDER DETAILS """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.ORDER_DETAILS_FIXTURE),
@@ -477,16 +487,16 @@ def test_inventory_order_details_dbfixture(
 
     # FK Order to Order Details
     assert result_order.order_id == result_order_details.order_id.order_id
-    #print(f'{result_order.order_id} == {result_order_details.order_id.order_id}')
+    # print(f'{result_order.order_id} == {result_order_details.order_id.order_id}')
 
     # FK Product to Order Details
     assert result_product.product_id == result_order_details.product_id.product_id
-    #print(f'{result_product.product_id} == {result_order_details.product_id.product_id}')
-
-
+    # print(f'{result_product.product_id} == {result_order_details.product_id.product_id}')
 
 
 """TEST CUSTOMER"""
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CUSTOMER_FIXTURE),
@@ -526,6 +536,8 @@ def test_inventory_customer_dbfixture(
 
 
 """TEST CUSTOMER CUSTOMER DEMO"""
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CUSTOMER_CUSTOMER_DEMO_FIXTURE),
@@ -558,9 +570,9 @@ def test_inventory_customer_customer_demo_dbfixture(
     assert db_customerdemographics_set_customer.customer_id == cust.customer_id
 
 
-
-
 """ TEST TERRITORY """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.TERRITORY_FIXTURE),
@@ -584,13 +596,13 @@ def test_inventory_territory_dbfixture(
     assert result_territory.territory_id == territory_id
     assert result_territory.territory_description == territory_description
 
-    #FK Territory to Region
+    # FK Territory to Region
     assert result_territory.region_id.region_id == result_region.region_id
 
 
-
-
 """ TEST REGION """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.REGION_FIXTURE),
@@ -612,9 +624,9 @@ def test_inventory_region_dbfixture(
     assert result_region.region_description == region_description
 
 
-
-
 """TEST SHIPPER """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.SHIPPER_FIXTURE),
@@ -638,9 +650,9 @@ def test_inventory_shipper_dbfixture(
     assert result_shipper.phone == phone
 
 
-
-
 """TEST CUSTOMER DEMOGRAPHICS """
+
+
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CUSTOMER_DEMO_FIXTURE),
@@ -656,7 +668,6 @@ def test_inventory_customer_demo_dbfixture(
         customer_desc
 ):
     result_customer_demo = models.CustomerDemographics.objects.get(customer_type_id=customer_type_id)
-
 
     assert result_customer_demo.customer_type_id == customer_type_id
     assert result_customer_demo.customer_desc == customer_desc
