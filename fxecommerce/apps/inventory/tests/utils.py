@@ -19,7 +19,7 @@ class JsonLoadData:
 
 
 class ConfigFixture:
-    path = 'apps/inventory/fixtures/'
+    path = '../fixtures/'
     CATEGORY_FIXTURE = f'{path}db_category_fixture.json'
     SUPPLIER_FIXTURE = f'{path}db_supplier_fixture.json'
     PRODUCT_FIXTURE = f'{path}db_product_fixture.json'

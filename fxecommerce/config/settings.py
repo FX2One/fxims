@@ -41,12 +41,12 @@ INSTALLED_APPS = [
     # Local Apps
     'dashboard',
     'inventory',
-    'user',
+    'users',
     'custom_cmd',
     'crispy_forms',
 ]
 
-AUTH_USER_MODEL = "user.CustomUser"
+AUTH_USER_MODEL = "users.CustomUser"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
