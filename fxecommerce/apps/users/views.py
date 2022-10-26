@@ -1,6 +1,16 @@
 from django.shortcuts import render
+from .forms import CustomUserCreationForm
+from django.shortcuts import redirect
 
-
-# Create your views here.
 def register(request):
-    return render(request, 'users/register.html')
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('inventory:home')
+    else:
+        form = CustomUserCreationForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'users/register.html', context)
