@@ -5,6 +5,9 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
 
+'''@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    pass'''
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
@@ -14,7 +17,7 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser')}),
     )
     add_fieldsets = (
         (None, {
@@ -27,3 +30,5 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+
+
