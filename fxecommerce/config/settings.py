@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = 'inventory:home'
+LOGOUT_REDIRECT_URL = 'inventory:home'
 
 # Application definition
 
