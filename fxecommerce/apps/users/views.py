@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .forms import CustomUserCreationForm
 from django.shortcuts import redirect
 
+
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -14,3 +15,4 @@ def register(request):
         'form': form,
     }
     return render(request, 'users/register.html', context)
+

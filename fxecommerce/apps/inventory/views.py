@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Category, Product,Employee, Order, OrderDetails
-
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 
 def home(request):
     return render(request, "index.html")
@@ -24,7 +25,12 @@ def order(request):
     order = Order.objects.all()
     product = Product.objects.all()
     order_details = OrderDetails.objects.all()
-    return render(request, "orders.html", {'order': order, 'product':product})
+    context = {
+        'order': order,
+        'product': product,
+        'order_details':order_details
+    }
+    return render(request, "orders.html", context)
 
 
 class ProductListView(ListView):
@@ -35,6 +41,12 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     template_name = "product_detail.html"
+
+def dummy(request):
+    return redirect(reverse_lazy('inventory:order'))
+
+
+
 
 
 
