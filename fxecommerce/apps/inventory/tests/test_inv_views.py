@@ -32,25 +32,7 @@ def test_with_authenticated_client(client, django_user_model):
     assert response_products.status_code == 200
     assert response_category.status_code == 200
 
-
-def test_with_authenticated_client2(client, django_user_model):
-    email = 'test@test.com'
-    password = "somesecurepass"
-    user = django_user_model.objects.create_user(email=email, password=password)
-    # Use this:
-    client.force_login(user)
-    # Or this:
-    # client.login(email=email, password=password)
-    response_employee = client.get('/employee/')
-    response_order = client.get('/order/')
-    response_products = client.get('/products/')
-    response_category = client.get('/category/')
-    assert response_employee.status_code == 200
-    assert response_order.status_code == 200
-    assert response_products.status_code == 200
-    assert response_category.status_code == 200
-
-
+    # prepared data to test slug redirect
     # create Products model
     result = models.Product.objects.create(product_name='Tea', discontinued=True, slug='tea')
 
