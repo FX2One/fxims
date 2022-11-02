@@ -537,7 +537,6 @@ def test_inventory_customer_dbfixture(
 
 """TEST CUSTOMER CUSTOMER DEMO"""
 
-
 @pytest.mark.dbfixture
 @pytest.mark.parametrize(
     jld.load_keys(cf.CUSTOMER_CUSTOMER_DEMO_FIXTURE),
@@ -557,17 +556,22 @@ def test_inventory_customer_customer_demo_dbfixture(
 
     cust_demo = models.CustomerDemographics.objects.get(customer_type_id=customer_type_id)
 
-    # add Customer Demographics to relation
-    cust.customer_customer_demo.add(cust_demo)
+    #Customer M2M to Customerdemographics Model getting fist value
+    customerM2M = cust.customer_customer_demo.first()
 
-    # get first Customer Demogprahics object of M2M relationship between Customer and CustomerDemographics models
-    db_customer_to_customerdemographics = cust.customer_customer_demo.first()
+    # test set for CustomerDemographics back to Customer Model
+    customerdemo = cust_demo.customer_set.all().filter(customer_id=customer_id)
 
-    # two way relationship
-    db_customerdemographics_set_customer = cust_demo.customer_set.first()
+    # test middle model against Customer and CustomerDemographics model
+    ccd = models.CustomerCustomerDemo.objects.all().filter(customer_id=customer_id)
+    for i in ccd:
+        # test set for CustomerDemographics back to Customer Model
+        for j in customerdemo:
+            assert i.customer_id.customer_id == j.customer_id
+        assert i.customer_type_id == customerM2M
 
-    assert db_customer_to_customerdemographics.customer_type_id == cust_demo.customer_type_id
-    assert db_customerdemographics_set_customer.customer_id == cust.customer_id
+    # test Customer through Model assigns correctly to CustomerDemographics
+    assert customerM2M.customer_type_id == cust_demo.customer_type_id
 
 
 """ TEST TERRITORY """
