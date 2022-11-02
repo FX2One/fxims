@@ -51,10 +51,8 @@ def test_with_authenticated_client2(client, django_user_model):
     assert response_category.status_code == 200
 
 
-
-
     # create Products model
-    result = models.Product.objects.create(product_name='Bob', discontinued=True, slug='bob')
+    result = models.Product.objects.create(product_name='Tea', discontinued=True, slug='tea')
 
     # create response to product detail url
     response = client.get(reverse('inventory:product_detail', args=[result.slug]))
@@ -62,3 +60,5 @@ def test_with_authenticated_client2(client, django_user_model):
 
     # check if request path matches reverse response taken
     assert response.request['PATH_INFO'] == f'/products/{result.slug}'
+
+
