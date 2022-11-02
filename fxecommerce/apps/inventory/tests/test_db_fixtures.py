@@ -376,10 +376,6 @@ def test_inventory_employee_territories_dbfixture(
         employee_id,
         territory_id
 ):
-    '''
-    how to tackle ManyToMany relationship in test
-    https://www.revsys.com/tidbits/tips-using-djangos-manytomanyfield/?fbclid=IwAR33HITPlrZhaPmpPtZR9mQDpjLV_ERWcpFASMtqJELTPNSaEac6mEn_0Mw
-    '''
 
     # get Employee objects by ID <containing model contains M2M>
     emp = models.Employee.objects.get(employee_id=employee_id)
@@ -387,17 +383,30 @@ def test_inventory_employee_territories_dbfixture(
     # get Territory objects by ID <other model M2M is pointed to>
     ter = models.Territory.objects.get(territory_id=territory_id)
 
-    # add Territory to Relation
-    emp.territories.add(ter)
+    # get EmployeeTerritory objects by ID <middle model for Employee/Territory models>
+    empter = models.EmployeeTerritory.objects.get(employee_id=employee_id)
 
     # get first Territory object of M2M relationship between Employee and Territory models
-    db_employee_to_territories = emp.territories.first()
+    employeeM2M = emp.territories.first()
 
     # set two way relationship
-    db_territories_set_employee = ter.employee_set.first()
+    terset_emp = ter.employee_set.all().filter(employee_id=employee_id)
 
-    assert db_employee_to_territories.territory_id == ter.territory_id
-    assert db_territories_set_employee.employee_id == emp.employee_id
+    # assert from middle table
+    empter_mid = models.EmployeeTerritory.objects.all().filter(employee_id=employee_id)
+    for i in empter_mid:
+        for j in terset_emp:
+            assert i.employee_id.employee_id == j.employee_id
+        assert i.territory_id == employeeM2M
+
+    # assert through territories in Employee Model against Territory model
+    assert employeeM2M.territory_id == ter.territory_id
+
+    # assert FK between EmployeeTerritory to Employee
+    assert empter.employee_id.employee_id == emp.employee_id
+
+    # assert FK between EmployeeTerritory to Territory
+    assert empter.territory_id.territory_id == ter.territory_id
 
 
 """ TEST ORDER """
@@ -475,23 +484,33 @@ def test_inventory_order_details_dbfixture(
         quantity,
         discount
 ):
-    result_order = models.Order.objects.get(order_id=order_id)
-    result_product = models.Product.objects.get(product_id=product_id)
-    result_order_details = models.OrderDetails.objects.get(order_id=order_id)
+    order = models.Order.objects.get(order_id=order_id)
 
-    assert result_order.order_id == order_id
-    assert result_product.product_id == product_id
-    assert result_order_details.unit_price == unit_price
-    assert result_order_details.quantity == quantity
-    assert result_order_details.discount == discount
+    product = models.Product.objects.get(product_id=product_id)
+
+    order_details = models.OrderDetails.objects.get(order_id=order_id)
+
+
+    # get first Territory object of M2M relationship between Employee and Territory models
+    orderM2M = order.order_details.first()
+
+    # set two way
+    dbprod = product.order_set.all().filter(order_id=order_id)
+
+    orddet_mid = models.OrderDetails.objects.all().filter(order_id=order_id)
+
+    for i in orddet_mid:
+        for j in dbprod:
+            assert i.order_id.order_id == j.order_id
+        assert i.product_id == orderM2M
+
+    assert orderM2M.product_id == product.product_id
 
     # FK Order to Order Details
-    assert result_order.order_id == result_order_details.order_id.order_id
-    # print(f'{result_order.order_id} == {result_order_details.order_id.order_id}')
+    assert order.order_id == order_details.order_id.order_id
 
     # FK Product to Order Details
-    assert result_product.product_id == result_order_details.product_id.product_id
-    # print(f'{result_product.product_id} == {result_order_details.product_id.product_id}')
+    assert product.product_id == order_details.product_id.product_id
 
 
 """TEST CUSTOMER"""
@@ -552,9 +571,14 @@ def test_inventory_customer_customer_demo_dbfixture(
         customer_id,
         customer_type_id
 ):
+    # get Customer objects by ID <containing model contains M2M>
     cust = models.Customer.objects.get(customer_id=customer_id)
 
+    # get Customer Demographics objects by ID <other model M2M is pointed to>
     cust_demo = models.CustomerDemographics.objects.get(customer_type_id=customer_type_id)
+
+    # get CustomerCustomerDemographics objects by ID <middle model for Customer/CustomerDemographics models>
+    cust_cust_demo = models.CustomerCustomerDemo.objects.get(customer_id=customer_id)
 
     #Customer M2M to Customerdemographics Model getting fist value
     customerM2M = cust.customer_customer_demo.first()
@@ -573,6 +597,11 @@ def test_inventory_customer_customer_demo_dbfixture(
     # test Customer through Model assigns correctly to CustomerDemographics
     assert customerM2M.customer_type_id == cust_demo.customer_type_id
 
+    # FK between CustomerDemographics and CustomerCustomerDemographics
+    assert cust_cust_demo.customer_type_id.customer_type_id == cust_demo.customer_type_id
+
+    # FK between Customer and CustomerCustomerDemographics
+    assert cust_cust_demo.customer_id.customer_id == cust.customer_id
 
 """ TEST TERRITORY """
 
