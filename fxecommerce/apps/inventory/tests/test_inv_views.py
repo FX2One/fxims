@@ -1,5 +1,4 @@
 import pytest
-from inventory import models
 from django.urls import reverse
 
 
