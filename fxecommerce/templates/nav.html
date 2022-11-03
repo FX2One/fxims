@@ -18,7 +18,7 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="">{{ user.email|upper }}
+                    <a class="nav-link text-white" href="{% url 'auth:profile' %}">{{ user.email|upper }}
                         <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">

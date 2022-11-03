@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}
+Customer Page
+{% endblock %}
+
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                Test Text
+            </div>
+            <div class="row p-3">
+                <div class="col-md-8">
+                    <table class="table table-borderless">
+                        <thead>
+                        <span class="h4">Profile</span>
+                        <a class="btn btn-info btn-sm float-right" href="">Edit</a>
+                        <hr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td> {{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Staff</th>
+                            {% if user.is_staff %}
+                            <td>True</td>
+                            {% else %}
+                            <td>False</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row">Admin</th>
+                            {% if user.is_superuser %}
+                            <td>True</td>
+                            {% else %}
+                            <td>False</td>
+                            {% endif %}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <img class="img-thumbnail" src="" alt="profile-image">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
