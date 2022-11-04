@@ -151,7 +151,8 @@ class Employee(models.Model):
     photo = models.ImageField(
         verbose_name=_('Photo'),
         db_column='Photo',
-        blank=True
+        blank=True,
+        upload_to='employee'
     )
     notes = models.TextField(
         verbose_name=_('Notes'),
@@ -363,6 +364,43 @@ class CustomerCustomerDemo(models.Model):
         verbose_name_plural = _('CustomerCustomerDemos')
 
 class Category(models.Model):
+    '''
+    FRESHMAN = 'FR'
+    SOPHOMORE = 'SO'
+    JUNIOR = 'JR'
+    SENIOR = 'SR'
+    GRADUATE = 'GR'
+    YEAR_IN_SCHOOL_CHOICES = [
+        (FRESHMAN, 'Freshman'),
+        (SOPHOMORE, 'Sophomore'),
+        (JUNIOR, 'Junior'),
+        (SENIOR, 'Senior'),
+        (GRADUATE, 'Graduate'),
+    ]
+    '''
+    NO_CATEGORY = 'N/C'
+    BEVERAGES = 'BEV'
+    CONDIMENTS = 'CND'
+    CONFECTIONS = 'CNF'
+    DAIRY_PRODUCTS = 'DP'
+    GRAINS_CEREALS = 'GC'
+    MEAT_POULTRY = 'MP'
+    PRODUCE = 'PRO'
+    SEAFOOD = 'SEA'
+
+    CATEGORIES=[
+        (NO_CATEGORY, 'Uncategorized'),
+        (BEVERAGES, 'Beverages'),
+        (CONDIMENTS, 'Condiments'),
+        (CONFECTIONS, 'Confections'),
+        (DAIRY_PRODUCTS, 'Dairy Products'),
+        (GRAINS_CEREALS, 'Grains/Cereals'),
+        (MEAT_POULTRY, 'Meat/Poultry'),
+        (PRODUCE, 'Produce'),
+        (SEAFOOD, 'Seafood')
+    ]
+
+
     category_id = models.AutoField(
         verbose_name=_('Category ID'),
         db_column='CategoryID',
@@ -375,7 +413,8 @@ class Category(models.Model):
         null=False,
         blank=False,
         db_index=True,
-        help_text=_("format: required. Max_length: 100")
+        help_text=_("format: required. Max_length: 100"),
+        choices=CATEGORIES
     )
     description = models.TextField(
         verbose_name=_('Description'),
@@ -389,6 +428,7 @@ class Category(models.Model):
         verbose_name=_('Image'),
         db_column='Image',
         blank=True,
+        upload_to='category'
     )
 
     class Meta:
