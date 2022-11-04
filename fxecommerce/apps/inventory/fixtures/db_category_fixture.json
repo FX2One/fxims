@@ -6,7 +6,7 @@
       "category_id": 1,
       "category_name": "Beverages",
       "description": "Soft drinks, coffees, teas, beers, and ales",
-      "image": "default.png"
+      "image": "category/default.png"
     }
   },
   {
@@ -26,7 +26,7 @@
       "category_id": 3,
       "category_name": "Confections",
       "description": "Desserts, candies, and sweet breads",
-      "image": "default.png"
+      "image": "category/default.png"
     }
   }
 ]
