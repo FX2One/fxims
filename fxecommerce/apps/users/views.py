@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .forms import CustomUserCreationForm
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 
 def register(request):
@@ -16,3 +17,6 @@ def register(request):
     }
     return render(request, 'users/register.html', context)
 
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
