@@ -27,7 +27,7 @@ class UserProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_verified = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='user_profile',default='user_profile/default.jpg')
+    image = models.ImageField(upload_to='user_profile', default='user_profile/default_photo.png')
 
     def __str__(self):
         return self.user.email
