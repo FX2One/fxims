@@ -6,7 +6,7 @@
       "category_id": 1,
       "category_name": "Beverages",
       "description": "Soft drinks, coffees, teas, beers, and ales",
-      "image": "default.png"
+      "image": "category/default.png"
     }
   },
   {
@@ -16,7 +16,7 @@
       "category_id": 2,
       "category_name": "Condiments",
       "description": "Sweet and savory sauces, relishes, spreads, and seasonings",
-      "image": "default.png"
+      "image": ""
     }
   },
   {
@@ -26,7 +26,7 @@
       "category_id": 3,
       "category_name": "Confections",
       "description": "Desserts, candies, and sweet breads",
-      "image": "default.png"
+      "image": "category/default.png"
     }
   }
 ]

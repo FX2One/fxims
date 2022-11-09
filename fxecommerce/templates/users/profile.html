@@ -21,16 +21,28 @@ Profile Page
             </thead>
             <tbody>
             <tr>
-              <th scope="row">Name</th>
-              <td>{{ user.username }}</td>
-            </tr>
-            <tr>
               <th scope="row">Email</th>
               <td>{{ user.email }}</td>
             </tr>
             <tr>
+              <th scope="row">First Name</th>
+              <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Last Name</th>
+              <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
               <th scope="row">Superuser</th>
               {% if user.is_superuser %}
+              <td>True</td>
+              {% else %}
+              <td>False</td>
+              {% endif %}
+            </tr>
+            <tr>
+              <th scope="row">Staff</th>
+              {% if user.is_staff %}
               <td>True</td>
               {% else %}
               <td>False</td>

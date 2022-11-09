@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+    {% if user.is_authenticated and user.is_staff %}
     <div class="col-md-8 mt-4">
         <div class="card">
             <div class="card-header bg-info text-white">
@@ -17,11 +17,10 @@
             </div>
             <div class="card-body">
                 <div class="col-md-3">
-                    <a class="text-decoration-none text-dark" href="{% url 'inventory:employee' %}"
+                    <a class="text-decoration-none text-dark" href="{% url 'inventory:employee' %}">
                     <div class="card my-card shadow">
                         <div class="card-body text-center">
                             <h4>Employees <i class="fas fa-users"></i></h4>
-                            <h3></h3>
                         </div>
                     </div>
                     </a>
@@ -32,7 +31,6 @@
                             <div class="card my-card shadow">
                                 <div class="card-body text-center">
                                     <h4>Products <i class="fas fa-box"></i></h4>
-                                    <h3></h3>
                                 </div>
                             </div>
                         </a>
@@ -42,7 +40,6 @@
                             <div class="card my-card shadow">
                                 <div class="card-body text-center">
                                     <h4>Categories <i class="fas fa-box"></i></h4>
-                                    <h3></h3>
                                 </div>
                             </div>
                         </a>
@@ -52,7 +49,6 @@
                             <div class="card my-card shadow">
                                 <div class="card-body text-center">
                                     <h4>Orders <i class="fas fa-shipping-fast"></i></h4>
-                                    <h3></h3>
                                 </div>
                             </div>
                         </a>

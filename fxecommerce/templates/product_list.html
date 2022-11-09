@@ -30,18 +30,23 @@ Products
                 <th scope="col">Units in stock</th>
                 <th scope="col">Units on order</th>
                 <th scope="col">Reorder level</th>
+                <th scope="col">Options</th>
             </tr>
             </thead>
             <tbody>
-
+            {% for p in object_list %}
             <tr>
-                <td> product.name</td>
-                <td> category</td>
-                <td> quantity.per.unit</td>
-                <td> unit.price</td>
-                <td> units.in.stock</td>
-                <td> units.on.order</td>
-                <td> reorder.level</td>
+                <td>
+                    <a class="text-decoration-none text-dark" href="{{ p.get_absolute_url }}">
+                        <span>{{p.product_name}}</span>
+                    </a>
+                </td>
+                <td> {{ p.category_id.category_name }} </td>
+                <td> {{ p.quantity_per_unit }} </td>
+                <td> {{ p.unit_price }}</td>
+                <td> {{ p.units_in_stock }}</td>
+                <td> {{ p.units_on_order }}</td>
+                <td> {{ p.reorder_level }}</td>
                 <td>
                     <a class="btn btn-info btn-sm mr-2"
                        href="">Edit</a>
@@ -49,14 +54,10 @@ Products
                        href="">Delete</a>
                 </td>
             </tr>
+            {% endfor %}
 
             </tbody>
         </table>
     </div>
 </div>
-{% for product in object_list %}
-<ul>
-    <a href="{{ product.get_absolute_url }}">{{product.product_name}}</a>
-</ul>
-{% endfor %}
 {% endblock %}

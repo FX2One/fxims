@@ -17,7 +17,7 @@
       "country": "UK",
       "home_phone": "(71) 555-5598",
       "extension": "465",
-      "photo": "example_photo.png",
+      "photo": "employee/default_photo.png",
       "notes": "Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan in 1992, the year he joined the company.  After completing a course entitled Selling in Europe, he was transferred to the London office in March 1993.",
       "reports_to": 3,
       "photo_path": "http://accweb/emmployees/davolio.bmp"
@@ -65,7 +65,7 @@
       "country": "USA",
       "home_phone": "(206) 555-9857",
       "extension": "5467",
-      "photo": "example_photo.jpg",
+      "photo": "employee/default_photo.png",
       "notes": "Education includes a BA in psychology from Colorado State University in 1970.  She also completed The Art of the Cold Call.  Nancy is a member of Toastmasters International.",
       "reports_to": 2,
       "photo_path": "http://accweb/emmployees/davolio.bmp"
