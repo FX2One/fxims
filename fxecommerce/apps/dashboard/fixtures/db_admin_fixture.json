@@ -1,6 +1,6 @@
 [
   {
-    "model": "users.customuser",
+    "model": "users.user",
     "pk": 1,
     "fields": {
       "email": "admin@admin.com",
@@ -8,7 +8,8 @@
       "last_login": null,
       "is_superuser": true,
       "is_staff": true,
-      "is_active": true
+      "is_active": true,
+      "user_type": 1
     }
   }
 ]
