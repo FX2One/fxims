@@ -5,7 +5,7 @@
                 Information
             </div>
             <div class="card-body">
-                    <h3 class="my-4">New Information</h3>
+                    <h4 class="my-4">New Information</h4>
             </div>
         </div>
     </div>
@@ -15,18 +15,17 @@
             <div class="card-header bg-info text-white">
                 Dashboard Statistics
             </div>
-            <div class="card-body">
-                <div class="col-md-3">
-                    <a class="text-decoration-none text-dark" href="{% url 'inventory:employee' %}">
-                    <div class="card my-card shadow">
-                        <div class="card-body text-center">
-                            <h4>Employees <i class="fas fa-users"></i></h4>
-                        </div>
-                    </div>
-                    </a>
-                </div>
                 <div class="row">
-                    <div class="col-md-3">
+                        <div class="col">
+                            <a class="text-decoration-none text-dark" href="{% url 'inventory:employee' %}">
+                                <div class="card my-card shadow">
+                                    <div class="card-body text-center">
+                                        <h4>Employees <i class="fas fa-users"></i></h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <div class="col">
                         <a class="text-decoration-none text-dark" href="{% url 'inventory:product_list' %}">
                             <div class="card my-card shadow">
                                 <div class="card-body text-center">
@@ -35,7 +34,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col">
                         <a class="text-decoration-none text-dark" href="{% url 'inventory:category' %}">
                             <div class="card my-card shadow">
                                 <div class="card-body text-center">
@@ -44,7 +43,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col">
                         <a class="text-decoration-none text-dark" href="{% url 'inventory:order' %}">
                             <div class="card my-card shadow">
                                 <div class="card-body text-center">

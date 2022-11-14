@@ -3,21 +3,23 @@
 Products
 {% endblock %}
 {% block content %}
+{% load crispy_forms_tags %}
 <div class="row my-4">
     <div class="col-md-4">
 
         <div class="alert alert-">
 
         </div>
-
-        <div class="card card-body">
+        <!-- <div class="card card-body">
             <h5>Add New Products</h5>
             <hr>
             <form method="POST">
-
+                {% csrf_token %}
+                {{ form|crispy }}
                 <input class="btn btn-success btn-block" type="submit" value="Add">
             </form>
         </div>
+        -->
     </div>
     <div class="col-md-">
         <table class="table bg-white">

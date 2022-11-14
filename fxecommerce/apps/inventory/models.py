@@ -180,6 +180,14 @@ class Employee(models.Model):
         blank=True,
     )
 
+    slug = models.SlugField(
+        null=False,
+        unique=True
+    )
+
+    def get_absolute_url(self):
+        return reverse('inventory:employee_detail', kwargs={'slug': self.slug})
+
     class Meta:
         db_table = 'employee'
         verbose_name_plural = _('Employees')
