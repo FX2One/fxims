@@ -20,7 +20,8 @@
       "photo": "employee/default_photo.png",
       "notes": "Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan in 1992, the year he joined the company.  After completing a course entitled Selling in Europe, he was transferred to the London office in March 1993.",
       "reports_to": 3,
-      "photo_path": "http://accweb/emmployees/davolio.bmp"
+      "photo_path": "http://accweb/emmployees/davolio.bmp",
+      "slug": "1a0d7e58f3ff404cb51809a629071831"
     }
   },
   {
@@ -44,7 +45,8 @@
       "photo": "",
       "notes": "Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.",
       "reports_to": null,
-      "photo_path": "http://accweb/emmployees/fuller.bmp"
+      "photo_path": "http://accweb/emmployees/fuller.bmp",
+      "slug": "1c45e7abde3244379a9ff4f5ca18636b"
     }
   },
   {
@@ -68,7 +70,8 @@
       "photo": "employee/default_photo.png",
       "notes": "Education includes a BA in psychology from Colorado State University in 1970.  She also completed The Art of the Cold Call.  Nancy is a member of Toastmasters International.",
       "reports_to": 2,
-      "photo_path": "http://accweb/emmployees/davolio.bmp"
+      "photo_path": "http://accweb/emmployees/davolio.bmp",
+      "slug": "45e2b9a9f1fe4da49eec395900fc80d2"
     }
   }
 ]

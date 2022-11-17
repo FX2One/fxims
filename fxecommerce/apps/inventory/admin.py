@@ -1,13 +1,20 @@
 from django.contrib import admin
-from .models import Category, Product, Supplier,Order,CustomerDemographics, Customer, Territory, Region, OrderDetails, Shipper, Employee
+from .models import (Category, Product, Supplier,
+                     Order, CustomerDemographics, Customer,
+                     Territory, Region, OrderDetails,
+                     Shipper, Employee)
 
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("product_name","product_id")
     prepopulated_fields = {"slug": ("product_name",)}
 
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ("first_name", "last_name", "employee_id")
+    prepopulated_fields = {"slug": ("first_name", "last_name",)}
+
 # Register your models here.
-admin.site.register(Employee)
+admin.site.register(Employee,EmployeeAdmin)
 admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Supplier)

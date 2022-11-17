@@ -15,40 +15,16 @@ Employees
         <table class="table bg-white">
             <thead class="bg-info text-white">
             <tr>
-                <th scope="col">ToC</th>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
-                <th scope="col">Title</th>
-                <th scope="col">Hire date</th>
-                <th scope="col">Country</th>
-                <th scope="col">Address</th>
-                <th scope="col">City</th>
-                <th scope="col">Region</th>
-                <th scope="col">Extension</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Reports to</th>
+                <th scope="col">Employee</th>
             </tr>
             </thead>
             <tbody>
             {% for e in object_list %}
-            <tr>
-                <td>{{ e.title_of_courtesy }}</td>
-                <td>{{ e.first_name }}</td>
-                <td>{{ e.last_name }}</td>
-                <td>{{ e.title }}</td>
-                <td>{{ e.hire_date }}</td>
-                <td>{{ e.country }}</td>
-                <td>{{ e.address }}</td>
-                <td>{{ e.city }}</td>
-                <td>{{ e.region }}</td>
-                <td>{{ e.extension}}</td>
-                <td>{{e.home_phone}}</td>
-                <td>{{ e.reports_to }}</td>
-
-            </tr>
+                <tr>
+                    <td><a class="text-decoration-none text-dark" href="{{ e.get_absolute_url }}">{{ e }}</a></td>
+                </tr>
             {% endfor %}
             </tbody>
-
         </table>
     </div>
 </div>

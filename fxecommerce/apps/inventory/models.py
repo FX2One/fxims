@@ -3,6 +3,8 @@
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
+from django.template.defaultfilters import slugify
+import uuid
 
 
 class Region(models.Model):
@@ -187,6 +189,13 @@ class Employee(models.Model):
 
     def get_absolute_url(self):
         return reverse('inventory:employee_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        generate_uuid = uuid.uuid4()
+        slug_uuid = generate_uuid.hex
+
+        self.slug = slugify(slug_uuid)
+        super(Employee, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'employee'
@@ -574,6 +583,13 @@ class Product(models.Model):
         null=False,
         unique=True
     )
+
+    def save(self, *args, **kwargs):
+        generate_uuid = uuid.uuid4()
+        slug_uuid = generate_uuid.hex
+
+        self.slug = slugify(slug_uuid)
+        super(Product, self).save(*args, **kwargs)
 
 
     def __str__(self):

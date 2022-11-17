@@ -9,7 +9,7 @@ class User(AbstractUser, PermissionsMixin):
     username = None
     email = models.EmailField(_('email address'), unique=True)
     is_active = models.BooleanField(_('active'), default=True)
-    is_staff = models.BooleanField(_('is_staff'), default=False)
+    is_staff = models.BooleanField(_('is_staff'), default=True)
     is_superuser = models.BooleanField(_('is_superuser'), default=False)
     user_type = models.PositiveSmallIntegerField(choices=const.USER_TYPE, default=2)
 

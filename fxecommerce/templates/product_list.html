@@ -20,6 +20,12 @@ Products
             </form>
         </div>
         -->
+        <div class="card card-body">
+            <td>
+                <a class="btn btn-info btn-sm mr-2"
+                   href="{% url 'inventory:product_new' %}">Add New Product</a>
+            </td>
+        </div>
     </div>
     <div class="col-md-">
         <table class="table bg-white">
@@ -51,9 +57,9 @@ Products
                 <td> {{ p.reorder_level }}</td>
                 <td>
                     <a class="btn btn-info btn-sm mr-2"
-                       href="">Edit</a>
+                       href="{% url 'inventory:product_edit' p.slug %}">Edit</a>
                     <a class="btn btn-danger btn-sm ml-2"
-                       href="">Delete</a>
+                       href="{% url 'inventory:product_delete' p.slug %}">Delete</a>
                 </td>
             </tr>
             {% endfor %}
