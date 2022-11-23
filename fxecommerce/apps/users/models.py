@@ -11,7 +11,8 @@ class User(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(_('active'), default=True)
     is_staff = models.BooleanField(_('is_staff'), default=False)
     is_superuser = models.BooleanField(_('is_superuser'), default=False)
-    user_type = models.PositiveSmallIntegerField(choices=const.USER_TYPE, default=2)
+    user_type = models.PositiveSmallIntegerField(choices=const.USER_TYPE, default=4)
+
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

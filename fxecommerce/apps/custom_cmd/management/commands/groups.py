@@ -1,9 +1,19 @@
 from django.core.management import BaseCommand
 from django.contrib.auth.models import Group, Permission
-from django.db import models
 import logging
 
 GROUPS = {
+    "ExtraStaff": {
+        "category": ["add", "view", "change"],
+        "customer": ["add", "view", "change"],
+        "employee": ["add", "view", "change"],
+        "order": ["add", "view", "change", "delete"],
+        "order details": ["change", "view"],
+        "product": ["add", "view", "change", "delete"],
+        "shipper": ["add", "view", "change"],
+        "supplier": ["add", "view", "change"],
+        "territory": ["add", "view", "change"],
+    },
     "Employee": {
         "category": ["add","view"],
         "customer": ["view"],

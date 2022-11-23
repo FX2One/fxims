@@ -1,11 +1,11 @@
 SUPERUSER = 1
-STAFF = 2
+EXTRASTAFF = 2
 EMPLOYEE = 3
 CUSTOMER = 4
 
 USER_TYPE = (
     (SUPERUSER, 'superuser'),
-    (STAFF, 'staff'),
+    (EXTRASTAFF, 'extra staff'),
     (EMPLOYEE, 'employee'),
     (CUSTOMER, 'customer')
 )

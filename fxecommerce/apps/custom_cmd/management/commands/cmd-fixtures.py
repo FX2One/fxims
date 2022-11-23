@@ -20,3 +20,4 @@ class Command(BaseCommand):
         call_command('loaddata', 'db_product_fixture.json')
         call_command('loaddata', 'db_order_fixture.json')
         call_command('loaddata', 'db_order_details_fixture.json')
+        call_command('groups')
