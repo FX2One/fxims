@@ -6,15 +6,21 @@ from .models import (Category, Product, Supplier,
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("product_name","product_id")
+    list_display = ("product_name", "product_id")
     prepopulated_fields = {"slug": ("product_name",)}
+    list_per_page = 20
+
+
+
 
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ("first_name", "last_name", "employee_id")
     prepopulated_fields = {"slug": ("first_name", "last_name",)}
+    list_per_page = 20
+
 
 # Register your models here.
-admin.site.register(Employee,EmployeeAdmin)
+admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Supplier)
@@ -25,7 +31,3 @@ admin.site.register(OrderDetails)
 admin.site.register(CustomerDemographics)
 admin.site.register(Territory)
 admin.site.register(Region)
-
-
-
-
