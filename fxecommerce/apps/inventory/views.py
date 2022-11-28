@@ -47,11 +47,10 @@ def order(request):
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = "product_list.html"
+    paginate_by = 2
 
-    '''def get_context_data(self, **kwargs):
-        context = super(ProductListView,self).get_context_data(**kwargs)
-        context['form'] = ProductForm()
-        return context'''
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginate_by", self.paginate_by)
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
@@ -76,7 +75,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('inventory:product_list')
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     fields = [
         'product_name',
@@ -93,7 +92,7 @@ class ProductUpdateView(UpdateView):
     template_name = 'product_edit.html'
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('inventory:product_list')
     template_name = 'product_delete.html'
