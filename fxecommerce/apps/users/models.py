@@ -5,6 +5,7 @@ from . import utils as const
 from .managers import CustomUserManager
 
 
+
 class User(AbstractUser, PermissionsMixin):
     username = None
     email = models.EmailField(_('email address'), unique=True)
