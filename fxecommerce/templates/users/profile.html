@@ -33,6 +33,14 @@ Profile Page
               <td>{{ user.last_name }}</td>
             </tr>
             <tr>
+              <th scope="row">created</th>
+              <td>{{ user.profile.created_at }}</td>
+            </tr>
+            <tr>
+              <th scope="row">customer_id</th>
+              <td>{{ user.customer.company_name}}</td>
+            </tr>
+            <tr>
               <th scope="row">Superuser</th>
               {% if user.is_superuser %}
               <td>True</td>
