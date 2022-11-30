@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "order_id": 10255,
-      "customer_id": "RICSU",
+      "customer_id": 2,
       "employee_id": 1,
       "order_date": "1996-07-12",
       "required_date": "1996-08-09",
@@ -24,7 +24,7 @@
     "pk": 2,
     "fields": {
       "order_id": 10269,
-      "customer_id": "WHITC",
+      "customer_id": 3,
       "employee_id": 2,
       "order_date": "1996-07-31",
       "required_date": "1996-08-14",
@@ -44,7 +44,7 @@
     "pk": 3,
     "fields": {
       "order_id": 10276,
-      "customer_id": "TORTU",
+      "customer_id": 4,
       "employee_id": 3,
       "order_date": "1996-07-12",
       "required_date": "1996-08-09",

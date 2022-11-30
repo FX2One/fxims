@@ -1,9 +1,9 @@
 [
   {
     "model": "inventory.customer",
-    "pk": 4,
+    "pk": 2,
     "fields": {
-      "customer_id": 4,
+      "customer_id": 2,
       "company_name": "Richter Supermarkt",
       "contact_name": "Michael Holz",
       "contact_title": "Sales Manager",
@@ -18,9 +18,9 @@
   },
   {
     "model": "inventory.customer",
-    "pk": 2,
+    "pk": 3,
     "fields": {
-      "customer_id": 2,
+      "customer_id": 3,
       "company_name": "White Clover Markets",
       "contact_name": "Karl Jablonski",
       "contact_title": "Owner",
@@ -35,9 +35,9 @@
   },
   {
     "model": "inventory.customer",
-    "pk": 2,
+    "pk": 4,
     "fields": {
-      "customer_id": "",
+      "customer_id": 4,
       "company_name": "Tortuga Restaurante",
       "contact_name": "Miguel Angel Paolino",
       "contact_title": "Owner",
