@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import (ProductListView, ProductDetailView,
                     ProductCreateView, ProductUpdateView, ProductDeleteView,
-                    EmployeeListView, EmployeeDetailView, CustomerCreateView)
+                    EmployeeListView, EmployeeDetailView)
 
 app_name = 'inventory'
 
@@ -16,8 +16,7 @@ urlpatterns = [
     path("products/create", ProductCreateView.as_view(), name="product_new"),
     path("products/<slug:slug>", ProductDetailView.as_view(), name="product_detail"),
     path("products/<slug:slug>/edit", ProductUpdateView.as_view(), name="product_edit"),
-    path("products/<slug:slug>/delete", ProductDeleteView.as_view(), name="product_delete"),
-    #path("customers/create", CustomerCreateView.as_view(), name="create_customer")
+    path("products/<slug:slug>/delete", ProductDeleteView.as_view(), name="product_delete")
 ]
 
 

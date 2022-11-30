@@ -37,24 +37,44 @@ Profile Page
               <td>{{ user.profile.created_at }}</td>
             </tr>
             <tr>
-              <th scope="row">customer_id</th>
-              <td>{{ user.customer.company_name}}</td>
+              <th scope="row">company name</th>
+              <td>{{ user.profile.company_name}}</td>
             </tr>
             <tr>
-              <th scope="row">Superuser</th>
-              {% if user.is_superuser %}
-              <td>True</td>
-              {% else %}
-              <td>False</td>
-              {% endif %}
+              <th scope="row">contact name</th>
+              <td>{{ user.profile.contact_name}}</td>
             </tr>
             <tr>
-              <th scope="row">Staff</th>
-              {% if user.is_staff %}
-              <td>True</td>
-              {% else %}
-              <td>False</td>
-              {% endif %}
+              <th scope="row">contact title</th>
+              <td>{{ user.profile.contact_title}}</td>
+            </tr>
+            <tr>
+              <th scope="row">address</th>
+              <td>{{ user.profile.address}}</td>
+            </tr>
+            <tr>
+              <th scope="row">city</th>
+              <td>{{ user.profile.city}}</td>
+            </tr>
+            <tr>
+              <th scope="row">region</th>
+              <td>{{ user.profile.region}}</td>
+            </tr>
+            <tr>
+              <th scope="row">postal code</th>
+              <td>{{ user.profile.postal_code}}</td>
+            </tr>
+            <tr>
+              <th scope="row">country</th>
+              <td>{{ user.profile.country}}</td>
+            </tr>
+            <tr>
+              <th scope="row">phone</th>
+              <td>{{ user.profile.phone}}</td>
+            </tr>
+            <tr>
+              <th scope="row">fax</th>
+              <td>{{ user.profile.fax}}</td>
             </tr>
             </tbody>
           </table>

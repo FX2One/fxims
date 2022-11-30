@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (Category, Product, Supplier,
-                     Order, CustomerDemographics, Customer,
+                     Order, CustomerDemographics,
                      Territory, Region, OrderDetails,
                      Shipper, Employee)
 
@@ -24,7 +24,7 @@ admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Supplier)
-admin.site.register(Customer)
+#admin.site.register(Customer)
 admin.site.register(Shipper)
 admin.site.register(Order)
 admin.site.register(OrderDetails)

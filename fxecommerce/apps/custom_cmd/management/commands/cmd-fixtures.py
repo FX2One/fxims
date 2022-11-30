@@ -14,7 +14,7 @@ class Command(BaseCommand):
         call_command('loaddata', 'db_employee_territories_fixture.json')
         call_command('loaddata', 'db_shipper_fixture.json')
         call_command('loaddata', 'db_customer_demo_fixture.json')
-        call_command('loaddata', 'db_customer_fixture.json')
+        #call_command('loaddata', 'db_customer_fixture.json')
         call_command('loaddata', 'db_customer_customer_demo_fixture.json')
         call_command('loaddata', 'db_category_fixture.json')
         call_command('loaddata', 'db_supplier_fixture.json')

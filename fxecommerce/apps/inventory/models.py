@@ -5,7 +5,7 @@ from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 import uuid
-from django.conf import settings
+
 
 class Region(models.Model):
     region_id = models.PositiveSmallIntegerField(
@@ -272,18 +272,18 @@ class CustomerDemographics(models.Model):
         return self.customer_type_id
 
 
-class Customer(models.Model):
+'''class Customer(models.Model):
     customer_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="customer",
     )
-    '''customer_id = models.CharField(
+    customer_id = models.CharField(
         verbose_name=_('Customer ID'),
         db_column='CustomerID',
         primary_key=True,
         max_length=5
-    )'''
+    )
 
     company_name = models.CharField(
         verbose_name=_('Company name'),
@@ -367,11 +367,11 @@ class Customer(models.Model):
         verbose_name_plural = _("Customers")
 
     def __str__(self):
-        return self.company_name
+        return self.company_name'''
 
 class CustomerCustomerDemo(models.Model):
     customer_id = models.ForeignKey(
-        Customer,
+        "users.UserProfile",
         db_column='CustomerID',
         on_delete=models.CASCADE
     )
@@ -616,7 +616,7 @@ class Order(models.Model):
         primary_key=True
     )
     customer_id = models.ForeignKey(
-        Customer,
+        "users.UserProfile",
         db_column='CustomerID',
         blank=True,
         null=True,
