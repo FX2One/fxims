@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Category, Product, Employee, Order, OrderDetails
+from .models import Category, Product, Employee, Order, OrderDetails, Customer
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -95,3 +95,10 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('inventory:product_list')
     template_name = 'product_delete.html'
+
+
+class CustomerCreateView(LoginRequiredMixin, CreateView):
+    model = Customer
+    fields = ['customer_id','company_name', 'contact_name', 'contact_title', 'address', 'city', 'region', 'postal_code', 'country', 'phone', 'fax']
+    template_name = 'customer_create.html'
+    success_url = reverse_lazy('inventory:home')
