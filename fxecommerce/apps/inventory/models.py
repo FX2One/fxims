@@ -273,10 +273,17 @@ class CustomerDemographics(models.Model):
 
 
 class Customer(models.Model):
-    customer_id = models.ForeignKey(
+    customer_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="customer",
     )
+    '''customer_id = models.CharField(
+        verbose_name=_('Customer ID'),
+        db_column='CustomerID',
+        primary_key=True,
+        max_length=5
+    )'''
 
     company_name = models.CharField(
         verbose_name=_('Company name'),
