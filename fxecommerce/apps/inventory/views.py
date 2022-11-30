@@ -99,6 +99,6 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 class CustomerCreateView(LoginRequiredMixin, CreateView):
     model = Customer
-    fields = ['customer_id','company_name', 'contact_name', 'contact_title', 'address', 'city', 'region', 'postal_code', 'country', 'phone', 'fax']
+    fields = ['customer_id''company_name', 'contact_name', 'contact_title', 'address', 'city', 'region', 'postal_code', 'country', 'phone', 'fax']
     template_name = 'customer_create.html'
     success_url = reverse_lazy('inventory:home')
