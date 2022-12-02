@@ -3,7 +3,7 @@
     "model": "inventory.customercustomerdemo",
     "pk": 1,
     "fields": {
-      "customer_id": "RICSU",
+      "customer_id": 2,
       "customer_type_id": "REG"
     }
   },
@@ -11,7 +11,7 @@
     "model": "inventory.customercustomerdemo",
     "pk": 2,
     "fields": {
-      "customer_id": "WHITC",
+      "customer_id": 3,
       "customer_type_id": "VIP"
     }
   },
@@ -19,7 +19,7 @@
     "model": "inventory.customercustomerdemo",
     "pk": 3,
     "fields": {
-      "customer_id": "TORTU",
+      "customer_id": 4,
       "customer_type_id": "REG"
     }
   }

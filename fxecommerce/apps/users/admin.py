@@ -3,13 +3,16 @@ from django.contrib.auth.admin import UserAdmin
 
 '''subclassed Forms'''
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import User
+from .models import User, UserProfile
 
-'''@admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):
-    pass'''
+class ProfileInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    verbose_name_plural = 'UserProfile'
+    fk_name = 'user'
 
 class CustomUserAdmin(UserAdmin):
+    inlines = (ProfileInline, )
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
@@ -28,6 +31,11 @@ class CustomUserAdmin(UserAdmin):
     )
     search_fields = ('email',)
     ordering = ('email',)
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
 
 admin.site.register(User, CustomUserAdmin)

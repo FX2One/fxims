@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product #Customer
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -15,3 +15,8 @@ class ProductForm(forms.ModelForm):
             'reorder_level',
             'discontinued'
         ]
+
+'''class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['company_name', 'contact_name', 'contact_title', 'address', 'city', 'region', 'postal_code', 'country', 'phone', 'fax']'''

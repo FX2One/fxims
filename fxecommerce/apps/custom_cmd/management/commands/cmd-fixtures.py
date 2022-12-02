@@ -7,13 +7,14 @@ class Command(BaseCommand):
         call_command("makemigrations")
         call_command("migrate")
         call_command('loaddata', 'db_admin_fixture.json') #basic admin creation admin@admin.com ,admin1
+        call_command('loaddata', 'db_user_fixture.json') #basic admin creation admin@admin.com ,admin1
         call_command('loaddata', 'db_region_fixture.json')
         call_command('loaddata', 'db_territory_fixture.json')
         call_command('loaddata', 'db_employee_fixture.json')
         call_command('loaddata', 'db_employee_territories_fixture.json')
         call_command('loaddata', 'db_shipper_fixture.json')
         call_command('loaddata', 'db_customer_demo_fixture.json')
-        call_command('loaddata', 'db_customer_fixture.json')
+        #call_command('loaddata', 'db_customer_fixture.json')
         call_command('loaddata', 'db_customer_customer_demo_fixture.json')
         call_command('loaddata', 'db_category_fixture.json')
         call_command('loaddata', 'db_supplier_fixture.json')

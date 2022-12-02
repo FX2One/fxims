@@ -1,0 +1,41 @@
+[
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "email": "ricsu@ricsu.com",
+      "password": "pbkdf2_sha256$260000$ZmxtiswheLufBy2OwcrxPs$ElytBxAJb1+eI5zw0XCf6OpfN+9FAfYuqC0DEP6NUWk=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "user_type": 3
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "email": "whitc@whitc.com",
+      "password": "pbkdf2_sha256$260000$ZmxtiswheLufBy2OwcrxPs$ElytBxAJb1+eI5zw0XCf6OpfN+9FAfYuqC0DEP6NUWk=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "user_type": 3
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "email": "tortu@tortu.com",
+      "password": "pbkdf2_sha256$260000$ZmxtiswheLufBy2OwcrxPs$ElytBxAJb1+eI5zw0XCf6OpfN+9FAfYuqC0DEP6NUWk=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "user_type": 3
+    }
+  }
+]
