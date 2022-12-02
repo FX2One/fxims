@@ -4,12 +4,12 @@
     "pk": 2,
     "fields": {
       "email": "ricsu@ricsu.com",
-      "password": "pbkdf2_sha256$260000$ZmxtiswheLufBy2OwcrxPs$ElytBxAJb1+eI5zw0XCf6OpfN+9FAfYuqC0DEP6NUWk=",
+      "password": "pbkdf2_sha256$260000$8cwKhLqJE8jLZikfbcTyvD$o4W9WqyadZURMq0to3UdU2To15/ZzHQ6RFTQVGhygKQ=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "user_type": 3
+      "user_type": 4
     }
   },
   {
@@ -17,12 +17,12 @@
     "pk": 3,
     "fields": {
       "email": "whitc@whitc.com",
-      "password": "pbkdf2_sha256$260000$ZmxtiswheLufBy2OwcrxPs$ElytBxAJb1+eI5zw0XCf6OpfN+9FAfYuqC0DEP6NUWk=",
+      "password": "pbkdf2_sha256$260000$agLOZdQFVJScYK8T4evLVc$t89wNK3e1sHDHWhQWiAfozeuKja2xcGmU0VtoAq61og=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "user_type": 3
+      "user_type": 4
     }
   },
   {
@@ -30,12 +30,12 @@
     "pk": 4,
     "fields": {
       "email": "tortu@tortu.com",
-      "password": "pbkdf2_sha256$260000$ZmxtiswheLufBy2OwcrxPs$ElytBxAJb1+eI5zw0XCf6OpfN+9FAfYuqC0DEP6NUWk=",
+      "password": "pbkdf2_sha256$260000$yvb4frdI3ggZJ0wUeX8vFM$OmwTxebS8zyJg9Y9e+ry2i2G54HbsS8nVx5+2zvIZTA=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "user_type": 3
+      "user_type": 4
     }
   }
 ]

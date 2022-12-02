@@ -1,9 +1,13 @@
 [
   {
-    "model": "inventory.customer",
+    "model": "users.userprofile",
     "pk": 2,
     "fields": {
-      "customer_id": 2,
+      "user": 2,
+      "created_at": "2022-12-02 14:22:52.562348",
+      "updated_at": "2022-12-02 14:22:52.562348",
+      "is_verified": true,
+      "image": "user_profile/default_photo.png",
       "company_name": "Richter Supermarkt",
       "contact_name": "Michael Holz",
       "contact_title": "Sales Manager",
@@ -17,10 +21,14 @@
     }
   },
   {
-    "model": "inventory.customer",
+    "model": "users.userprofile",
     "pk": 3,
     "fields": {
-      "customer_id": 3,
+      "user": 3,
+      "created_at": "2022-12-02 14:22:52.562348",
+      "updated_at": "2022-12-02 14:22:52.562348",
+      "is_verified": true,
+      "image": "user_profile/default_photo.png",
       "company_name": "White Clover Markets",
       "contact_name": "Karl Jablonski",
       "contact_title": "Owner",
@@ -34,10 +42,14 @@
     }
   },
   {
-    "model": "inventory.customer",
+    "model": "users.userprofile",
     "pk": 4,
     "fields": {
-      "customer_id": 4,
+      "user": 4,
+      "created_at": "2022-12-02 14:22:52.562348",
+      "updated_at": "2022-12-02 14:22:52.562348",
+      "is_verified": true,
+      "image": "user_profile/default_photo.png",
       "company_name": "Tortuga Restaurante",
       "contact_name": "Miguel Angel Paolino",
       "contact_title": "Owner",

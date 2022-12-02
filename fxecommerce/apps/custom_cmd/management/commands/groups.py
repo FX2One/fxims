@@ -5,7 +5,7 @@ import logging
 GROUPS = {
     "ExtraStaff": {
         "category": ["add", "view", "change"],
-        "customer": ["add", "view", "change"],
+        "user": ["add", "view", "change"],
         "employee": ["add", "view", "change"],
         "order": ["add", "view", "change", "delete"],
         "order details": ["change", "view"],
@@ -16,7 +16,7 @@ GROUPS = {
     },
     "Employee": {
         "category": ["add","view"],
-        "customer": ["view"],
+        "user": ["view"],
         "employee": ["view"],
         "order": ["add", "delete","change", "view"],
         "product": ["add", "delete", "change", "view"],
