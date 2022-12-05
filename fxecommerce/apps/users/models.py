@@ -30,47 +30,42 @@ class UserProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_verified = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='user_profile', default='user_profile/default_photo.png')
+    image = models.ImageField(upload_to='user_profile', default='user_profile/example_photo.png')
 
     company_name = models.CharField(
         verbose_name=_('Company name'),
         db_column='CompanyName',
         max_length=40,
         blank=False,
-        null=False,
-        default=""
+        null=False
     )
     contact_name = models.CharField(
         verbose_name=_('Contact name'),
         db_column='ContactName',
         max_length=30,
         blank=False,
-        null=False,
-        default=""
+        null=False
     )
     contact_title = models.CharField(
         verbose_name=_('Contact title'),
         db_column='ContactTitle',
         max_length=30,
         blank=False,
-        null=False,
-        default=""
+        null=False
     )
     address = models.CharField(
         verbose_name=_('Address'),
         db_column='Address',
         max_length=60,
         blank=False,
-        null=False,
-        default=""
+        null=False
     )
     city = models.CharField(
         verbose_name=_('City'),
         db_column='City',
         max_length=15,
         blank=False,
-        null=False,
-        default=""
+        null=False
     )
     region = models.CharField(
         verbose_name=_('Region'),
@@ -84,24 +79,21 @@ class UserProfile(models.Model):
         db_column='PostalCode',
         max_length=10,
         blank=False,
-        null=False,
-        default=""
+        null=False
     )
     country = models.CharField(
         verbose_name=_('Country'),
         db_column='Country',
         max_length=15,
         blank=False,
-        null=False,
-        default=""
+        null=False
     )
     phone = models.CharField(
         verbose_name=_('Phone'),
         db_column='Phone',
         max_length=24,
         blank=False,
-        null=False,
-        default=""
+        null=False
     )
     fax = models.CharField(
         verbose_name=_('Fax'),
@@ -114,7 +106,7 @@ class UserProfile(models.Model):
         "inventory.CustomerDemographics",
         verbose_name=_('CustomerCustomerDemos'),
         through='inventory.CustomerCustomerDemo',
-        blank=True,
+        blank=True
     )
 
     class Meta:
