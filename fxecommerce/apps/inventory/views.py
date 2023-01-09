@@ -48,9 +48,6 @@ class ProductListView(LoginRequiredMixin, ListView):
     template_name = "product_list.html"
     paginate_by = 2
 
-    def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginate_by", self.paginate_by)
-
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product

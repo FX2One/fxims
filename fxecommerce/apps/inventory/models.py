@@ -490,6 +490,7 @@ class Product(models.Model):
         unique=True
     )
 
+
     def save(self, *args, **kwargs):
         generate_uuid = uuid.uuid4()
         slug_uuid = generate_uuid.hex
@@ -503,6 +504,8 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('inventory:product_detail', kwargs={'slug': self.slug})
+
+    objects = ProductManager()
 
     class Meta:
         db_table = 'product'

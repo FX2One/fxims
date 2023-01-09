@@ -6,7 +6,8 @@ class EmployeeManager(models.Manager):
 
 
 class ProductManager(models.Manager):
-    pass
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginate_by", self.paginate_by)
 
 
 class CategoryManager(models.Manager):
