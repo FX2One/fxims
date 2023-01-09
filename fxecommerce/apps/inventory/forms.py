@@ -20,3 +20,6 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['company_name', 'contact_name', 'contact_title', 'address', 'city', 'region', 'postal_code', 'country', 'phone', 'fax']'''
+
+class SearchForm(forms.Form):
+    query = forms.CharField(label='Search')
