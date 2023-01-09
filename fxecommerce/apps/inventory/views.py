@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Category, Product, Employee, Order, OrderDetails #Customer
+from .models import Category, Product, Employee, Order, OrderDetails
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+
 
 
 def home(request):
@@ -14,6 +16,12 @@ def home(request):
 class EmployeeListView(LoginRequiredMixin, ListView):
     model = Employee
     template_name = "employees.html"
+    context_object_name = 'search_results'
+
+    def get_queryset(self):
+        search_query = self.request.GET.get('q')
+        return Employee.objects.search(search_query)
+
 
 class EmployeeDetailView(LoginRequiredMixin, DetailView):
     model = Employee

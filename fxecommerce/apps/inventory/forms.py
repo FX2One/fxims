@@ -16,7 +16,4 @@ class ProductForm(forms.ModelForm):
             'discontinued'
         ]
 
-'''class CustomerForm(forms.ModelForm):
-    class Meta:
-        model = Customer
-        fields = ['company_name', 'contact_name', 'contact_title', 'address', 'city', 'region', 'postal_code', 'country', 'phone', 'fax']'''
+

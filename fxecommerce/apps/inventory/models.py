@@ -187,6 +187,8 @@ class Employee(models.Model):
         unique=True
     )
 
+    objects = EmployeeManager()
+
     def get_absolute_url(self):
         return reverse('inventory:employee_detail', kwargs={'slug': self.slug})
 
