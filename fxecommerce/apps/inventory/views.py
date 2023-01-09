@@ -5,6 +5,8 @@ from .models import Category, Product, Employee, Order, OrderDetails #Customer
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from .forms import SearchForm
 
 
 def home(request):
@@ -93,3 +95,13 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('inventory:product_list')
     template_name = 'product_delete.html'
 
+@login_required
+def search(request):
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        results = Employee.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+        #results = Employee.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+        #results = Employee.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+        return render(request, 'search_results.html', {'form': form, 'results': results})
+    return render(request, 'search.html', {'form': form})
