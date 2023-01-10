@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Category, Product, Employee, Order, OrderDetails #Customer
+from .models import Category, Product, Employee, Order, OrderDetails
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from .forms import SearchForm
+
 
 
 def home(request):
@@ -16,6 +16,12 @@ def home(request):
 class EmployeeListView(LoginRequiredMixin, ListView):
     model = Employee
     template_name = "employees.html"
+    context_object_name = 'search_results'
+
+    def get_queryset(self):
+        search_query = self.request.GET.get('q')
+        return Employee.objects.search(search_query)
+
 
 class EmployeeDetailView(LoginRequiredMixin, DetailView):
     model = Employee
@@ -95,13 +101,3 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('inventory:product_list')
     template_name = 'product_delete.html'
 
-@login_required
-def search(request):
-    form = SearchForm(request.GET)
-    if form.is_valid():
-        query = form.cleaned_data['query']
-        results = Employee.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
-        #results = Employee.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
-        #results = Employee.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
-        return render(request, 'search_results.html', {'form': form, 'results': results})
-    return render(request, 'search.html', {'form': form})
