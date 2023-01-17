@@ -4,7 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
-from .managers import EmployeeManager, ProductManager, CategoryManager, OrderManager
+from .managers import EmployeeManager, ProductManager, CategoryManager, OrderDetailsManager
+import uuid
 
 
 class Region(models.Model):
@@ -153,7 +154,8 @@ class Employee(models.Model):
     photo = models.ImageField(
         verbose_name=_('Photo'),
         db_column='Photo',
-        blank=True
+        blank=True,
+        upload_to='employee/'
     )
     notes = models.TextField(
         verbose_name=_('Notes'),
@@ -189,15 +191,17 @@ class Employee(models.Model):
 
     objects = EmployeeManager()
 
+
     def get_absolute_url(self):
         return reverse('inventory:employee_detail', kwargs={'slug': self.slug})
+
 
     def save(self, *args, **kwargs):
         generate_uuid = uuid.uuid4()
         slug_uuid = generate_uuid.hex
-
         self.slug = slugify(slug_uuid)
         super(Employee, self).save(*args, **kwargs)
+
 
     class Meta:
         db_table = 'employee'
@@ -314,6 +318,7 @@ class Category(models.Model):
         verbose_name=_('Image'),
         db_column='Image',
         blank=True,
+        upload_to='category/'
     )
 
     class Meta:
@@ -492,7 +497,6 @@ class Product(models.Model):
         unique=True
     )
 
-
     def save(self, *args, **kwargs):
         generate_uuid = uuid.uuid4()
         slug_uuid = generate_uuid.hex
@@ -655,6 +659,8 @@ class OrderDetails(models.Model):
         verbose_name=_('Discount'),
         db_column='Discount'
     )
+
+    objects = OrderDetailsManager()
 
     class Meta:
         db_table = 'order_details'
