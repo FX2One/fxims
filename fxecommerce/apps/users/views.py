@@ -37,5 +37,8 @@ def profile_update(request):
     else:
         user_form = CustomUserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
-
-    return render(request, 'users/profile_update.html', {'user_form': user_form, 'profile_form': profile_form})
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form
+    }
+    return render(request, 'users/profile_update.html', context)

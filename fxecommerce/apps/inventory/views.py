@@ -17,6 +17,7 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     model = Employee
     template_name = "employees.html"
     context_object_name = 'search_results'
+    paginate_by = 10
 
     def get_queryset(self):
         search_query = self.request.GET.get('q')
@@ -28,33 +29,30 @@ class EmployeeDetailView(LoginRequiredMixin, DetailView):
     template_name = "employee_detail.html"
 
 
-
-@login_required
-def category(request):
-    category = Category.objects.all()
-    context = {
-        'category': category
-    }
-    return render(request, "categories.html", context)
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = "categories.html"
+    paginate_by = 10
 
 
-@login_required
-def order(request):
-    order = Order.objects.all()
-    product = Product.objects.all()
-    order_details = OrderDetails.objects.all()
-    context = {
-        'order': order,
-        'product': product,
-        'order_details': order_details
-    }
-    return render(request, "orders.html", context)
+class OrderDetailsListView(LoginRequiredMixin, ListView):
+    model = OrderDetails
+    template_name = "orders.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        search_query = self.request.GET.get('q')
+        return OrderDetails.objects.search(search_query)
 
 
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = "product_list.html"
-    paginate_by = 2
+    paginate_by = 10
+
+    def get_queryset(self):
+        search_query = self.request.GET.get('q')
+        return Product.objects.search(search_query)
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):

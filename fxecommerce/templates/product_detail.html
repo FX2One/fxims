@@ -1,8 +1,49 @@
 {% extends 'base.html' %}
-{% block content %}
 {% block title %}
-{{ object.product_name }}
+Products
 {% endblock %}
-  <h2>{{ object.product_name }}</h2>
-  <p>{{ object.unit_price }} $</p>
-{% endblock %}}
+{% block content %}
+<div class="row my-4">
+  <div class="col-md-4">
+
+    <div class="alert alert-">
+
+    </div>
+  </div>
+  <div class="col-md-8">
+    <table class="table bg-white">
+      <thead class="bg-info text-white">
+      <tr>
+        <th scope="col">Product ID</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Supplier ID</th>
+        <th scope="col">Category ID</th>
+        <th scope="col">quantity_per_unit</th>
+        <th scope="col">unit_price</th>
+        <th scope="col">units_in_stock</th>
+        <th scope="col">units_on_order</th>
+        <th scope="col">reorder_level</th>
+        <th scope="col">discontinued</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr>
+        <td>{{ object.product_id }}</td>
+        <td>{{ object.product_name }}</td>
+        <td>{{ object.supplier_id }}</td>
+        <td>{{ object.category_id }}</td>
+        <td>{{ object.quantity_per_unit }}</td>
+        <td>{{ object.unit_price }}</td>
+        <td>{{ object.units_in_stock }}</td>
+        <td>{{ object.units_on_order }}</td>
+        <td>{{ object.reorder_level }}</td>
+        <td>{{  object.discontinued }}</td>
+      </tr>
+
+      </tbody>
+
+    </table>
+  </div>
+</div>
+{% endblock %}
