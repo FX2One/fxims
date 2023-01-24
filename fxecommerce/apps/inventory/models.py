@@ -206,6 +206,7 @@ class Employee(models.Model):
     class Meta:
         db_table = 'employee'
         verbose_name_plural = _('Employees')
+        ordering = ['first_name']
 
     def __str__(self):
         return f'{self.title_of_courtesy} {self.first_name} {self.last_name}'
@@ -516,6 +517,7 @@ class Product(models.Model):
     class Meta:
         db_table = 'product'
         verbose_name_plural = _("Products")
+        ordering = ['product_name']
 
 
 class Order(models.Model):
@@ -665,6 +667,7 @@ class OrderDetails(models.Model):
     class Meta:
         db_table = 'order_details'
         verbose_name_plural = _('Order details')
+        ordering = ['order_id']
 
     def __str__(self):
         return f'{str(self.order_id)} for {str(self.product_id)}'

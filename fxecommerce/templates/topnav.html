@@ -9,7 +9,8 @@
             </div>
         </div>
     </div>
-    {% if user.is_authenticated and user.is_staff %}
+    {% if user.is_authenticated %}
+    <!-- user.is_staff -->
     <div class="col-md-8 mt-4">
         <div class="card">
             <div class="card-header bg-info text-white">

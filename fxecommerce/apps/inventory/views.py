@@ -4,10 +4,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Category, Product, Employee, Order, OrderDetails
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import Group
 from django.db.models import Q
-
-
+from django.http import HttpResponseForbidden
 
 def home(request):
     return render(request, "index.html")
@@ -22,7 +22,6 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return Employee.objects.search(search_query)
-
 
 class EmployeeDetailView(LoginRequiredMixin, DetailView):
     model = Employee
@@ -45,14 +44,28 @@ class OrderDetailsListView(LoginRequiredMixin, ListView):
         return OrderDetails.objects.search(search_query)
 
 
-class ProductListView(LoginRequiredMixin, ListView):
+class ProductListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
     model = Product
     template_name = "product_list.html"
     paginate_by = 10
 
+    group_required = ['Employee']
+
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return Product.objects.search(search_query)
+
+    '''def test_func(self):
+        user = self.request.user
+        return user.user_type == 3'''
+
+    def test_func(self):
+        user = self.request.user
+        return user.groups.filter(name__in=self.group_required).exists()
+
+    def handle_no_permission(self):
+        # The code to run if the test_func fails
+        return HttpResponseForbidden('error')
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
