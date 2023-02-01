@@ -12,37 +12,48 @@ Products
   </div>
   <div class="col-md-8">
     <table class="table bg-white">
-      <thead class="bg-info text-white">
-      <tr>
-        <th scope="col">Product ID</th>
-        <th scope="col">Product Name</th>
-        <th scope="col">Supplier ID</th>
-        <th scope="col">Category ID</th>
-        <th scope="col">quantity_per_unit</th>
-        <th scope="col">unit_price</th>
-        <th scope="col">units_in_stock</th>
-        <th scope="col">units_on_order</th>
-        <th scope="col">reorder_level</th>
-        <th scope="col">discontinued</th>
-      </tr>
-      </thead>
       <tbody>
-
       <tr>
+        <td>Product ID</td>
         <td>{{ object.product_id }}</td>
+      </tr>
+      <tr>
+        <td>Product Name</td>
         <td>{{ object.product_name }}</td>
+      </tr>
+      <tr>
+        <td>Supplier ID</td>
         <td>{{ object.supplier_id }}</td>
+      </tr>
+      <tr>
+        <td>Category ID</td>
         <td>{{ object.category_id }}</td>
+      </tr>
+      <tr>
+        <td>quantity_per_unit</td>
         <td>{{ object.quantity_per_unit }}</td>
+      </tr>
+      <tr>
+        <td>unit_price</td>
         <td>{{ object.unit_price }}</td>
+      </tr>
+      <tr>
+        <td>units_in_stock</td>
         <td>{{ object.units_in_stock }}</td>
+      </tr>
+      <tr>
+        <td>units_on_order</td>
         <td>{{ object.units_on_order }}</td>
+      </tr>
+      <tr>
+        <td>reorder_level</td>
         <td>{{ object.reorder_level }}</td>
+      </tr>
+      <tr>
+        <td>discontinued</td>
         <td>{{  object.discontinued }}</td>
       </tr>
-
       </tbody>
-
     </table>
   </div>
 </div>
