@@ -30,7 +30,11 @@ Orders
 
             {% for o in object_list %}
             <tr>
-                <td>{{ o.order_id.order_id }}</td>
+                <td>
+                    <a class="text-decoration-none text-dark" href="{{ o.get_absolute_url }}">
+                        <span>{{ o.order_id.order_id }}</span>
+                    </a>
+                </td>
                 <td>{{ o.product_id.category_id }}</td>
                 <td>{{ o.product_id.product_name }}</td>
                 <td>{{ o.quantity }}</td>

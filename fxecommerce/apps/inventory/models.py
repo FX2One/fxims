@@ -664,6 +664,9 @@ class OrderDetails(models.Model):
 
     objects = OrderDetailsManager()
 
+    def get_absolute_url(self):
+        return reverse('inventory:order_detail', args=[str(self.order_id.order_id)])
+
     class Meta:
         db_table = 'order_details'
         verbose_name_plural = _('Order details')

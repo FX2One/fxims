@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+Order Details
+{% endblock %}
+{% block content %}
+<div class="row my-4">
+  <div class="col-md-4">
+
+    <div class="alert alert-">
+
+    </div>
+  </div>
+  <div class="col-md-8">
+    <table class="table bg-white">
+      <tbody>
+      <tr>
+        <td>Order ID</td>
+        <td>{{ object.order_id }}</td>
+      </tr>
+      <tr>
+        <td>Customer ID</td>
+        <td>{{ object.customer_id }}</td>
+      </tr>
+      <tr>
+        <td>Employee ID</td>
+        <td>{{ object.employee_id }}</td>
+      </tr>
+      <tr>
+        <td>Order Date</td>
+        <td>{{ object.order_date }}</td>
+      </tr>
+      <tr>
+        <td>Required Date</td>
+        <td>{{ object.required_date }}</td>
+      </tr>
+      <tr>
+        <td>Shipped Date</td>
+        <td>{{ object.shipped_date }}</td>
+      </tr>
+      <tr>
+        <td>Ship Via</td>
+        <td>{{ object.ship_via }}</td>
+      </tr>
+      <tr>
+        <td>Freight</td>
+        <td>{{ object.freight }}</td>
+      </tr>
+      <tr>
+        <td>Ship Name</td>
+        <td>{{ object.ship_name }}</td>
+      </tr>
+      <tr>
+        <td>Ship Address</td>
+        <td>{{ object.ship_address }}</td>
+      </tr>
+      <tr>
+        <td>Ship City</td>
+        <td>{{ object.ship_city }}</td>
+      </tr>
+      <tr>
+        <td>Ship Region</td>
+        <td>{{ object.ship_region }}</td>
+      </tr>
+      <tr>
+        <td>Ship Postal Code</td>
+        <td>{{ object.ship_postal_code }}</td>
+      </tr>
+      <tr>
+        <td>Ship Country</td>
+        <td>{{ object.ship_country }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

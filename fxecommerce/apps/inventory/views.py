@@ -1,79 +1,87 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Category, Product, Employee, Order, OrderDetails
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import Group
-from django.db.models import Q
-from django.http import HttpResponseForbidden
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .mixins import GroupRequiredMixin
+
 
 def home(request):
     return render(request, "index.html")
 
 
-class EmployeeListView(LoginRequiredMixin, ListView):
+class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Employee
     template_name = "employees.html"
     context_object_name = 'search_results'
     paginate_by = 10
+    group_required = ['ExtraStaff', 'Employee']
 
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return Employee.objects.search(search_query)
 
-class EmployeeDetailView(LoginRequiredMixin, DetailView):
+
+class EmployeeDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
     model = Employee
     template_name = "employee_detail.html"
+    group_required = ['ExtraStaff', 'Employee']
 
 
-class CategoryListView(LoginRequiredMixin, ListView):
+class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Category
     template_name = "categories.html"
     paginate_by = 10
+    group_required = ['ExtraStaff', 'Employee', 'Customer']
+
+class CategoryCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    model = Category
+    fields = [
+        'category_name',
+        'description',
+        'image',
+    ]
+    template_name = 'category_create.html'
+    success_url = reverse_lazy('inventory:category')
+    group_required = ['ExtraStaff', 'Employee']
 
 
-class OrderDetailsListView(LoginRequiredMixin, ListView):
+class OrderDetailsListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = OrderDetails
     template_name = "orders.html"
     paginate_by = 10
+    group_required = ['ExtraStaff', 'Employee', 'Customer']
 
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return OrderDetails.objects.search(search_query)
 
 
-class ProductListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
+class OrderSpecificationView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
+    model = Order
+    template_name = "order_specification.html"
+    group_required = ['ExtraStaff', 'Employee']
+
+
+class ProductListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Product
     template_name = "product_list.html"
     paginate_by = 10
-
-    group_required = ['Employee']
+    group_required = ['ExtraStaff', 'Employee', 'Customer']
 
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return Product.objects.search(search_query)
 
-    '''def test_func(self):
-        user = self.request.user
-        return user.user_type == 3'''
 
-    def test_func(self):
-        user = self.request.user
-        return user.groups.filter(name__in=self.group_required).exists()
-
-    def handle_no_permission(self):
-        # The code to run if the test_func fails
-        return HttpResponseForbidden('error')
-
-
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class ProductDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
     model = Product
     template_name = "product_detail.html"
+    group_required = ['ExtraStaff', 'Employee']
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     model = Product
     fields = [
         'product_name',
@@ -88,9 +96,10 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     ]
     template_name = 'product_create.html'
     success_url = reverse_lazy('inventory:product_list')
+    group_required = ['ExtraStaff', 'Employee']
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Product
     fields = [
         'product_name',
@@ -105,10 +114,11 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     ]
     success_url = reverse_lazy('inventory:product_list')
     template_name = 'product_edit.html'
+    group_required = ['ExtraStaff', 'Employee']
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('inventory:product_list')
     template_name = 'product_delete.html'
-
+    group_required = ['ExtraStaff', 'Employee']
