@@ -35,6 +35,17 @@ class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     paginate_by = 10
     group_required = ['ExtraStaff', 'Employee', 'Customer']
 
+class CategoryCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    model = Category
+    fields = [
+        'category_name',
+        'description',
+        'image',
+    ]
+    template_name = 'category_create.html'
+    success_url = reverse_lazy('inventory:category')
+    group_required = ['ExtraStaff', 'Employee']
+
 
 class OrderDetailsListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = OrderDetails
@@ -85,7 +96,7 @@ class ProductCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     ]
     template_name = 'product_create.html'
     success_url = reverse_lazy('inventory:product_list')
-    group_required = ['ExtraStaff']
+    group_required = ['ExtraStaff', 'Employee']
 
 
 class ProductUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
@@ -103,11 +114,11 @@ class ProductUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     ]
     success_url = reverse_lazy('inventory:product_list')
     template_name = 'product_edit.html'
-    group_required = ['ExtraStaff']
+    group_required = ['ExtraStaff', 'Employee']
 
 
 class ProductDeleteView(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('inventory:product_list')
     template_name = 'product_delete.html'
-    group_required = ['ExtraStaff']
+    group_required = ['ExtraStaff', 'Employee']
