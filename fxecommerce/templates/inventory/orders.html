@@ -36,8 +36,13 @@ Orders
                     </a>
                 </td>
                 <td>{{ o.product_id.category_id }}</td>
-                <td>{{ o.product_id.product_name }}</td>
+                <td>
+                    <a class="text-decoration-none text-dark" href="{{ o.product_id.get_absolute_url }}">
+                        <span>{{ o.product_id.product_name }}</span>
+                    </a>
+                </td>
                 <td>{{ o.quantity }}</td>
+                <!-- link guard by permission group to impletement later -->
                 <td>{{ o.order_id.customer_id}}</td>
             </tr>
             {% endfor %}

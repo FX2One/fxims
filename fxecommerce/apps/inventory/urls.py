@@ -3,12 +3,12 @@ from . import views
 from .views import (ProductListView, ProductDetailView,
                     ProductCreateView, ProductUpdateView, ProductDeleteView,
                     EmployeeListView, EmployeeDetailView, OrderDetailsListView,
-                    OrderSpecificationView, CategoryListView, CategoryCreateView)
+                    OrderSpecificationView, CategoryListView, CategoryCreateView, HomeView)
 
 app_name = 'inventory'
 
 urlpatterns = [
-    path("", views.home, name='home'),
+    path("", HomeView.as_view(), name='home'),
     path("employee/", EmployeeListView.as_view(), name="employee"),
     path("employee/<slug:slug>", EmployeeDetailView.as_view(),name="employee_detail"),
     path("category/", CategoryListView.as_view(), name="category"),
