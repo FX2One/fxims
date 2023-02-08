@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
-from .managers import EmployeeManager, ProductManager, CategoryManager, OrderDetailsManager
+from .managers import  ProductManager, CategoryManager, OrderDetailsManager
 import uuid
 
 
@@ -54,166 +54,11 @@ class Territory(models.Model):
         return self.territory_description
 
 
-class Employee(models.Model):
-    employee_id = models.AutoField(
-        verbose_name=_('Employee id'),
-        db_column='EmployeeID',
-        primary_key=True,
-    )
-    last_name = models.CharField(
-        verbose_name=_('Last name'),
-        db_column='LastName',
-        max_length=20,
-        blank=False,
-        null=False,
-        db_index=True
-    )
-    first_name = models.CharField(
-        verbose_name=_('First name'),
-        db_column='FirstName',
-        max_length=10,
-        blank=False,
-        null=False
-    )
-    title = models.CharField(
-        verbose_name=_('title'),
-        db_column='Title',
-        max_length=30,
-        blank=False,
-        null=False
-    )
-    title_of_courtesy = models.CharField(
-        verbose_name=_('Title of Courtesy'),
-        db_column='TitleOfCourtesy',
-        max_length=25,
-        blank=True,
-        null=False
-    )
-    birth_date = models.DateField(
-        verbose_name=_('Birth date'),
-        db_column='BirthDate',
-        blank=True,
-        null=True
-    )
-    hire_date = models.DateField(
-        verbose_name=_('Hire date'),
-        db_column='HireDate',
-        blank=True,
-        null=True
-    )
-    address = models.CharField(
-        verbose_name=_('address'),
-        db_column='Address',
-        max_length=60,
-        blank=False,
-        null=False
-    )
-    city = models.CharField(
-        verbose_name=_('City'),
-        db_column='City',
-        max_length=15,
-        blank=False,
-        null=False
-    )
-    region = models.CharField(
-        verbose_name=_('Region'),
-        db_column='Region',
-        max_length=15,
-        blank=True,
-        null=True
-    )
-    postal_code = models.CharField(
-        verbose_name=_('Postal code'),
-        db_column='PostalCode',
-        max_length=10,
-        blank=False,
-        null=False,
-        db_index=True
-    )
-    country = models.CharField(
-        verbose_name=_('Country'),
-        db_column='Country',
-        max_length=15,
-        blank=False,
-        null=False
-    )
-    home_phone = models.CharField(
-        verbose_name=_('Home phone'),
-        db_column='HomePhone',
-        max_length=24,
-        blank=False,
-        null=False
-    )
-    extension = models.CharField(
-        verbose_name=_('Extension'),
-        db_column='Extension',
-        max_length=4,
-        blank=False,
-        null=False
-    )
-    photo = models.ImageField(
-        verbose_name=_('Photo'),
-        db_column='Photo',
-        blank=True,
-        upload_to='employee/'
-    )
-    notes = models.TextField(
-        verbose_name=_('Notes'),
-        db_column='Notes',
-        blank=True,
-        null=False
-    )
-    reports_to = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True,
-        db_column='ReportsTo',
-        on_delete=models.PROTECT,
-    )
-    photo_path = models.CharField(
-        verbose_name=_('Photo path'),
-        db_column='PhotoPath',
-        max_length=255,
-        blank=True,
-        null=False
-    )
-    territories = models.ManyToManyField(
-        Territory,
-        verbose_name=_('Territories'),
-        through='EmployeeTerritory',
-        blank=True,
-    )
 
-    slug = models.SlugField(
-        null=False,
-        unique=True
-    )
-
-    objects = EmployeeManager()
-
-
-    def get_absolute_url(self):
-        return reverse('inventory:employee_detail', kwargs={'slug': self.slug})
-
-
-    def save(self, *args, **kwargs):
-        generate_uuid = uuid.uuid4()
-        slug_uuid = generate_uuid.hex
-        self.slug = slugify(slug_uuid)
-        super(Employee, self).save(*args, **kwargs)
-
-
-    class Meta:
-        db_table = 'employee'
-        verbose_name_plural = _('Employees')
-        ordering = ['first_name']
-
-    def __str__(self):
-        return f'{self.title_of_courtesy} {self.first_name} {self.last_name}'
 
 class EmployeeTerritory(models.Model):
     employee_id = models.ForeignKey(
-        Employee,
+        'users.Employee',
         db_column='EmployeeID',
         on_delete=models.CASCADE
     )
@@ -278,7 +123,7 @@ class CustomerDemographics(models.Model):
 
 class CustomerCustomerDemo(models.Model):
     customer_id = models.ForeignKey(
-        "users.UserProfile",
+        "users.Customer",
         db_column='CustomerID',
         on_delete=models.CASCADE
     )
@@ -527,7 +372,7 @@ class Order(models.Model):
         primary_key=True
     )
     customer_id = models.ForeignKey(
-        "users.UserProfile",
+        "users.Customer",
         db_column='CustomerID',
         blank=True,
         null=True,
@@ -535,7 +380,7 @@ class Order(models.Model):
         on_delete=models.CASCADE,
     )
     employee_id = models.ForeignKey(
-        Employee,
+        'users.Employee',
         db_column='EmployeeID',
         blank=True,
         null=True,
