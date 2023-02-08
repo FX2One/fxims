@@ -3,12 +3,12 @@ from django.contrib.auth.admin import UserAdmin
 
 '''subclassed Forms'''
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import User, UserProfile
+from .models import User, Customer, Employee
 
 class ProfileInline(admin.StackedInline):
-    model = UserProfile
+    model = Customer
     can_delete = False
-    verbose_name_plural = 'UserProfile'
+    verbose_name_plural = 'Customer'
     fk_name = 'user'
 
 class CustomUserAdmin(UserAdmin):
@@ -37,7 +37,15 @@ class CustomUserAdmin(UserAdmin):
             return list()
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ("first_name", "last_name", "user_id")
+    #list_display = ("first_name", "last_name", "employee_id")
+    prepopulated_fields = {"slug": ("first_name", "last_name",)}
+    list_per_page = 20
+
 
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Employee, EmployeeAdmin)
+admin.site.register(Customer)
 
 
