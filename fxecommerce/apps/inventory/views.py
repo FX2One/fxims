@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Category, Product, Employee, Order, OrderDetails
+from .models import Category, Product, Order, OrderDetails
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import GroupRequiredMixin
@@ -11,7 +11,7 @@ class HomeView(TemplateView):
     template_name = "index.html"
 
 
-class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
+'''class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Employee
     template_name = "inventory/employees.html"
     context_object_name = 'search_results'
@@ -26,7 +26,7 @@ class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
 class EmployeeDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
     model = Employee
     template_name = "inventory/employee_detail.html"
-    group_required = ['ExtraStaff', 'Employee']
+    group_required = ['ExtraStaff', 'Employee']'''
 
 
 class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
