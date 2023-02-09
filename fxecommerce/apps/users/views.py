@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import CustomUserCreationForm, CustomUserUpdateForm, ProfileUpdateForm
+from .forms import CustomUserCreationForm, CustomUserUpdateForm, CustomerUpdateForm, EmployeeUpdateForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -28,7 +28,7 @@ def profile(request):
 def profile_update(request):
     if request.method == 'POST':
         user_form = CustomUserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        profile_form = CustomerUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -36,7 +36,7 @@ def profile_update(request):
             return redirect('users:profile')
     else:
         user_form = CustomUserUpdateForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        profile_form = CustomerUpdateForm(instance=request.user.profile)
     context = {
         'user_form': user_form,
         'profile_form': profile_form
