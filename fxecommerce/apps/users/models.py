@@ -198,7 +198,7 @@ class Customer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_verified = models.BooleanField(default=False)
     image = models.ImageField(upload_to='user_profile', default='user_profile/customer/example_photo.png')
-    #employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='customer_emp')
+    employee = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, related_name='customer_emp')
 
     '''customer_id = models.UUIDField(
         verbose_name=_('Customer id'),
