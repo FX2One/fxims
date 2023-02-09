@@ -5,19 +5,26 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User, Customer, Employee
 
-class ProfileInline(admin.StackedInline):
+class CustomerProfileInline(admin.StackedInline):
     model = Customer
     can_delete = False
     verbose_name_plural = 'Customer'
     fk_name = 'user'
 
+class EmployeeProfileInline(admin.StackedInline):
+    model = Employee
+    can_delete = False
+    verbose_name_plural = 'Employee'
+    fk_name = 'user'
+
 class CustomUserAdmin(UserAdmin):
-    inlines = (ProfileInline, )
+    inlines = (CustomerProfileInline, EmployeeProfileInline)
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
     list_display = ('email', 'is_staff', 'is_active', 'is_superuser')
     list_filter = ('email', 'is_staff', 'is_active', 'is_superuser', 'user_type')
+
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
@@ -35,6 +42,13 @@ class CustomUserAdmin(UserAdmin):
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()
+
+        user_type = obj.user_type
+        if user_type == 4:
+            return [CustomerProfileInline(self.model, self.admin_site)]
+        elif user_type == 1:
+            return [EmployeeProfileInline(self.model, self.admin_site)]
+
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
 class EmployeeAdmin(admin.ModelAdmin):
