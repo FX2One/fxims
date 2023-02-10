@@ -7,12 +7,10 @@ from .views import (ProductListView, ProductDetailView,
 
 app_name = 'inventory'
 
-#EmployeeListView, EmployeeDetailView,
 
 urlpatterns = [
     path("", HomeView.as_view(), name='home'),
-    #path("employee/", EmployeeListView.as_view(), name="employee"),
-    #path("employee/<slug:slug>", EmployeeDetailView.as_view(),name="employee_detail"),
+
     path("category/", CategoryListView.as_view(), name="category"),
     path("category/create", CategoryCreateView.as_view(), name="category_new"),
     path("order/", OrderDetailsListView.as_view(), name="order"),

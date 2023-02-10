@@ -16,14 +16,15 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    if instance.user_type == 4:
-        group = Group.objects.get(name='Customer')
-        instance.groups.add(group)
-        instance.customer.save()
-    else:
+    if instance.user_type == 1:
         group = Group.objects.get(name='Employee')
         instance.groups.add(group)
         instance.employee.save()
+    else:
+        group = Group.objects.get(name='Customer')
+        instance.groups.add(group)
+        instance.customer.save()
+
 
 
 

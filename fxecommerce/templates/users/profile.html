@@ -16,7 +16,11 @@ Profile Page
           <table class="table table-borderless">
             <thead>
             <span class="h4">Profile Information</span>
-            <a class="btn btn-info btn-sm float-right" href="{% url 'users:profile_update' %}">Edit</a>
+            {% if user.user_type == 1 %}
+            <a class="btn btn-info btn-sm float-right" href="{% url 'users:employee_update' %}">Edit</a>
+            {% else %}
+            <a class="btn btn-info btn-sm float-right" href="{% url 'users:customer_update' %}">Edit</a>
+            {% endif %}
             <hr>
             </thead>
             <tbody>
@@ -24,6 +28,7 @@ Profile Page
               <th scope="row">Email</th>
               <td>{{ user.email }}</td>
             </tr>
+            {% if user.user_type == 4 %}
             <tr>
               <th scope="row">First Name</th>
               <td>{{ user.first_name }}</td>
@@ -32,50 +37,12 @@ Profile Page
               <th scope="row">Last Name</th>
               <td>{{ user.last_name }}</td>
             </tr>
-            <tr>
-              <th scope="row">created</th>
-              <td>{{ user.profile.created_at }}</td>
-            </tr>
-            <tr>
-              <th scope="row">company name</th>
-              <td>{{ user.profile.company_name}}</td>
-            </tr>
-            <tr>
-              <th scope="row">contact name</th>
-              <td>{{ user.profile.contact_name}}</td>
-            </tr>
-            <tr>
-              <th scope="row">contact title</th>
-              <td>{{ user.profile.contact_title}}</td>
-            </tr>
-            <tr>
-              <th scope="row">address</th>
-              <td>{{ user.profile.address}}</td>
-            </tr>
-            <tr>
-              <th scope="row">city</th>
-              <td>{{ user.profile.city}}</td>
-            </tr>
-            <tr>
-              <th scope="row">region</th>
-              <td>{{ user.profile.region}}</td>
-            </tr>
-            <tr>
-              <th scope="row">postal code</th>
-              <td>{{ user.profile.postal_code}}</td>
-            </tr>
-            <tr>
-              <th scope="row">country</th>
-              <td>{{ user.profile.country}}</td>
-            </tr>
-            <tr>
-              <th scope="row">phone</th>
-              <td>{{ user.profile.phone}}</td>
-            </tr>
-            <tr>
-              <th scope="row">fax</th>
-              <td>{{ user.profile.fax}}</td>
-            </tr>
+            {% endif %}
+            {% if user.user_type == 1 %}
+              {% include 'users/employee_profile.html' %}
+            {% else %}
+              {% include 'users/customer_profile.html' %}
+            {% endif %}
             </tbody>
           </table>
         </div>

@@ -28,7 +28,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'user_permissions', 'groups', 'user_type')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'user_permissions', 'groups')}),
     )
     add_fieldsets = (
         (None, {
@@ -51,15 +51,10 @@ class CustomUserAdmin(UserAdmin):
 
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
-class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ("first_name", "last_name", "user_id")
-    #list_display = ("first_name", "last_name", "employee_id")
-    prepopulated_fields = {"slug": ("first_name", "last_name",)}
-    list_per_page = 20
-
 
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Employee, EmployeeAdmin)
+admin.site.register(Employee)
 admin.site.register(Customer)
+
 
 

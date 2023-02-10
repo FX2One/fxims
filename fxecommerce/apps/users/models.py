@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from . import utils as const
 from .managers import CustomUserManager, EmployeeManager
@@ -33,13 +34,6 @@ class Employee(models.Model):
     is_verified = models.BooleanField(default=False)
     image = models.ImageField(upload_to='user_profile', default='user_profile/employee/example_photo.png')
 
-    '''employee_id = models.UUIDField(
-        verbose_name=_('Employee id'),
-        db_column='EmployeeID',
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False
-    )'''
     last_name = models.CharField(
         verbose_name=_('Last name'),
         db_column='LastName',
@@ -171,9 +165,8 @@ class Employee(models.Model):
 
     objects = EmployeeManager()
 
-
     def get_absolute_url(self):
-        return reverse('inventory:employee_detail', kwargs={'slug': self.slug})
+        return reverse('users:employee_detail', kwargs={'slug': self.slug})
 
 
     def save(self, *args, **kwargs):
@@ -182,6 +175,9 @@ class Employee(models.Model):
         self.slug = slugify(slug_uuid)
         super(Employee, self).save(*args, **kwargs)
 
+    def check_email(self):
+        if Customer.objects.filter(user__email=self.user.email).exists():
+            raise ValidationError("The email is already associated with a customer.")
 
     class Meta:
         db_table = 'employee'
@@ -189,7 +185,7 @@ class Employee(models.Model):
         ordering = ['first_name']
 
     def __str__(self):
-        return f'{self.title_of_courtesy} {self.first_name} {self.last_name}'
+        return self.user.email
 
 
 class Customer(models.Model):
@@ -198,15 +194,7 @@ class Customer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_verified = models.BooleanField(default=False)
     image = models.ImageField(upload_to='user_profile', default='user_profile/customer/example_photo.png')
-    employee = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, related_name='customer_emp')
 
-    '''customer_id = models.UUIDField(
-        verbose_name=_('Customer id'),
-        db_column='CustomerID',
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False
-    )'''
 
     company_name = models.CharField(
         verbose_name=_('Company name'),
@@ -289,8 +277,10 @@ class Customer(models.Model):
         db_table = 'customer'
         verbose_name_plural = _("Customers")
 
+    def check_email(self):
+        if Employee.objects.filter(user__email=self.user.email).exists():
+            raise ValidationError("The email is already associated with an employee.")
+
     def __str__(self):
         return self.user.email
-
-
 

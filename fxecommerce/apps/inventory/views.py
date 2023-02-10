@@ -11,23 +11,6 @@ class HomeView(TemplateView):
     template_name = "index.html"
 
 
-'''class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
-    model = Employee
-    template_name = "inventory/employees.html"
-    context_object_name = 'search_results'
-    paginate_by = 10
-    group_required = ['ExtraStaff', 'Employee']
-
-    def get_queryset(self):
-        search_query = self.request.GET.get('q')
-        return Employee.objects.search(search_query)
-
-
-class EmployeeDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
-    model = Employee
-    template_name = "inventory/employee_detail.html"
-    group_required = ['ExtraStaff', 'Employee']'''
-
 
 class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Category

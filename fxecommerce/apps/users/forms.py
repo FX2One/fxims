@@ -6,7 +6,7 @@ from django import forms
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('email','user_type')
+        fields = ('email', 'user_type')
 
 
 '''subclass UserCreationForm to match new CustomUser'''
@@ -40,6 +40,8 @@ class CustomerUpdateForm(forms.ModelForm):
         ]
 
 class EmployeeUpdateForm(forms.ModelForm):
+    birth_date = forms.DateField(input_formats=['%Y-%m-%d'], help_text='Enter date in the format YYYY-MM-DD')
+    hire_date = forms.DateField(input_formats=['%Y-%m-%d'], help_text='Enter date in the format YYYY-MM-DD')
     class Meta:
         model = Employee
         fields = [
