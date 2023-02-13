@@ -159,7 +159,7 @@ class Employee(models.Model):
     )
 
     slug = models.SlugField(
-        null=False,
+        null=True,
         unique=True
     )
 
@@ -168,6 +168,9 @@ class Employee(models.Model):
     def get_absolute_url(self):
         return reverse('users:employee_detail', kwargs={'slug': self.slug})
 
+    def clean(self):
+        if Customer.objects.filter(user__email=self.user.email).exists() or Employee.objects.filter(user__email=self.user.email).exists():
+            raise ValidationError("The email is already in use")
 
     def save(self, *args, **kwargs):
         generate_uuid = uuid.uuid4()
@@ -175,14 +178,13 @@ class Employee(models.Model):
         self.slug = slugify(slug_uuid)
         super(Employee, self).save(*args, **kwargs)
 
-    def check_email(self):
-        if Customer.objects.filter(user__email=self.user.email).exists():
-            raise ValidationError("The email is already associated with a customer.")
+
 
     class Meta:
         db_table = 'employee'
         verbose_name_plural = _('Employees')
         ordering = ['first_name']
+
 
     def __str__(self):
         return self.user.email
@@ -273,13 +275,14 @@ class Customer(models.Model):
         blank=True
     )
 
+    def clean(self):
+        if Customer.objects.filter(user__email=self.user.email).exists() or Employee.objects.filter(user__email=self.user.email).exists():
+            raise ValidationError("The email is already in use")
+
     class Meta:
         db_table = 'customer'
         verbose_name_plural = _("Customers")
 
-    def check_email(self):
-        if Employee.objects.filter(user__email=self.user.email).exists():
-            raise ValidationError("The email is already associated with an employee.")
 
     def __str__(self):
         return self.user.email
