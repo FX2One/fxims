@@ -1,9 +1,12 @@
 [
   {
-    "model": "inventory.employee",
+    "model": "users.employee",
     "pk": 1,
     "fields": {
-      "employee_id": 1,
+      "user_id": "ff7c82fe8fe348b48e51daa5ca76f401",
+      "created_at": "2022-12-02 14:22:52.562348",
+      "updated_at": "2022-12-02 14:22:52.562348",
+      "is_verified": true,
       "last_name": "King",
       "first_name": "Robert",
       "title": "Sales Representative",
@@ -19,16 +22,19 @@
       "extension": "465",
       "photo": "employee/default_photo.png",
       "notes": "Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan in 1992, the year he joined the company.  After completing a course entitled Selling in Europe, he was transferred to the London office in March 1993.",
-      "reports_to": 3,
+      "reports_to": "ff7c82fe8fe348b48e51daa5ca76f401",
       "photo_path": "http://accweb/emmployees/davolio.bmp",
       "slug": "1a0d7e58f3ff404cb51809a629071831"
     }
   },
   {
-    "model": "inventory.employee",
+    "model": "users.employee",
     "pk": 2,
     "fields": {
-      "employee_id": 2,
+      "user_id": "d52baeb69fe043f0b001908cf9e7ff67",
+      "created_at": "2022-12-02 14:22:52.562348",
+      "updated_at": "2022-12-02 14:22:52.562348",
+      "is_verified": true,
       "last_name": "Fuller",
       "first_name": "Andrew",
       "title": "Vice President, Sales",
@@ -50,10 +56,13 @@
     }
   },
   {
-    "model": "inventory.employee",
+    "model": "users.employee",
     "pk": 3,
     "fields": {
-      "employee_id": 3,
+      "user_id": "bcb3bacfdc284dd0846588180c5e62c1",
+      "created_at": "2022-12-02 14:22:52.562348",
+      "updated_at": "2022-12-02 14:22:52.562348",
+      "is_verified": true,
       "last_name": "Davolio",
       "first_name": "Nancy",
       "title": "Sales Representative",
@@ -69,7 +78,7 @@
       "extension": "5467",
       "photo": "employee/default_photo.png",
       "notes": "Education includes a BA in psychology from Colorado State University in 1970.  She also completed The Art of the Cold Call.  Nancy is a member of Toastmasters International.",
-      "reports_to": 2,
+      "reports_to": "ff7c82fe8fe348b48e51daa5ca76f401",
       "photo_path": "http://accweb/emmployees/davolio.bmp",
       "slug": "45e2b9a9f1fe4da49eec395900fc80d2"
     }

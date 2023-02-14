@@ -3,7 +3,7 @@
     "model": "inventory.customercustomerdemo",
     "pk": 1,
     "fields": {
-      "customer_id": 2,
+      "customer_id": "8a52869d034e4044a7d93da18f6b7e5d",
       "customer_type_id": "REG"
     }
   },
@@ -11,7 +11,7 @@
     "model": "inventory.customercustomerdemo",
     "pk": 2,
     "fields": {
-      "customer_id": 3,
+      "customer_id": "2051e40555c946d1b00ad7060cfe0511",
       "customer_type_id": "VIP"
     }
   },
@@ -19,7 +19,7 @@
     "model": "inventory.customercustomerdemo",
     "pk": 3,
     "fields": {
-      "customer_id": 4,
+      "customer_id": "55b0c7d4c2d34ed38aca1bbcb07912c0",
       "customer_type_id": "REG"
     }
   }

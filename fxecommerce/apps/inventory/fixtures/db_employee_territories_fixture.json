@@ -3,7 +3,7 @@
     "model": "inventory.employeeterritory",
     "pk": 1,
     "fields": {
-      "employee_id": 1,
+      "employee_id": "ff7c82fe8fe348b48e51daa5ca76f401",
       "territory_id": "01581"
     }
   },
@@ -11,7 +11,7 @@
     "model": "inventory.employeeterritory",
     "pk": 2,
     "fields": {
-      "employee_id": 2,
+      "employee_id": "d52baeb69fe043f0b001908cf9e7ff67",
       "territory_id": "60179"
     }
   },
@@ -19,7 +19,7 @@
     "model": "inventory.employeeterritory",
     "pk": 3,
     "fields": {
-      "employee_id": 3,
+      "employee_id": "bcb3bacfdc284dd0846588180c5e62c1",
       "territory_id": "55113"
     }
   }
