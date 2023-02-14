@@ -179,7 +179,6 @@ class Employee(models.Model):
         super(Employee, self).save(*args, **kwargs)
 
 
-
     class Meta:
         db_table = 'employee'
         verbose_name_plural = _('Employees')
@@ -278,6 +277,7 @@ class Customer(models.Model):
     def clean(self):
         if Customer.objects.filter(user__email=self.user.email).exists() or Employee.objects.filter(user__email=self.user.email).exists():
             raise ValidationError("The email is already in use")
+
 
     class Meta:
         db_table = 'customer'
