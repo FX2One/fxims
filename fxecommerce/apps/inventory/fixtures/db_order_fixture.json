@@ -4,8 +4,8 @@
     "pk": 1,
     "fields": {
       "order_id": 10255,
-      "customer_id": 2,
-      "employee_id": 1,
+      "customer_id": "8a52869d034e4044a7d93da18f6b7e5d",
+      "employee_id": "ff7c82fe8fe348b48e51daa5ca76f401",
       "order_date": "1996-07-12",
       "required_date": "1996-08-09",
       "shipped_date": "1996-07-15",
@@ -24,8 +24,8 @@
     "pk": 2,
     "fields": {
       "order_id": 10269,
-      "customer_id": 3,
-      "employee_id": 2,
+      "customer_id": "2051e40555c946d1b00ad7060cfe0511",
+      "employee_id": "d52baeb69fe043f0b001908cf9e7ff67",
       "order_date": "1996-07-31",
       "required_date": "1996-08-14",
       "shipped_date": "1996-08-09",
@@ -44,8 +44,8 @@
     "pk": 3,
     "fields": {
       "order_id": 10276,
-      "customer_id": 4,
-      "employee_id": 3,
+      "customer_id": "55b0c7d4c2d34ed38aca1bbcb07912c0",
+      "employee_id": "bcb3bacfdc284dd0846588180c5e62c1",
       "order_date": "1996-07-12",
       "required_date": "1996-08-09",
       "shipped_date": "1996-08-14",

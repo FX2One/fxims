@@ -8,7 +8,7 @@ GROUPS = {
         "user": ["add", "view", "change"],
         "employee": ["add", "view", "change"],
         "order": ["add", "view", "change", "delete"],
-        "order details": ["change", "view"],
+        "order details": ["add", "view", "change","delete"],
         "product": ["add", "view", "change", "delete"],
         "shipper": ["add", "view", "change"],
         "supplier": ["add", "view", "change"],

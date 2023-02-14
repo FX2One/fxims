@@ -5,12 +5,14 @@ from django.utils.translation import gettext_lazy as _
 from . import utils as const
 from .managers import CustomUserManager, EmployeeManager
 from django.template.defaultfilters import slugify
+from uuid import uuid4
 import uuid
 from django.urls import reverse
 
 
 class User(AbstractUser, PermissionsMixin):
     username = None
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     email = models.EmailField(_('email address'), unique=True)
     is_active = models.BooleanField(_('active'), default=True)
     is_staff = models.BooleanField(_('is_staff'), default=False)
@@ -190,7 +192,7 @@ class Employee(models.Model):
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,  related_name="customer")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="customer")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_verified = models.BooleanField(default=False)

@@ -4,9 +4,12 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
-from .managers import  ProductManager, CategoryManager, OrderDetailsManager
+from .managers import ProductManager, CategoryManager, OrderDetailsManager
 import uuid
-
+from django.utils.functional import cached_property
+from django.db.models.signals import pre_save, post_save, post_delete, pre_delete
+from django.dispatch import receiver
+from django.core.exceptions import ValidationError
 
 class Region(models.Model):
     region_id = models.PositiveSmallIntegerField(
@@ -48,12 +51,10 @@ class Territory(models.Model):
 
     class Meta:
         db_table = 'territory'
-        verbose_name_plural=_('Territories')
+        verbose_name_plural = _('Territories')
 
     def __str__(self):
         return self.territory_description
-
-
 
 
 class EmployeeTerritory(models.Model):
@@ -101,6 +102,7 @@ class Shipper(models.Model):
     def __str__(self):
         return str(self.company_name)
 
+
 class CustomerDemographics(models.Model):
     customer_type_id = models.CharField(
         verbose_name=_('Customer Type_ID'),
@@ -114,6 +116,7 @@ class CustomerDemographics(models.Model):
         blank=False,
         null=True
     )
+
     class Meta:
         db_table = 'customerdemographics'
 
@@ -136,6 +139,7 @@ class CustomerCustomerDemo(models.Model):
     class Meta:
         db_table = 'customer_customer_demo'
         verbose_name_plural = _('CustomerCustomerDemos')
+
 
 class Category(models.Model):
     category_id = models.AutoField(
@@ -266,7 +270,6 @@ class Supplier(models.Model):
         return self.company_name
 
 
-
 class Product(models.Model):
     product_id = models.AutoField(
         verbose_name=_('Product ID'),
@@ -349,7 +352,6 @@ class Product(models.Model):
 
         self.slug = slugify(slug_uuid)
         super(Product, self).save(*args, **kwargs)
-
 
     def __str__(self):
         return self.product_name
@@ -492,12 +494,7 @@ class OrderDetails(models.Model):
         db_column='ProductID',
         on_delete=models.CASCADE
     )
-    unit_price = models.DecimalField(
-        verbose_name=_('Unit price'),
-        db_column='UnitPrice',
-        max_digits=19,
-        decimal_places=4
-    )
+
     quantity = models.SmallIntegerField(
         verbose_name=_('Quantity'),
         db_column='Quantity'
@@ -512,6 +509,25 @@ class OrderDetails(models.Model):
     def get_absolute_url(self):
         return reverse('inventory:order_detail', args=[str(self.order_id.order_id)])
 
+    @cached_property
+    def unit_price(self):
+        return round(self.product_id.unit_price, 2)
+
+    def get_total_amount(self):
+        return round(self.quantity * self.product_id.unit_price, 2)
+
+    def get_discounted_total(self):
+        total_amount = self.get_total_amount()
+        return total_amount - (total_amount * round(self.discount)/100)
+
+    def clean(self):
+        super().clean()
+        if self.quantity == 0:
+            raise ValidationError('Quantity must be greater than zero.')
+        elif self.quantity > self.product_id.units_in_stock:
+            raise ValidationError(f"Only {self.product_id.units_in_stock} units available in stock.")
+
+
     class Meta:
         db_table = 'order_details'
         verbose_name_plural = _('Order details')
@@ -521,14 +537,19 @@ class OrderDetails(models.Model):
         return f'{str(self.order_id)} for {str(self.product_id)}'
 
 
+@receiver(pre_save, sender=OrderDetails)
+def update_product_stock(sender, instance, **kwargs):
+    if instance.pk is None:  # instance is being created
+        instance.product_id.units_in_stock -= instance.quantity
+        instance.product_id.units_on_order += instance.quantity
+        instance.product_id.save(update_fields=['units_in_stock', 'units_on_order'])
 
-
-
-
-
-
-
-
-
-
+@receiver(pre_delete, sender=OrderDetails)
+def revert_product_stock(sender, instance, **kwargs):
+    # retrieve the original values of the Product model
+    original_product = Product.objects.get(pk=instance.product_id.pk)
+    # update the Product model to reverse the changes made by the OrderDetails instance
+    original_product.units_in_stock += instance.quantity
+    original_product.units_on_order -= instance.quantity
+    original_product.save(update_fields=['units_in_stock', 'units_on_order'])
 

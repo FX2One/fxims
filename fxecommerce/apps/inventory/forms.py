@@ -24,5 +24,3 @@ class CategoryForm(forms.ModelForm):
             'description',
             'image',
         ]
-
-
