@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}
-    Categories
+Categories
 {% endblock %}
 
 {% block content %}
 <div class="row my-4">
     <div class="col-md-4">
-
-        <div class="alert alert-">
-
+        <div class="card card-body">
+            <td>
+                <a class="btn btn-info btn-sm mr-2"
+                   href="{% url 'inventory:category_new' %}">Add New Category</a>
+            </td>
         </div>
     </div>
     <div class="col-md-8">

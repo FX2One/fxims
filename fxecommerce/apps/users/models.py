@@ -8,7 +8,7 @@ from django.template.defaultfilters import slugify
 from uuid import uuid4
 import uuid
 from django.urls import reverse
-
+from django.db.models import Q
 
 class User(AbstractUser, PermissionsMixin):
     username = None
@@ -171,7 +171,15 @@ class Employee(models.Model):
         return reverse('users:employee_detail', kwargs={'slug': self.slug})
 
     def clean(self):
-        if Customer.objects.filter(user__email=self.user.email).exists() or Employee.objects.filter(user__email=self.user.email).exists():
+        # Check for another Customer/Employee with the same email
+        # Q query to avoid combininig queries on two different models
+        qs = Customer.objects.filter(Q(user__email=self.user.email) & ~Q(user=self.user)) or Employee.objects.filter(Q(user__email=self.user.email) & ~Q(user=self.user))
+
+        # Exclude current instance
+        if self.pk:
+            qs = qs.exclude(pk=self.pk)
+
+        if qs.exists():
             raise ValidationError("The email is already in use")
 
     def save(self, *args, **kwargs):
@@ -277,8 +285,18 @@ class Customer(models.Model):
     )
 
     def clean(self):
-        if Customer.objects.filter(user__email=self.user.email).exists() or Employee.objects.filter(user__email=self.user.email).exists():
+        # Check for another Customer/Employee with the same email
+        # Q query to avoid combininig queries on two different models
+        qs = Customer.objects.filter(Q(user__email=self.user.email) & ~Q(user=self.user)) or Employee.objects.filter(Q(user__email=self.user.email) & ~Q(user=self.user))
+
+        # Exclude current instance
+        if self.pk:
+            qs = qs.exclude(pk=self.pk)
+
+        if qs.exists():
             raise ValidationError("The email is already in use")
+
+
 
 
     class Meta:

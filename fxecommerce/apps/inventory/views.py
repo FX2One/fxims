@@ -5,6 +5,8 @@ from .models import Category, Product, Order, OrderDetails
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import GroupRequiredMixin
+from .forms import OrderDetailsForm, ProductForm, CategoryForm
+
 
 
 class HomeView(TemplateView):
@@ -20,15 +22,15 @@ class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
 
 class CategoryCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     model = Category
-    fields = [
-        'category_name',
-        'description',
-        'image',
-    ]
     template_name = "inventory/category_create.html"
     success_url = reverse_lazy('inventory:category')
+    form_class = CategoryForm
     group_required = ['ExtraStaff', 'Employee']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
 
 class OrderDetailsListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = OrderDetails
@@ -39,6 +41,38 @@ class OrderDetailsListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return OrderDetails.objects.search(search_query)
+
+
+class OrderDetailsCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    model = OrderDetails
+    template_name = "inventory/orders_create.html"
+    success_url = reverse_lazy('inventory:order')
+    form_class = OrderDetailsForm
+    group_required = ['ExtraStaff', 'Employee', 'Customer']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+class OrderDetailsUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    model = OrderDetails
+    template_name = "inventory/orders_edit.html"
+    success_url = reverse_lazy('inventory:order')
+    form_class = OrderDetailsForm
+    group_required = ['ExtraStaff', 'Employee', 'Customer']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+
+class OrderDetailsDeleteView(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy('inventory:orders')
+    template_name = "inventory/orders_delete.html"
+    group_required = ['ExtraStaff', 'Employee', 'Customer']
 
 
 class OrderSpecificationView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
@@ -84,20 +118,15 @@ class ProductCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
 
 class ProductUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Product
-    fields = [
-        'product_name',
-        'supplier_id',
-        'category_id',
-        'quantity_per_unit',
-        'unit_price',
-        'units_in_stock',
-        'units_on_order',
-        'reorder_level',
-        'discontinued'
-    ]
     success_url = reverse_lazy('inventory:product_list')
     template_name = "inventory/product_edit.html"
+    form_class = ProductForm
     group_required = ['ExtraStaff', 'Employee']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
 
 
 class ProductDeleteView(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
