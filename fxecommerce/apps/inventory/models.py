@@ -95,6 +95,15 @@ class Shipper(models.Model):
         null=False
     )
 
+    '''freight_price = unit_price = models.DecimalField(
+        verbose_name=_('Freight price'),
+        db_column='FreightPrice',
+        blank=True,
+        null=True,
+        max_digits=19,
+        decimal_places=4
+    )'''
+
     class Meta:
         db_table = 'shipper'
         verbose_name_plural = _('Shippers')
@@ -480,7 +489,7 @@ class Order(models.Model):
         verbose_name_plural = _("Orders")
 
     def __str__(self):
-        return f'Order ID: {str(self.order_id)} [ordered by {self.customer_id}]'
+        return f'Order ID: {str(self.order_id)} [ordered for {self.customer_id}]'
 
 
 class OrderDetails(models.Model):

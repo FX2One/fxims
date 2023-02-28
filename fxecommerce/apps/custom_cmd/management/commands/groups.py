@@ -8,18 +8,19 @@ GROUPS = {
         "user": ["add", "view", "change"],
         "employee": ["add", "view", "change"],
         "order": ["add", "view", "change", "delete"],
-        "order details": ["add", "view", "change","delete"],
+        "order details": ["add", "view", "change", "delete"],
         "product": ["add", "view", "change", "delete"],
         "shipper": ["add", "view", "change"],
         "supplier": ["add", "view", "change"],
         "territory": ["add", "view", "change"],
     },
     "Employee": {
-        "category": ["add","view"],
+        "category": ["add", "view"],
         "user": ["view"],
         "employee": ["view"],
-        "order": ["add", "delete","change", "view"],
-        "product": ["add", "delete", "change", "view"],
+        "order": ["add", "delete", "change", "view"],
+        "order details": ["add", "view", "change"],
+        "product": ["add", "change", "view"],
     },
 
     "Customer": {

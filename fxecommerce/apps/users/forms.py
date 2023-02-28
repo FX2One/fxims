@@ -6,7 +6,7 @@ from django import forms
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('email', 'user_type')
+        fields = ('email',)
 
 
 '''subclass UserCreationForm to match new CustomUser'''

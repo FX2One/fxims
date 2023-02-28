@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
+
 '''subclassed Forms'''
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User, Customer, Employee
@@ -28,7 +29,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'user_permissions', 'groups')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups')}),
     )
     add_fieldsets = (
         (None, {
@@ -44,6 +45,7 @@ class CustomUserAdmin(UserAdmin):
             return list()
 
         user_type = obj.user_type
+
         if user_type == 4:
             return [CustomerProfileInline(self.model, self.admin_site)]
         elif user_type == 1:

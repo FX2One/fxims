@@ -205,7 +205,7 @@ class Customer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_verified = models.BooleanField(default=False)
     image = models.ImageField(upload_to='user_profile', default='user_profile/customer/example_photo.png')
-
+    customer_specialist = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True, blank=True)
 
     company_name = models.CharField(
         verbose_name=_('Company name'),
