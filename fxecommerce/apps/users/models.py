@@ -34,7 +34,6 @@ class Employee(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_verified = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='user_profile', default='user_profile/employee/example_photo.png')
 
     last_name = models.CharField(
         verbose_name=_('Last name'),
@@ -131,7 +130,8 @@ class Employee(models.Model):
         verbose_name=_('Photo'),
         db_column='Photo',
         blank=True,
-        upload_to='employee/'
+        upload_to='user_profile/employee',
+        default='user_profile/employee/example_photo.png'
     )
     notes = models.TextField(
         verbose_name=_('Notes'),
@@ -166,6 +166,7 @@ class Employee(models.Model):
     )
 
     objects = EmployeeManager()
+
 
     def get_absolute_url(self):
         return reverse('users:employee_detail', kwargs={'slug': self.slug})
@@ -204,7 +205,7 @@ class Customer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_verified = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='user_profile', default='user_profile/customer/example_photo.png')
+    image = models.ImageField(upload_to='user_profile/customer', default='user_profile/customer/example_photo.png')
     customer_specialist = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True, blank=True)
 
     company_name = models.CharField(
@@ -297,12 +298,9 @@ class Customer(models.Model):
             raise ValidationError("The email is already in use")
 
 
-
-
     class Meta:
         db_table = 'customer'
         verbose_name_plural = _("Customers")
-
 
     def __str__(self):
         return self.user.email

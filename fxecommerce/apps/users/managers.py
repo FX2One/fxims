@@ -52,6 +52,3 @@ class EmployeeManager(models.Manager):
 
     def search(self, search_query):
         return self.get_queryset().search(search_query)
-
-    def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginate_by", self.paginate_by)

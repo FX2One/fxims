@@ -6,7 +6,8 @@ GROUPS = {
     "ExtraStaff": {
         "category": ["add", "view", "change"],
         "user": ["add", "view", "change"],
-        "employee": ["add", "view", "change"],
+        "employee": ["add", "view", "change", "delete"],
+        "customer": ["add", "view", "change", "delete"],
         "order": ["add", "view", "change", "delete"],
         "order details": ["add", "view", "change", "delete"],
         "product": ["add", "view", "change", "delete"],
@@ -19,13 +20,13 @@ GROUPS = {
         "user": ["view"],
         "employee": ["view"],
         "order": ["add", "delete", "change", "view"],
-        "order details": ["add", "view", "change"],
+        "order details": ["add", "view", "change", "delete"],
         "product": ["add", "change", "view"],
     },
 
     "Customer": {
         "category": ["view"],
-        "order": ["add", "view"],
+        "order details": ["add", "view", "change", "delete"],
         "product": ["view"],
     },
 }

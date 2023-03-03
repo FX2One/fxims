@@ -32,5 +32,20 @@ class OrderDetailsForm(forms.ModelForm):
             'product_id',
             'order_id',
             'quantity',
-            'discount'
+            'discount',
+            'created_by'
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['product_id'].label = 'Select Product'
+        self.fields['order_id'].label = 'Order'
+        self.fields['quantity'].label = 'Quantity'
+        self.fields['discount'].label = 'Discount'
+        self.fields['created_by'].label = 'Select Customer to assign Order*'
+
+
+
+
+

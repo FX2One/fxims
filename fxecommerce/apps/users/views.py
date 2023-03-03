@@ -5,23 +5,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import GroupRequiredMixin
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Employee
+from django.urls import reverse_lazy
 
 
 
-def register(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('inventory:home')
-    else:
-        form = CustomUserCreationForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'users/register.html', context)
+class RegisterView(CreateView):
+    template_name = 'users/register.html'
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('inventory:home')
 
 
 @login_required
@@ -31,12 +24,6 @@ def customer_profile(request):
 @login_required
 def employee_profile(request):
     return render(request, 'users/profile.html')
-
-class CustomerProfile():
-    pass
-
-class EmployeeProfile():
-    pass
 
 
 @login_required
@@ -77,13 +64,6 @@ def employee_update(request):
     }
     return render(request, 'users/employee_update.html', context)
 
-class CustomerProfileUpdate():
-    pass
-
-class EmployeeProfileUpdate():
-    pass
-
-
 
 class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Employee
@@ -95,6 +75,9 @@ class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return Employee.objects.search(search_query)
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginate_by", self.paginate_by)
 
 
 class EmployeeDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):

@@ -3,6 +3,12 @@
   <td>{{ user.customer.company_name}}</td>
 </tr>
 <tr>
+  <th scope="row">Customer status</th>
+  {% for customer in user.customer.customer_customer_demo.all %}
+  <td>{{ customer.customer_desc }}</td>
+  {% endfor %}
+</tr>
+<tr>
   <th scope="row">Contact name</th>
   <td>{{ user.customer.contact_name}}</td>
 </tr>

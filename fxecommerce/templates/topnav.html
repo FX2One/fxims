@@ -17,6 +17,7 @@
                 Dashboard Statistics
             </div>
                 <div class="row">
+                    {% if user.user_type == 1 or user.is_superuser %}
                         <div class="col">
                            <a class="text-decoration-none text-dark" href="{% url 'users:employee' %}">
                                 <div class="card my-card shadow">
@@ -26,6 +27,7 @@
                                 </div>
                             </a>
                         </div>
+                    {% endif %}
                     <div class="col">
                         <a class="text-decoration-none text-dark" href="{% url 'inventory:product_list' %}">
                             <div class="card my-card shadow">

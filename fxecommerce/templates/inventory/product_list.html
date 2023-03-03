@@ -32,16 +32,22 @@ Products
                 <th scope="col">Units in stock</th>
                 <th scope="col">Units on order</th>
                 <th scope="col">Reorder level</th>
+                {% if request.user.user_type == 1 or user.is_superuser %}
                 <th scope="col">Options</th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
             {% for p in object_list %}
             <tr>
                 <td>
+                    {% if request.user.user_type == 1 %}
                     <a class="text-decoration-none text-dark" href="{{ p.get_absolute_url }}">
                         <span>{{p.product_name}}</span>
                     </a>
+                    {% else %}
+                        <span>{{p.product_name}}</span>
+                    {% endif %}
                 </td>
                 <td> {{ p.category_id.category_name }} </td>
                 <td> {{ p.quantity_per_unit }} </td>
@@ -49,12 +55,18 @@ Products
                 <td> {{ p.units_in_stock }}</td>
                 <td> {{ p.units_on_order }}</td>
                 <td> {{ p.reorder_level }}</td>
+                {% if request.user.user_type == 1 %}
                 <td>
                     <a class="btn btn-info btn-sm mr-2"
                        href="{% url 'inventory:product_edit' p.slug %}">Edit</a>
-                    <a class="btn btn-danger btn-sm ml-2"
-                       href="{% url 'inventory:product_delete' p.slug %}">Delete</a>
+                    {% for group_for in request.user.groups.all %}
+                        {% if group_for.name == 'ExtraStaff' or user.is_superuser %}
+                        <a class="btn btn-danger btn-sm ml-2"
+                           href="{% url 'inventory:product_delete' p.slug %}">Delete</a>
+                        {% endif %}
+                    {% endfor %}
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
 

@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import GroupRequiredMixin
 from .forms import OrderDetailsForm, ProductForm, CategoryForm
-
+from django import forms
 
 
 class HomeView(TemplateView):
@@ -19,6 +19,9 @@ class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     template_name = "inventory/categories.html"
     paginate_by = 10
     group_required = ['ExtraStaff', 'Employee', 'Customer']
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginate_by", self.paginate_by)
 
 class CategoryCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     model = Category
@@ -38,9 +41,20 @@ class OrderDetailsListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     paginate_by = 10
     group_required = ['ExtraStaff', 'Employee', 'Customer']
 
+
     def get_queryset(self):
         search_query = self.request.GET.get('q')
-        return OrderDetails.objects.search(search_query)
+        user_type = self.request.user.user_type
+
+        if user_type == 4:
+            # If user_type is 4, only show OrderDetails created by the current user
+            return OrderDetails.objects.filter(created_by=self.request.user).exclude(created_by=None).search(search_query)
+        else:
+            # Otherwise if user_type == 1, show all OrderDetails
+            return OrderDetails.objects.search(search_query)
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginate_by", self.paginate_by)
 
 
 class OrderDetailsCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
@@ -48,12 +62,24 @@ class OrderDetailsCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView)
     template_name = "inventory/orders_create.html"
     success_url = reverse_lazy('inventory:order')
     form_class = OrderDetailsForm
+    paginate_by = 10
     group_required = ['ExtraStaff', 'Employee', 'Customer']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.get_form()
         return context
+
+    def form_valid(self, form):
+        # check if created_by field is set in the form data
+        created_by = form.cleaned_data.get('created_by', None)
+        if created_by:
+            form.instance.created_by = created_by
+        else:
+            form.instance.created_by = self.request.user
+
+        return super().form_valid(form)
+
 
 class OrderDetailsUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
     model = OrderDetails
@@ -90,6 +116,9 @@ class ProductListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return Product.objects.search(search_query)
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginate_by", self.paginate_by)
 
 
 class ProductDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):

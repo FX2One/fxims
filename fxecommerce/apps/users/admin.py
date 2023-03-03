@@ -1,10 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-
 '''subclassed Forms'''
-from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User, Customer, Employee
+from inventory.models import EmployeeTerritory, CustomerCustomerDemo
 
 class CustomerProfileInline(admin.StackedInline):
     model = Customer
@@ -18,10 +17,42 @@ class EmployeeProfileInline(admin.StackedInline):
     verbose_name_plural = 'Employee'
     fk_name = 'user'
 
+class CustomerCustomerDemoInline(admin.TabularInline):
+    model = CustomerCustomerDemo
+
+class CustomerAdmin(admin.ModelAdmin):
+    inlines = [CustomerCustomerDemoInline]
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'company_name', 'contact_name', 'contact_title', 'customer_specialist', 'image'),
+        }),
+        ('Address Info', {
+            'fields': ('address', 'city', 'region', 'postal_code', 'country', 'phone', 'fax'),
+        }),
+    )
+    list_display = ('user', 'company_name', 'contact_name', 'contact_title', 'is_verified')
+    list_filter = ('is_verified',)
+    search_fields = ('company_name', 'contact_name', 'contact_title')
+
+class EmployeeTerritoryInline(admin.TabularInline):
+    model = EmployeeTerritory
+
+
+class EmployeeAdmin(admin.ModelAdmin):
+    inlines = [EmployeeTerritoryInline]
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'last_name', 'first_name', 'title', 'title_of_courtesy', 'slug'),
+        }),
+        ('Personal info', {
+            'fields': ('birth_date', 'hire_date', 'address', 'city', 'region', 'postal_code', 'country', 'home_phone', 'extension', 'photo', 'notes'),
+        }),
+        ('Manager', {
+            'fields': ('reports_to',),
+        }),
+    )
+
 class CustomUserAdmin(UserAdmin):
-    inlines = (CustomerProfileInline, EmployeeProfileInline)
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
     model = User
     list_display = ('email', 'is_staff', 'is_active', 'is_superuser')
     list_filter = ('email', 'is_staff', 'is_active', 'is_superuser', 'user_type')
@@ -40,23 +71,12 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
 
-    def get_inline_instances(self, request, obj=None):
-        if not obj:
-            return list()
 
-        user_type = obj.user_type
-
-        if user_type == 4:
-            return [CustomerProfileInline(self.model, self.admin_site)]
-        elif user_type == 1:
-            return [EmployeeProfileInline(self.model, self.admin_site)]
-
-        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
 
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Employee)
-admin.site.register(Customer)
+admin.site.register(Employee, EmployeeAdmin)
+admin.site.register(Customer, CustomerAdmin)
 
 
 

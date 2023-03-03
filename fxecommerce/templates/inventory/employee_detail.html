@@ -1,55 +1,71 @@
 {% extends 'base.html' %}
+
 {% block title %}
 Employee detail
 {% endblock %}
+
 {% block content %}
 <div class="row my-4">
     <div class="col-md-4">
-
         <div class="alert alert-">
-
         </div>
     </div>
     <div class="col-md-8">
         <table class="table bg-white">
-            <thead class="bg-info text-white">
-            <tr>
-                <th scope="col">ToC</th>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
-                <th scope="col">Title</th>
-                <th scope="col">Country</th>
-                <th scope="col">Address</th>
-                <th scope="col">City</th>
-                <th scope="col">Region</th>
-                <th scope="col">Extension</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Reports to</th>
-                <th scope="col">Hire date</th>
-                <th scope="col">Birth date</th>
-            </tr>
-            </thead>
             <tbody>
-
             <tr>
+                <td>ToC</td>
                 <td>{{ object.title_of_courtesy }}</td>
-                <td>{{ object.first_name }}</td>
-                <td>{{ object.last_name }}</td>
-                <td>{{ object.title }}</td>
-                <td>{{ object.country }}</td>
-                <td>{{ object.address }}</td>
-                <td>{{ object.city }}</td>
-                <td>{{ object.region }}</td>
-                <td>{{ object.extension}}</td>
-                <td>{{  object.home_phone}}</td>
-                <td>{{ object.reports_to }}</td>
-                <td>{{ object.hire_date }}</td>
-                <td>{{ object.birth_date }}</td>
-
             </tr>
-
+            <tr>
+                <td>First name</td>
+                <td>{{ object.first_name }}</td>
+            </tr>
+            <tr>
+                <td>Last name</td>
+                <td>{{ object.last_name }}</td>
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td>{{ object.title }}</td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td>{{ object.country }}</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>{{ object.address }}</td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td>{{ object.city }}</td>
+            </tr>
+            <tr>
+                <td>Region</td>
+                <td>{{ object.region }}</td>
+            </tr>
+            <tr>
+                <td>Extension</td>
+                <td>{{ object.extension }}</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{{ object.home_phone }}</td>
+            </tr>
+            <tr>
+                <td>Reports to</td>
+                <td>{{ object.reports_to }}</td>
+            </tr>
+            <tr>
+                <td>Hire date</td>
+                <td>{{ object.hire_date }}</td>
+            </tr>
+            <tr>
+                <td>Birth date</td>
+                <td>{{ object.birth_date }}</td>
+            </tr>
             </tbody>
-
         </table>
     </div>
 </div>

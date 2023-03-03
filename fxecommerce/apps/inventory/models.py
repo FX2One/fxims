@@ -4,12 +4,13 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
-from .managers import ProductManager, CategoryManager, OrderDetailsManager
+from .managers import ProductManager, OrderDetailsManager
 import uuid
 from django.utils.functional import cached_property
-from django.db.models.signals import pre_save, post_save, post_delete, pre_delete
+from django.db.models.signals import pre_save, post_save, pre_delete
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
+from users.models import Customer, User, Employee
 
 class Region(models.Model):
     region_id = models.PositiveSmallIntegerField(
@@ -424,7 +425,7 @@ class Order(models.Model):
         blank=True,
         null=True,
         db_index=True,
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE
     )
     freight = models.DecimalField(
         verbose_name=_('Freight'),
@@ -440,42 +441,48 @@ class Order(models.Model):
         max_length=40,
         blank=False,
         null=False,
+        default="insert correct data"
     )
     ship_address = models.CharField(
         verbose_name=_('Ship address'),
         db_column='ShipAddress',
         max_length=60,
         blank=False,
-        null=False
+        null=False,
+        default="insert correct data"
     )
     ship_city = models.CharField(
         verbose_name=_('Ship city'),
         db_column='ShipCity',
-        max_length=15,
+        max_length=40,
         blank=False,
-        null=False
+        null=False,
+        default="insert correct data"
     )
     ship_region = models.CharField(
         verbose_name=_('Ship region'),
         db_column='ShipRegion',
-        max_length=15,
+        max_length=40,
         blank=True,
-        null=True
+        null=True,
+        default="insert correct data"
     )
     ship_postal_code = models.CharField(
         verbose_name=_('Ship postal code'),
         db_column='ShipPostalCode',
-        max_length=10,
+        max_length=40,
         blank=False,
         null=False,
-        db_index=True
+        db_index=True,
+        default="insert correct data"
     )
     ship_country = models.CharField(
         verbose_name=_('Shipped country'),
         db_column='ShipCountry',
-        max_length=15,
+        max_length=40,
         blank=False,
-        null=False
+        null=False,
+        default="insert correct data"
     )
     order_details = models.ManyToManyField(
         Product,
@@ -496,7 +503,10 @@ class OrderDetails(models.Model):
     order_id = models.ForeignKey(
         Order,
         db_column='OrderID',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        default=None
     )
     product_id = models.ForeignKey(
         Product,
@@ -510,7 +520,18 @@ class OrderDetails(models.Model):
     )
     discount = models.FloatField(
         verbose_name=_('Discount'),
-        db_column='Discount'
+        db_column='Discount',
+        null=True,
+        blank=True,
+    )
+
+    created_by = models.ForeignKey(
+        User,
+        verbose_name=_('Created by'),
+        on_delete=models.CASCADE,
+        related_name='orders_created',
+        null=True,
+        blank=True,
     )
 
     objects = OrderDetailsManager()
@@ -536,6 +557,14 @@ class OrderDetails(models.Model):
         elif self.quantity > self.product_id.units_in_stock:
             raise ValidationError(f"Only {self.product_id.units_in_stock} units available in stock.")
 
+    def save(self, *args, **kwargs):
+        # create new order if order_id is not set
+        if not self.order_id:
+            order = Order.objects.create()
+            self.order_id = order
+            order.save()
+
+        super().save(*args, **kwargs)
 
     class Meta:
         db_table = 'order_details'
@@ -561,4 +590,18 @@ def revert_product_stock(sender, instance, **kwargs):
     original_product.units_in_stock += instance.quantity
     original_product.units_on_order -= instance.quantity
     original_product.save(update_fields=['units_in_stock', 'units_on_order'])
+
+
+@receiver(post_save, sender=OrderDetails)
+def update_order_customer(sender, instance, created, **kwargs):
+    if created and instance.created_by.user_type == 4:  # check if user is a customer
+        order = instance.order_id # assign instance order_id to Order.order_id
+        customer = Customer.objects.get(user=instance.created_by) # get object id by OrderDetails.created_by
+        order.customer_id = customer # Order.customer_id is exactly the same User.customer
+        if hasattr(customer, 'customer_specialist'):
+            order.employee_id = customer.customer_specialist # assign employee_id to order if customer has customer_specialist
+        order.save()
+
+
+
 

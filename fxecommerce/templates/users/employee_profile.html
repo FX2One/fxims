@@ -68,5 +68,7 @@
 </tr>
 <tr>
   <th scope="row">Territories</th>
-  <td>{{ user.employee.territories }}</td>
+  {% for territory in user.employee.territories.all %}
+  <td>{{ territory.territory_description }}</td>
+    {% endfor %}
 </tr>

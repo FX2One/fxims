@@ -21,7 +21,7 @@
                     {% if user.user_type == 1 %}
                         <a class="nav-link text-white" href="{% url 'auth:employee_profile' %}">{{ user.email|upper }}
                     {% else %}
-                        <a class="nav-link text-white" href="{% url 'auth:employee_profile' %}">{{ user.email|upper }}
+                        <a class="nav-link text-white" href="{% url 'auth:customer_profile' %}">{{ user.email|upper }}
                     {% endif %}
                         <span class="sr-only"></span></a>
                 </li>

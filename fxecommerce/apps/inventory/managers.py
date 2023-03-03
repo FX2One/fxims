@@ -17,13 +17,8 @@ class ProductManager(models.Manager):
     def search(self,search_query):
         return self.get_queryset().search(search_query)
 
-    def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginate_by", self.paginate_by)
-
-
 class CategoryManager(models.Manager):
-    def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginate_by", self.paginate_by)
+    pass
 
 
 class OrderDetailsQuerySet(models.QuerySet):
@@ -38,6 +33,7 @@ class OrderDetailsQuerySet(models.QuerySet):
             )
         return self
 
+
 class OrderDetailsManager(models.Manager):
     def get_queryset(self):
         return OrderDetailsQuerySet(self.model, using=self._db)
@@ -45,8 +41,7 @@ class OrderDetailsManager(models.Manager):
     def search(self, search_query):
         return self.get_queryset().search(search_query)
 
-    def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginate_by", self.paginate_by)
+
 
 
 
