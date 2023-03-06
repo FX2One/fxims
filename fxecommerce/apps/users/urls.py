@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_view
-from .views import EmployeeListView, EmployeeDetailView, RegisterView
+from .views import EmployeeListView, EmployeeDetailView, RegisterView, CustomerListView, CustomerDetailView
 
 app_name = 'users'
 
@@ -15,4 +15,6 @@ urlpatterns = [
     path('logout/', auth_view.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path("employee/", EmployeeListView.as_view(), name="employee"),
     path("employee/<slug:slug>", EmployeeDetailView.as_view(),name="employee_detail"),
+    path("customer", CustomerListView.as_view(), name="customer"),
+    path("customer/<slug:slug>", CustomerDetailView.as_view(), name="customer_detail"),
 ]
