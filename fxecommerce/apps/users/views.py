@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import GroupRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView
-from .models import Employee
+from .models import Employee, Customer
 from django.urls import reverse_lazy
 
 
@@ -67,7 +67,7 @@ def employee_update(request):
 
 class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Employee
-    template_name = "inventory/employees.html"
+    template_name = "users/employees.html"
     context_object_name = 'search_results'
     paginate_by = 10
     group_required = ['ExtraStaff', 'Employee']
@@ -82,5 +82,26 @@ class EmployeeListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
 
 class EmployeeDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
     model = Employee
-    template_name = "inventory/employee_detail.html"
+    template_name = "users/employee_detail.html"
+    group_required = ['ExtraStaff', 'Employee']
+
+
+class CustomerListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
+    model = Customer
+    template_name = "users/customers.html"
+    context_object_name = 'search_results'
+    paginate_by = 10
+    group_required = ['Employee', 'ExtraStaff']
+
+    def get_queryset(self):
+        search_query = self.request.GET.get('q')
+        return Customer.objects.search(search_query)
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginate_by", self.paginate_by)
+
+
+class CustomerDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
+    model = Customer
+    template_name = "users/customer_detail.html"
     group_required = ['ExtraStaff', 'Employee']
