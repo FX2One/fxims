@@ -24,7 +24,7 @@ class CustomerAdmin(admin.ModelAdmin):
     inlines = [CustomerCustomerDemoInline]
     fieldsets = (
         (None, {
-            'fields': ('user', 'company_name', 'contact_name', 'contact_title', 'customer_specialist', 'image'),
+            'fields': ('user', 'company_name', 'contact_name', 'contact_title', 'customer_specialist', 'image','slug'),
         }),
         ('Address Info', {
             'fields': ('address', 'city', 'region', 'postal_code', 'country', 'phone', 'fax'),

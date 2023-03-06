@@ -52,3 +52,19 @@ class EmployeeManager(models.Manager):
 
     def search(self, search_query):
         return self.get_queryset().search(search_query)
+
+class CustomerQuerySet(models.QuerySet):
+    def search(self, search_query):
+        if search_query:
+            return self.filter(
+                Q(contact_name__icontains=search_query) |
+                Q(company_name__icontains=search_query)
+            )
+        return self
+
+class CustomerManager(models.Manager):
+    def get_queryset(self):
+        return CustomerQuerySet(self.model, using=self._db)
+
+    def search(self, search_query):
+        return self.get_queryset().search(search_query)
