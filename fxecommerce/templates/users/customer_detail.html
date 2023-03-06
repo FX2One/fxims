@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Customer detail
+{% endblock %}
+
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-4">
+        <div class="alert alert-">
+            <img class="img-thumbnail" src="{{ object.image.url }}" alt="profile-image">
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table bg-white">
+            <tbody>
+            <tr>
+                <td>Company name</td>
+                <td>{{ object.company_name }}</td>
+            </tr>
+            <tr>
+                <td>Contact name</td>
+                <td>{{ object.contact_name }}</td>
+            </tr>
+            <tr>
+                <td>Contact title</td>
+                <td>{{ object.contact_title }}</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>{{ object.address }}</td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td>{{ object.city }}</td>
+            </tr>
+            <tr>
+                <td>Region</td>
+                <td>{{ object.region }}</td>
+            </tr>
+            <tr>
+                <td>Postal code</td>
+                <td>{{ object.postal_code }}</td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td>{{ object.country }}</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{{ object.phone }}</td>
+            </tr>
+            <tr>
+                <td>Fax</td>
+                <td>{{ object.fax }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

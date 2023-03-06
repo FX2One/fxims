@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+Employees
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-8">
+        <div class="alert alert-">
+            <form method="get">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="text" name="q" value="{{ request.GET.q }}">
+                <input type="submit" value="Search">
+            </form>
+        </div>
+        <table class="table bg-white">
+            <thead class="bg-info text-white">
+            <tr>
+                <th scope="col">Employee</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for c in object_list %}
+            <tr>
+                <td><a class="text-decoration-none text-dark" href="{{ c.get_absolute_url }}">{{ c }}</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include "pagination.html" %}
+    </div>
+
+</div>
+{% endblock %}
