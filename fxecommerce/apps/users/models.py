@@ -3,7 +3,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from . import utils as const
-from .managers import CustomUserManager, EmployeeManager
+from .managers import CustomUserManager, EmployeeManager, CustomerManager
 from django.template.defaultfilters import slugify
 from uuid import uuid4
 import uuid
@@ -285,6 +285,16 @@ class Customer(models.Model):
         blank=True
     )
 
+    slug = models.SlugField(
+        null=True,
+        unique=True
+    )
+
+    objects = CustomerManager()
+
+    def get_absolute_url(self):
+        return reverse('users:customer_detail', kwargs={'slug': self.slug})
+
     def clean(self):
         # Check for another Customer/Employee with the same email
         # Q query to avoid combininig queries on two different models
@@ -296,6 +306,12 @@ class Customer(models.Model):
 
         if qs.exists():
             raise ValidationError("The email is already in use")
+
+    def save(self, *args, **kwargs):
+        generate_uuid = uuid.uuid4()
+        slug_uuid = generate_uuid.hex
+        self.slug = slugify(slug_uuid)
+        super(Customer, self).save(*args, **kwargs)
 
 
     class Meta:
