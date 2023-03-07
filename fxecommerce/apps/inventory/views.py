@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import GroupRequiredMixin
 from .forms import OrderDetailsForm, ProductForm, CategoryForm
 from django import forms
+from django.contrib import messages
 
 
 class HomeView(TemplateView):
@@ -73,10 +74,14 @@ class OrderDetailsCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView)
     def form_valid(self, form):
         # check if created_by field is set in the form data
         created_by = form.cleaned_data.get('created_by', None)
+        user = self.request.user
         if created_by:
             form.instance.created_by = created_by
+        elif user.user_type == 4:
+            form.instance.created_by = user
         else:
-            form.instance.created_by = self.request.user
+            messages.error(self.request, 'Please select a customer.', extra_tags='alert alert-danger')
+            return self.form_invalid(form)
 
         return super().form_valid(form)
 
