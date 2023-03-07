@@ -1,5 +1,7 @@
 from django import forms
 from .models import Product, Category, OrderDetails
+from django.core.exceptions import ValidationError
+from users.models import User
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -44,6 +46,9 @@ class OrderDetailsForm(forms.ModelForm):
         self.fields['quantity'].label = 'Quantity'
         self.fields['discount'].label = 'Discount'
         self.fields['created_by'].label = 'Select Customer to assign Order*'
+        self.fields['created_by'].queryset = User.objects.filter(user_type=4)
+
+
 
 
 
