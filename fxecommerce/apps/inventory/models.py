@@ -96,14 +96,14 @@ class Shipper(models.Model):
         null=False
     )
 
-    '''freight_price = unit_price = models.DecimalField(
+    freight_price = models.DecimalField(
         verbose_name=_('Freight price'),
         db_column='FreightPrice',
         blank=True,
         null=True,
         max_digits=19,
         decimal_places=4
-    )'''
+    )
 
     class Meta:
         db_table = 'shipper'
@@ -427,13 +427,15 @@ class Order(models.Model):
         db_index=True,
         on_delete=models.CASCADE
     )
+
     freight = models.DecimalField(
         verbose_name=_('Freight'),
         db_column='Freight',
         blank=True,
         null=True,
         max_digits=19,
-        decimal_places=4
+        decimal_places=4,
+        default=0
     )
     ship_name = models.CharField(
         verbose_name=_('Ship name'),
@@ -494,6 +496,7 @@ class Order(models.Model):
     class Meta:
         db_table = 'order'
         verbose_name_plural = _("Orders")
+        ordering = ['-order_id']
 
     def __str__(self):
         return f'Order ID: {str(self.order_id)} [ordered for {self.customer_id}]'
@@ -514,6 +517,16 @@ class OrderDetails(models.Model):
         on_delete=models.CASCADE
     )
 
+    unit_price = models.DecimalField(
+        verbose_name=_('Unit price'),
+        db_column='UnitPrice',
+        blank=True,
+        null=True,
+        max_digits=19,
+        decimal_places=4,
+        default=0
+    )
+
     quantity = models.SmallIntegerField(
         verbose_name=_('Quantity'),
         db_column='Quantity'
@@ -523,6 +536,7 @@ class OrderDetails(models.Model):
         db_column='Discount',
         null=True,
         blank=True,
+        default=0,
     )
 
     created_by = models.ForeignKey(
@@ -539,9 +553,6 @@ class OrderDetails(models.Model):
     def get_absolute_url(self):
         return reverse('inventory:order_detail', args=[str(self.order_id.order_id)])
 
-    @cached_property
-    def unit_price(self):
-        return round(self.product_id.unit_price, 2)
 
     def get_total_amount(self):
         return round(self.quantity * self.product_id.unit_price, 2)
@@ -549,6 +560,16 @@ class OrderDetails(models.Model):
     def get_discounted_total(self):
         total_amount = self.get_total_amount()
         return total_amount - (total_amount * round(self.discount)/100)
+
+    def get_total_price(self):
+        total_price = self.get_discounted_total()
+
+        # check if Order.ship_via exists and its freight_price matches Order.freight
+        if self.order_id.ship_via and self.order_id.ship_via.freight_price == self.order_id.freight:
+            total_price += self.order_id.freight
+
+        return total_price
+
 
     def clean(self):
         super().clean()
@@ -569,7 +590,7 @@ class OrderDetails(models.Model):
     class Meta:
         db_table = 'order_details'
         verbose_name_plural = _('Order details')
-        ordering = ['order_id']
+        ordering = ['-order_id']
 
     def __str__(self):
         return f'{str(self.order_id)} for {str(self.product_id)}'
@@ -594,13 +615,27 @@ def revert_product_stock(sender, instance, **kwargs):
 
 @receiver(post_save, sender=OrderDetails)
 def update_order_customer(sender, instance, created, **kwargs):
-    if created and instance.created_by.user_type == 4:  # check if user is a customer
+    if created and instance.created_by.user_type == 4: # check if user is a customer
         order = instance.order_id # assign instance order_id to Order.order_id
         customer = Customer.objects.get(user=instance.created_by) # get object id by OrderDetails.created_by
         order.customer_id = customer # Order.customer_id is exactly the same User.customer
         if hasattr(customer, 'customer_specialist'):
             order.employee_id = customer.customer_specialist # assign employee_id to order if customer has customer_specialist
         order.save()
+
+@receiver(post_save, sender=OrderDetails)
+def update_order_details_unit_price(sender, instance, **kwargs):
+    """Update the OrderDetails.unit_price with Product.unit_price"""
+    if instance.product_id and not instance.unit_price:
+        instance.unit_price = instance.product_id.unit_price
+        instance.save()
+
+@receiver(post_save, sender=Order)
+def update_order_freight_price(sender, instance, **kwargs):
+    """Update the Order.freight with Shipper.freight_price"""
+    if instance.ship_via and not instance.freight:
+        instance.freight = instance.ship_via.freight_price
+        instance.save()
 
 
 
