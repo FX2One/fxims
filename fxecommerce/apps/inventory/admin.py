@@ -12,7 +12,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class OrderDetailsAdmin(admin.ModelAdmin):
-    list_display = ['order_id', 'product_id', 'quantity', 'discount']
+    list_display = ['order_id', 'product_id', 'quantity', 'discount', 'get_total_amount', 'get_discounted_total', 'get_total_price']
 
     def save_model(self, request, obj, form, change):
         # If the object is being edited, get the original object from the database
