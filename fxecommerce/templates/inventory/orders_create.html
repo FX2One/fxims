@@ -29,10 +29,12 @@ Create New Order
 
                 {{ form.order_id.as_hidden }}
                 {{ form.created_by.as_hidden }}
-                {{ form.discount.as_hidden}}
+                {{ form.discount.as_hidden }}
+                {{ form.total_amount.as_hidden }}
+                {{ form.discounted_total.as_hidden }}
+                {{ form.total_price.as_hidden }}
 
             {% endif %}
-
             <button type="submit" class="btn btn-success">Create</button>
         </form>
     </div>

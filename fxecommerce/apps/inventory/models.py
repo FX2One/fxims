@@ -6,11 +6,11 @@ from django.urls import reverse
 from django.template.defaultfilters import slugify
 from .managers import ProductManager, OrderDetailsManager
 import uuid
-from django.utils.functional import cached_property
 from django.db.models.signals import pre_save, post_save, pre_delete
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from users.models import Customer, User, Employee
+from django.core.validators import MinValueValidator
 
 class Region(models.Model):
     region_id = models.PositiveSmallIntegerField(
@@ -99,10 +99,10 @@ class Shipper(models.Model):
     freight_price = models.DecimalField(
         verbose_name=_('Freight price'),
         db_column='FreightPrice',
-        blank=True,
         null=True,
         max_digits=19,
-        decimal_places=4
+        decimal_places=4,
+        validators=[MinValueValidator(0)]
     )
 
     class Meta:
@@ -321,28 +321,31 @@ class Product(models.Model):
     unit_price = models.DecimalField(
         verbose_name=_('Unit price'),
         db_column='UnitPrice',
-        blank=True,
         null=True,
         max_digits=19,
-        decimal_places=4
+        decimal_places=4,
+        validators=[MinValueValidator(0)]
     )
     units_in_stock = models.SmallIntegerField(
         verbose_name=_('Units in Stock'),
         db_column='UnitsInStock',
         blank=True,
-        null=True
+        null=True,
+        validators=[MinValueValidator(0)]
     )
     units_on_order = models.SmallIntegerField(
         verbose_name=_('Units on Order'),
         db_column='UnitsOnOrder',
         blank=True,
-        null=True
+        null=True,
+        validators=[MinValueValidator(0)]
     )
     reorder_level = models.SmallIntegerField(
         verbose_name=_('Reorder level'),
         db_column='ReorderLevel',
         blank=True,
-        null=True
+        null=True,
+        validators=[MinValueValidator(0)]
     )
     discontinued = models.BooleanField(
         verbose_name=_('Discontinued'),
@@ -381,7 +384,7 @@ class Order(models.Model):
     order_id = models.AutoField(
         verbose_name=_('Order ID'),
         db_column='OrderID',
-        primary_key=True
+        primary_key=True,
     )
     customer_id = models.ForeignKey(
         "users.Customer",
@@ -435,8 +438,9 @@ class Order(models.Model):
         null=True,
         max_digits=19,
         decimal_places=4,
-        default=0
+        default=None
     )
+
     ship_name = models.CharField(
         verbose_name=_('Ship name'),
         db_column='ShipName',
@@ -445,6 +449,7 @@ class Order(models.Model):
         null=False,
         default="insert correct data"
     )
+
     ship_address = models.CharField(
         verbose_name=_('Ship address'),
         db_column='ShipAddress',
@@ -453,6 +458,7 @@ class Order(models.Model):
         null=False,
         default="insert correct data"
     )
+
     ship_city = models.CharField(
         verbose_name=_('Ship city'),
         db_column='ShipCity',
@@ -461,6 +467,7 @@ class Order(models.Model):
         null=False,
         default="insert correct data"
     )
+
     ship_region = models.CharField(
         verbose_name=_('Ship region'),
         db_column='ShipRegion',
@@ -469,6 +476,7 @@ class Order(models.Model):
         null=True,
         default="insert correct data"
     )
+
     ship_postal_code = models.CharField(
         verbose_name=_('Ship postal code'),
         db_column='ShipPostalCode',
@@ -478,6 +486,7 @@ class Order(models.Model):
         db_index=True,
         default="insert correct data"
     )
+
     ship_country = models.CharField(
         verbose_name=_('Shipped country'),
         db_column='ShipCountry',
@@ -486,6 +495,7 @@ class Order(models.Model):
         null=False,
         default="insert correct data"
     )
+
     order_details = models.ManyToManyField(
         Product,
         verbose_name=_('Products'),
@@ -509,12 +519,16 @@ class OrderDetails(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        default=None
+        default=None,
+        related_name='orders'
     )
+
     product_id = models.ForeignKey(
         Product,
         db_column='ProductID',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
     )
 
     unit_price = models.DecimalField(
@@ -524,18 +538,21 @@ class OrderDetails(models.Model):
         null=True,
         max_digits=19,
         decimal_places=4,
-        default=0
+        default=None
     )
 
     quantity = models.SmallIntegerField(
         verbose_name=_('Quantity'),
         db_column='Quantity'
     )
-    discount = models.FloatField(
+
+    discount = models.DecimalField(
         verbose_name=_('Discount'),
         db_column='Discount',
         null=True,
         blank=True,
+        max_digits=19,
+        decimal_places=4,
         default=0,
     )
 
@@ -544,39 +561,58 @@ class OrderDetails(models.Model):
         verbose_name=_('Created by'),
         on_delete=models.CASCADE,
         related_name='orders_created',
-        null=True,
         blank=True,
+        null=True,
+    )
+
+    total_amount = models.DecimalField(
+        verbose_name=_('Total amount'),
+        db_column='TotalAmount',
+        blank=True,
+        null=True,
+        max_digits=19,
+        decimal_places=4,
+        default=0
+    )
+
+    discounted_total = models.DecimalField(
+        verbose_name=_('Discounted total'),
+        db_column='DiscountedTotal',
+        blank=True,
+        null=True,
+        max_digits=19,
+        decimal_places=4,
+        default=0
+    )
+
+    total_price = models.DecimalField(
+        verbose_name=_('Total price'),
+        db_column='TotalPrice',
+        blank=True,
+        null=True,
+        max_digits=19,
+        decimal_places=4,
+        default=0
     )
 
     objects = OrderDetailsManager()
 
-    def get_absolute_url(self):
-        return reverse('inventory:order_detail', args=[str(self.order_id.order_id)])
-
-
-    def get_total_amount(self):
-        return round(self.quantity * self.product_id.unit_price, 2)
-
-    def get_discounted_total(self):
-        total_amount = self.get_total_amount()
-        return total_amount - (total_amount * round(self.discount)/100)
-
-    def get_total_price(self):
-        total_price = self.get_discounted_total()
-
-        # check if Order.ship_via exists and its freight_price matches Order.freight
-        if self.order_id.ship_via and self.order_id.ship_via.freight_price == self.order_id.freight:
-            total_price += self.order_id.freight
-
-        return total_price
-
-
     def clean(self):
         super().clean()
+        if not self.product_id_id:
+            raise ValidationError('Product is required.')
+
+        try:
+            self.product_id.__class__.objects.get(pk=self.product_id_id)
+        except self.product_id.__class__.DoesNotExist:
+            raise ValidationError('Invalid product.')
+
         if self.quantity == 0:
             raise ValidationError('Quantity must be greater than zero.')
         elif self.quantity > self.product_id.units_in_stock:
+
             raise ValidationError(f"Only {self.product_id.units_in_stock} units available in stock.")
+
 
     def save(self, *args, **kwargs):
         # create new order if order_id is not set
@@ -584,13 +620,15 @@ class OrderDetails(models.Model):
             order = Order.objects.create()
             self.order_id = order
             order.save()
-
         super().save(*args, **kwargs)
+
+
 
     class Meta:
         db_table = 'order_details'
         verbose_name_plural = _('Order details')
         ordering = ['-order_id']
+
 
     def __str__(self):
         return f'{str(self.order_id)} for {str(self.product_id)}'
@@ -598,44 +636,101 @@ class OrderDetails(models.Model):
 
 @receiver(pre_save, sender=OrderDetails)
 def update_product_stock(sender, instance, **kwargs):
-    if instance.pk is None:  # instance is being created
+    # template error to employee in views to be done /admin panel form ???
+    existing_order_details = OrderDetails.objects.filter(order_id=instance.order_id)
+    if existing_order_details.exists() and existing_order_details[0].id != instance.id:
+        raise ValidationError("OrderDetails with order_id already exists")
+
+    if instance.pk is None:
         instance.product_id.units_in_stock -= instance.quantity
         instance.product_id.units_on_order += instance.quantity
         instance.product_id.save(update_fields=['units_in_stock', 'units_on_order'])
 
+
 @receiver(pre_delete, sender=OrderDetails)
 def revert_product_stock(sender, instance, **kwargs):
-    # retrieve the original values of the Product model
-    original_product = Product.objects.get(pk=instance.product_id.pk)
-    # update the Product model to reverse the changes made by the OrderDetails instance
+    try:
+        original_product = Product.objects.get(pk=instance.product_id.pk)
+    except Product.DoesNotExist:
+        return
+
     original_product.units_in_stock += instance.quantity
     original_product.units_on_order -= instance.quantity
     original_product.save(update_fields=['units_in_stock', 'units_on_order'])
 
+    order = instance.order_id
 
+    # If this is the last OrderDetails object with the same order_id, update the Order object
+    order.customer_id = None
+    order.save()
+
+@receiver(pre_save, sender=Order)
+def update_order_freight(sender, instance, **kwargs):
+    # Check if the instance has a related Shipper
+    if instance.ship_via:
+        shipper = instance.ship_via
+        try:
+            if shipper.freight_price is not None:
+                instance.freight = shipper.freight_price
+        except Shipper.DoesNotExist:
+            pass
+
+# fix guards
 @receiver(post_save, sender=OrderDetails)
 def update_order_customer(sender, instance, created, **kwargs):
-    if created and instance.created_by.user_type == 4: # check if user is a customer
+    if created and instance.created_by.user_type == 4:# check if user is a customer
         order = instance.order_id # assign instance order_id to Order.order_id
+
+        # big one ,do it for all the fields, fix models DEFAULT on ORDER
+        # input today's date as well while creating this order
+        # required date and shipped date I think should be into required fields only if updating Orders
         customer = Customer.objects.get(user=instance.created_by) # get object id by OrderDetails.created_by
         order.customer_id = customer # Order.customer_id is exactly the same User.customer
         if hasattr(customer, 'customer_specialist'):
             order.employee_id = customer.customer_specialist # assign employee_id to order if customer has customer_specialist
         order.save()
 
+
 @receiver(post_save, sender=OrderDetails)
 def update_order_details_unit_price(sender, instance, **kwargs):
     """Update the OrderDetails.unit_price with Product.unit_price"""
     if instance.product_id and not instance.unit_price:
         instance.unit_price = instance.product_id.unit_price
+        instance.total_amount = instance.unit_price * instance.quantity
+        if instance.discount == 0:
+            instance.discounted_total = instance.total_amount
+        elif instance.discount:
+            instance.discounted_total = instance.total_amount - (instance.total_amount * (instance.discount/100))
+            if instance.order_id.freight:
+                instance.total_price = instance.discounted_total + instance.order_id.freight
         instance.save()
+
 
 @receiver(post_save, sender=Order)
 def update_order_freight_price(sender, instance, **kwargs):
-    """Update the Order.freight with Shipper.freight_price"""
+    # Update the Order.freight with Shipper.freight_price
     if instance.ship_via and not instance.freight:
         instance.freight = instance.ship_via.freight_price
         instance.save()
+
+    if instance.freight:
+        # Get the related OrderDetails instances
+        order_details = instance.orders.all()
+
+        # Update the total_price for each instance
+        for order_detail in order_details:
+            order_detail.total_price = order_detail.discounted_total + instance.freight
+            order_detail.save()
+
+
+
+
+
+
+
+
+
+
 
 
 

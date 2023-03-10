@@ -4,15 +4,31 @@ from .models import (Category, Product, Supplier,
                      Territory, Region, OrderDetails,
                      Shipper)
 
+from users.models import User
+from inventory.forms import OrderDetailsForm
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("product_name", "product_id", "units_in_stock", "units_on_order")
-    prepopulated_fields = {"slug": ("product_name",)}
+    list_display = ('product_name', 'product_id', 'units_in_stock', 'units_on_order','reorder_level')
+    prepopulated_fields = {'slug': ('product_name',)}
     list_per_page = 20
+
+class OrderAdmin(admin.ModelAdmin):
+    exclude = ('freight',)
+
+class ShipperAdmin(admin.ModelAdmin):
+    list_display = ('company_name','freight_price')
 
 
 class OrderDetailsAdmin(admin.ModelAdmin):
-    list_display = ['order_id', 'product_id', 'quantity', 'discount', 'get_total_amount', 'get_discounted_total', 'get_total_price']
+    list_display = ['order_id', 'product_id', 'quantity', 'discount', 'total_amount','discounted_total','total_price']
+    exclude = ('unit_price','total_amount','discounted_total','total_price')
+    form = OrderDetailsForm
+
+    # limit created_by only to user_type=4
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "created_by":
+            kwargs["queryset"] = User.objects.filter(user_type=4)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def save_model(self, request, obj, form, change):
         # If the object is being edited, get the original object from the database
@@ -32,13 +48,12 @@ class OrderDetailsAdmin(admin.ModelAdmin):
             obj.product_id.save(update_fields=['units_in_stock', 'units_on_order'])
         obj.save()
 
-
 # Register your models here.
 admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Supplier)
-admin.site.register(Shipper)
-admin.site.register(Order)
+admin.site.register(Shipper, ShipperAdmin)
+admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderDetails, OrderDetailsAdmin)
 admin.site.register(CustomerDemographics)
 admin.site.register(Territory)

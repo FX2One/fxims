@@ -39,9 +39,11 @@ Order
             {% for o in object_list %}
             <tr>
                 <td>
+                    <!-- FIX absolute
                     <a class="text-decoration-none text-dark" href="{{ o.get_absolute_url }}">
                         <span>{{ o.order_id.order_id }}</span>
                     </a>
+                    -->
                 </td>
                 <td>{{ o.product_id.category_id }}</td>
                 <td>
@@ -54,8 +56,10 @@ Order
                 <td>
                     <a class="btn btn-info btn-sm mr-2"
                        href="{% url 'inventory:order_edit' pk=o.pk %}">Edit</a>
+
+                    <!-- fix to delete ORDERs not OrderDetails -->
                     <a class="btn btn-danger btn-sm ml-2"
-                       href="{% url 'inventory:order_delete' o.order_id.order_id %}">Delete</a>
+                       href="{% url 'inventory:order_delete' pk=o.pk %}">Delete</a>
                 </td>
             </tr>
             {% endfor %}

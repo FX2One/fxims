@@ -82,7 +82,6 @@ class OrderDetailsCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView)
         else:
             messages.error(self.request, 'Please select a customer.', extra_tags='alert alert-danger')
             return self.form_invalid(form)
-
         return super().form_valid(form)
 
 
@@ -100,8 +99,8 @@ class OrderDetailsUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView)
 
 
 class OrderDetailsDeleteView(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
-    model = Product
-    success_url = reverse_lazy('inventory:orders')
+    model = OrderDetails
+    success_url = reverse_lazy('inventory:order')
     template_name = "inventory/orders_delete.html"
     group_required = ['ExtraStaff', 'Employee', 'Customer']
 

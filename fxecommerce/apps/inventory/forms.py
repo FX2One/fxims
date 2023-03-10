@@ -27,15 +27,20 @@ class CategoryForm(forms.ModelForm):
             'image',
         ]
 
+
 class OrderDetailsForm(forms.ModelForm):
     class Meta:
         model = OrderDetails
         fields = [
             'product_id',
             'order_id',
+            'unit_price',
             'quantity',
             'discount',
-            'created_by'
+            'created_by',
+            'total_amount',
+            'discounted_total',
+            'total_price',
         ]
 
     def __init__(self, *args, **kwargs):
@@ -47,6 +52,12 @@ class OrderDetailsForm(forms.ModelForm):
         self.fields['discount'].label = 'Discount'
         self.fields['created_by'].label = 'Select Customer to assign Order*'
         self.fields['created_by'].queryset = User.objects.filter(user_type=4)
+
+    def clean_created_by(self):
+        created_by = self.cleaned_data.get('created_by', None)
+        if not created_by:
+            raise forms.ValidationError('Please select a customer.')
+        return created_by
 
 
 
