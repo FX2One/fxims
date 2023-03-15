@@ -27,8 +27,29 @@ class CategoryForm(forms.ModelForm):
             'image',
         ]
 
-
 class OrderDetailsForm(forms.ModelForm):
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['product_id'].label = 'Select Product'
+        self.fields['order_id'].label = 'Order'
+        self.fields['quantity'].label = 'Quantity'
+        self.fields['discount'].label = 'Discount'
+        self.fields['created_by'].label = 'Select Customer to assign Order*'
+
+        if user and user.user_type == 4:
+            self.fields['created_by'].queryset = User.objects.filter(id=user.id)
+            self.fields['created_by'].initial = user
+            self.fields['created_by'].disabled = True
+        else:
+            self.fields['created_by'].queryset = User.objects.filter(user_type=4)
+
+    def clean_created_by(self):
+        created_by = self.cleaned_data.get('created_by', None)
+        if not created_by:
+            raise forms.ValidationError('Please select a customer.')
+        return created_by
+
     class Meta:
         model = OrderDetails
         fields = [
@@ -43,21 +64,8 @@ class OrderDetailsForm(forms.ModelForm):
             'total_price',
         ]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
-        self.fields['product_id'].label = 'Select Product'
-        self.fields['order_id'].label = 'Order'
-        self.fields['quantity'].label = 'Quantity'
-        self.fields['discount'].label = 'Discount'
-        self.fields['created_by'].label = 'Select Customer to assign Order*'
-        self.fields['created_by'].queryset = User.objects.filter(user_type=4)
 
-    def clean_created_by(self):
-        created_by = self.cleaned_data.get('created_by', None)
-        if not created_by:
-            raise forms.ValidationError('Please select a customer.')
-        return created_by
 
 
 

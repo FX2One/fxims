@@ -12,6 +12,7 @@ Edit Order
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
+            <!-- exclude discounted_total, total_amount, total_price ,unit_price -->
             <button type="submit" class="btn btn-success">Update</button>
         </form>
     </div>

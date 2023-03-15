@@ -17,6 +17,7 @@ Create New Order
             {{ form.product_id|as_crispy_field }}
             {{ form.quantity|as_crispy_field  }}
 
+
             <!--only for user_type == 1 or admin-->
             {% if request.user.user_type == 1 or user.is_superuser %}
 

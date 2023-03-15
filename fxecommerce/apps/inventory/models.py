@@ -6,11 +6,13 @@ from django.urls import reverse
 from django.template.defaultfilters import slugify
 from .managers import ProductManager, OrderDetailsManager
 import uuid
-from django.db.models.signals import pre_save, post_save, pre_delete
+from django.db.models.signals import pre_save, post_save, pre_delete, post_delete
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from users.models import Customer, User, Employee
 from django.core.validators import MinValueValidator
+from . import utils as const
+
 
 class Region(models.Model):
     region_id = models.PositiveSmallIntegerField(
@@ -441,13 +443,15 @@ class Order(models.Model):
         default=None
     )
 
+    data_insert_msg = '--- insert data ---'
+
     ship_name = models.CharField(
         verbose_name=_('Ship name'),
         db_column='ShipName',
         max_length=40,
         blank=False,
         null=False,
-        default="insert correct data"
+        default=data_insert_msg
     )
 
     ship_address = models.CharField(
@@ -456,7 +460,7 @@ class Order(models.Model):
         max_length=60,
         blank=False,
         null=False,
-        default="insert correct data"
+        default=data_insert_msg
     )
 
     ship_city = models.CharField(
@@ -465,7 +469,7 @@ class Order(models.Model):
         max_length=40,
         blank=False,
         null=False,
-        default="insert correct data"
+        default=data_insert_msg
     )
 
     ship_region = models.CharField(
@@ -474,7 +478,7 @@ class Order(models.Model):
         max_length=40,
         blank=True,
         null=True,
-        default="insert correct data"
+        default=data_insert_msg
     )
 
     ship_postal_code = models.CharField(
@@ -484,7 +488,7 @@ class Order(models.Model):
         blank=False,
         null=False,
         db_index=True,
-        default="insert correct data"
+        default=data_insert_msg
     )
 
     ship_country = models.CharField(
@@ -493,8 +497,10 @@ class Order(models.Model):
         max_length=40,
         blank=False,
         null=False,
-        default="insert correct data"
+        default=data_insert_msg
     )
+
+    order_status = models.PositiveSmallIntegerField(choices=const.ORDER_STATUS, default=1)
 
     order_details = models.ManyToManyField(
         Product,
@@ -597,6 +603,7 @@ class OrderDetails(models.Model):
 
     objects = OrderDetailsManager()
 
+    #move form into the model and check here
     def clean(self):
         super().clean()
         if not self.product_id_id:
@@ -613,7 +620,6 @@ class OrderDetails(models.Model):
 
             raise ValidationError(f"Only {self.product_id.units_in_stock} units available in stock.")
 
-
     def save(self, *args, **kwargs):
         # create new order if order_id is not set
         if not self.order_id:
@@ -622,13 +628,10 @@ class OrderDetails(models.Model):
             order.save()
         super().save(*args, **kwargs)
 
-
-
     class Meta:
         db_table = 'order_details'
         verbose_name_plural = _('Order details')
         ordering = ['-order_id']
-
 
     def __str__(self):
         return f'{str(self.order_id)} for {str(self.product_id)}'
@@ -639,12 +642,16 @@ def update_product_stock(sender, instance, **kwargs):
     # template error to employee in views to be done /admin panel form ???
     existing_order_details = OrderDetails.objects.filter(order_id=instance.order_id)
     if existing_order_details.exists() and existing_order_details[0].id != instance.id:
+        message = "OrderDetails with order_id already exists"
+        # Add the error message to the form's non_field_errors() method
+        instance.order_id.add_error(None, message)
         raise ValidationError("OrderDetails with order_id already exists")
 
     if instance.pk is None:
         instance.product_id.units_in_stock -= instance.quantity
         instance.product_id.units_on_order += instance.quantity
         instance.product_id.save(update_fields=['units_in_stock', 'units_on_order'])
+
 
 
 @receiver(pre_delete, sender=OrderDetails)
@@ -658,10 +665,27 @@ def revert_product_stock(sender, instance, **kwargs):
     original_product.units_on_order -= instance.quantity
     original_product.save(update_fields=['units_in_stock', 'units_on_order'])
 
-    order = instance.order_id
 
-    # If this is the last OrderDetails object with the same order_id, update the Order object
+
+
+@receiver(pre_delete, sender=OrderDetails)
+def orderdetails_order_status_change_after_delete(sender, instance, **kwargs):
+    order = instance.order_id
+    # change status
+    order.order_status = 3
+    # unbind customer
     order.customer_id = None
+    # remove shipper
+    order.ship_via = None
+
+    cancel = 'cancelled'
+    order.ship_name = cancel
+    order.ship_address = cancel
+    order.ship_city = cancel
+    order.ship_region = cancel
+    order.ship_postal_code = cancel
+    order.ship_country = cancel
+
     order.save()
 
 @receiver(pre_save, sender=Order)
@@ -675,21 +699,23 @@ def update_order_freight(sender, instance, **kwargs):
         except Shipper.DoesNotExist:
             pass
 
+
 # fix guards
 @receiver(post_save, sender=OrderDetails)
 def update_order_customer(sender, instance, created, **kwargs):
-    if created and instance.created_by.user_type == 4:# check if user is a customer
-        order = instance.order_id # assign instance order_id to Order.order_id
-
-        # big one ,do it for all the fields, fix models DEFAULT on ORDER
-        # input today's date as well while creating this order
-        # required date and shipped date I think should be into required fields only if updating Orders
-        customer = Customer.objects.get(user=instance.created_by) # get object id by OrderDetails.created_by
-        order.customer_id = customer # Order.customer_id is exactly the same User.customer
+    if created and instance.created_by.user_type == 4:  # check if user is a customer
+        order = instance.order_id  # assign instance order_id to Order.order_id
+        customer = Customer.objects.get(user=instance.created_by)  # get object id by OrderDetails.created_by
+        order.customer_id = customer  # Order.customer_id is exactly the same User.customer
         if hasattr(customer, 'customer_specialist'):
-            order.employee_id = customer.customer_specialist # assign employee_id to order if customer has customer_specialist
+            order.employee_id = customer.customer_specialist  # assign employee_id to order if customer has customer_specialist
         order.save()
 
+@receiver(pre_save, sender=Product)
+def restock_product(sender, instance, **kwargs):
+    if instance.units_in_stock < instance.reorder_level:
+        #change to send mail
+        print(f'time to restock: {instance.product_name}')
 
 @receiver(post_save, sender=OrderDetails)
 def update_order_details_unit_price(sender, instance, **kwargs):
@@ -700,7 +726,7 @@ def update_order_details_unit_price(sender, instance, **kwargs):
         if instance.discount == 0:
             instance.discounted_total = instance.total_amount
         elif instance.discount:
-            instance.discounted_total = instance.total_amount - (instance.total_amount * (instance.discount/100))
+            instance.discounted_total = instance.total_amount - (instance.total_amount * (instance.discount / 100))
             if instance.order_id.freight:
                 instance.total_price = instance.discounted_total + instance.order_id.freight
         instance.save()
@@ -722,16 +748,17 @@ def update_order_freight_price(sender, instance, **kwargs):
             order_detail.total_price = order_detail.discounted_total + instance.freight
             order_detail.save()
 
+@receiver(post_save, sender=OrderDetails)
+def update_order_status(sender, instance, **kwargs):
+    # Check if the total_price of the OrderDetail instance is greater than 0
+    if instance.total_price > 0:
+        # Get the related Order instance
+        order = instance.order_id
 
-
-
-
-
-
-
-
-
-
-
+        # Check if the order_status of the Order instance is not already 2
+        if order.order_status != 2:
+            # Update the order_status to 2 and save the Order instance
+            order.order_status = 2
+            order.save()
 
 

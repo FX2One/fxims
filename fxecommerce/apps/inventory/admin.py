@@ -13,6 +13,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 20
 
 class OrderAdmin(admin.ModelAdmin):
+    list_display = ('order_id','ship_via','order_status',)
     exclude = ('freight',)
 
 class ShipperAdmin(admin.ModelAdmin):

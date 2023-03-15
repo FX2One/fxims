@@ -39,11 +39,11 @@ Order
             {% for o in object_list %}
             <tr>
                 <td>
-                    <!-- FIX absolute
+                    <!-- FIX absolute -- o.order_id.get_absolute_url CREATE absolute_url to Orders -->
                     <a class="text-decoration-none text-dark" href="{{ o.get_absolute_url }}">
                         <span>{{ o.order_id.order_id }}</span>
                     </a>
-                    -->
+
                 </td>
                 <td>{{ o.product_id.category_id }}</td>
                 <td>

@@ -66,23 +66,15 @@ class OrderDetailsCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView)
     paginate_by = 10
     group_required = ['ExtraStaff', 'Employee', 'Customer']
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.get_form()
         return context
-
-    def form_valid(self, form):
-        # check if created_by field is set in the form data
-        created_by = form.cleaned_data.get('created_by', None)
-        user = self.request.user
-        if created_by:
-            form.instance.created_by = created_by
-        elif user.user_type == 4:
-            form.instance.created_by = user
-        else:
-            messages.error(self.request, 'Please select a customer.', extra_tags='alert alert-danger')
-            return self.form_invalid(form)
-        return super().form_valid(form)
 
 
 class OrderDetailsUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
@@ -105,7 +97,7 @@ class OrderDetailsDeleteView(GroupRequiredMixin, LoginRequiredMixin, DeleteView)
     group_required = ['ExtraStaff', 'Employee', 'Customer']
 
 
-class OrderSpecificationView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
+class OrderSpecificationDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
     model = Order
     template_name = "inventory/order_specification.html"
     group_required = ['ExtraStaff', 'Employee']
