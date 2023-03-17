@@ -1,12 +1,14 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_view
-from .views import EmployeeListView, EmployeeDetailView, RegisterView, CustomerListView, CustomerDetailView
+from .views import EmployeeListView, EmployeeDetailView, EmployeeRegisterView, CustomerRegisterView, CustomerListView, CustomerDetailView
 
 app_name = 'users'
 
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
+    #path('register/', RegisterView.as_view(), name='register'),
+    path('register/employee/', EmployeeRegisterView.as_view(), name='register_employee'),
+    path('register/customer/', CustomerRegisterView.as_view(), name='register_customer'),
     path('profile/', views.employee_profile, name='employee_profile'),
     path('profile/', views.customer_profile, name='customer_profile'),
     path('profile/update/customer', views.customer_update, name='customer_update'),

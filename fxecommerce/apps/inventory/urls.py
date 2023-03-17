@@ -10,7 +10,6 @@ app_name = 'inventory'
 
 urlpatterns = [
     path("", HomeView.as_view(), name='home'),
-
     path("category/", CategoryListView.as_view(), name="category"),
     path("category/create", CategoryCreateView.as_view(), name="category_new"),
     path("order/", OrderDetailsListView.as_view(), name="order"),

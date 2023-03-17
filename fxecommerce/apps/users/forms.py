@@ -2,11 +2,30 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import User, Customer, Employee
 from django import forms
 
-'''subclass UserCreationForm to match new CustomUser'''
-class CustomUserCreationForm(UserCreationForm):
+
+class EmployeeUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('email',)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email.endswith('@e.com'):
+            raise forms.ValidationError("Only Employees allowed to register here.")
+        return email
+
+class CustomerUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('email',)
+
+
+
+'''subclass UserCreationForm to match new CustomUser'''
+'''class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('email',)'''
 
 
 '''subclass UserCreationForm to match new CustomUser'''

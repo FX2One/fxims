@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import CustomUserCreationForm, CustomUserUpdateForm, CustomerUpdateForm, EmployeeUpdateForm
+from .forms import EmployeeUserCreationForm, CustomerUserCreationForm, CustomUserUpdateForm, CustomerUpdateForm, EmployeeUpdateForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,13 +8,32 @@ from .mixins import GroupRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Employee, Customer
 from django.urls import reverse_lazy
+from .forms import EmployeeUserCreationForm, CustomerUserCreationForm
+
+class EmployeeRegisterView(CreateView):
+    template_name = 'users/register_employee.html'
+    form_class = EmployeeUserCreationForm
+    success_url = reverse_lazy('inventory:home')
+
+    def form_valid(self, form):
+        form.instance.user_type = 1
+        return super().form_valid(form)
+
+class CustomerRegisterView(CreateView):
+    template_name = 'users/register_customer.html'
+    form_class = CustomerUserCreationForm
+    success_url = reverse_lazy('inventory:home')
+
+    def form_valid(self, form):
+        form.instance.user_type = 4
+        return super().form_valid(form)
 
 
 
-class RegisterView(CreateView):
+'''class RegisterView(CreateView):
     template_name = 'users/register.html'
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('inventory:home')
+    success_url = reverse_lazy('inventory:home')'''
 
 
 @login_required

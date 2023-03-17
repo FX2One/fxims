@@ -32,9 +32,19 @@
             {% else %}
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="{% url 'auth:register' %}">Register <span
+                    <a class="nav-link text-white" href="{% url 'auth:register_employee' %}">Register Employee <span
                             class="sr-only"></span></a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="{% url 'auth:register_customer' %}">Register Customer <span
+                            class="sr-only"></span></a>
+                </li>
+                <!--
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="FIX % sign url 'auth:register">Register <span
+                            class="sr-only"></span></a>
+                </li>
+                -->
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'auth:login' %}">Login</a>
                 </li>
