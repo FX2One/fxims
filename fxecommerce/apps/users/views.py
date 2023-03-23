@@ -1,16 +1,53 @@
 from django.shortcuts import render
-from .forms import EmployeeUserCreationForm, CustomerUserCreationForm, CustomUserUpdateForm, CustomerUpdateForm, EmployeeUpdateForm
+from .forms import EmployeeUserCreationForm, CustomerUserCreationForm, CustomUserUpdateForm, CustomerUpdateForm, \
+    EmployeeUpdateForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import GroupRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, View
 from .models import Employee, Customer
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from .forms import EmployeeUserCreationForm, CustomerUserCreationForm
 
-class EmployeeRegisterView(CreateView):
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth import get_user_model
+
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView
+
+
+class RegisterView(CreateView):
+    def send_confirmation_email(self, user):
+        current_site = get_current_site(self.request)
+        subject = 'FXIMS Account Activation'
+        message = render_to_string('users/account_activation.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        })
+        user.email_user(subject, message)
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_active = False  # Deactivate account till it is confirmed
+        user.save()
+
+        self.send_confirmation_email(user)
+
+        messages.success(self.request, ('Please Confirm your email to complete registration.'))
+
+        return redirect('users:login')
+
+
+class EmployeeRegisterView(RegisterView):
     template_name = 'users/register_employee.html'
     form_class = EmployeeUserCreationForm
     success_url = reverse_lazy('inventory:home')
@@ -19,7 +56,8 @@ class EmployeeRegisterView(CreateView):
         form.instance.user_type = 1
         return super().form_valid(form)
 
-class CustomerRegisterView(CreateView):
+
+class CustomerRegisterView(RegisterView):
     template_name = 'users/register_customer.html'
     form_class = CustomerUserCreationForm
     success_url = reverse_lazy('inventory:home')
@@ -29,16 +67,45 @@ class CustomerRegisterView(CreateView):
         return super().form_valid(form)
 
 
+class AccountActivationView(View):
+    def get(self, request, uidb64, token, *args, **kwargs):
+        user = None
 
-'''class RegisterView(CreateView):
-    template_name = 'users/register.html'
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('inventory:home')'''
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            User = get_user_model()
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            pass
+
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            login(request, user)
+            message = ('Your account has been confirmed.')
+        else:
+            message = ('The confirmation link was invalid, possibly because it has already been used.')
+
+        messages.success(request, message) if user else messages.warning(request, message)
+        return redirect('inventory:home')
+
+
+class CustomPasswordResetView(PasswordResetView):
+    success_url = reverse_lazy("users:password_reset_done")
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    success_url = reverse_lazy("users:password_reset_complete")
+
+
+class CustomPasswordChangeView(PasswordChangeView):
+    success_url = reverse_lazy("users:password_change_done")
 
 
 @login_required
 def customer_profile(request):
     return render(request, 'users/profile.html')
+
 
 @login_required
 def employee_profile(request):
@@ -63,6 +130,7 @@ def customer_update(request):
         'customer_form': customer_form
     }
     return render(request, 'users/customer_update.html', context)
+
 
 @login_required
 def employee_update(request):

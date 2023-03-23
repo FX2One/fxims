@@ -22,13 +22,6 @@ class CustomerUserCreationForm(UserCreationForm):
 
 
 '''subclass UserCreationForm to match new CustomUser'''
-'''class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ('email',)'''
-
-
-'''subclass UserCreationForm to match new CustomUser'''
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = User

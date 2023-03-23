@@ -12,7 +12,8 @@ from django.core.exceptions import ValidationError
 from users.models import Customer, User, Employee
 from django.core.validators import MinValueValidator
 from . import utils as const
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 class Region(models.Model):
     region_id = models.PositiveSmallIntegerField(
@@ -668,7 +669,7 @@ def revert_product_stock(sender, instance, **kwargs):
 
 
 
-@receiver(pre_delete, sender=OrderDetails)
+@receiver(post_delete, sender=OrderDetails)
 def orderdetails_order_status_change_after_delete(sender, instance, **kwargs):
     order = instance.order_id
     # change status
@@ -714,8 +715,11 @@ def update_order_customer(sender, instance, created, **kwargs):
 @receiver(pre_save, sender=Product)
 def restock_product(sender, instance, **kwargs):
     if instance.units_in_stock < instance.reorder_level:
-        #change to send mail
-        print(f'time to restock: {instance.product_name}')
+        subject = f"FXIMS: Time to restock {instance.product_name}"
+        message = f'Time to restock: {instance.product_name} is on {instance.units_in_stock} units left'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = []
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
 @receiver(post_save, sender=OrderDetails)
 def update_order_details_unit_price(sender, instance, **kwargs):

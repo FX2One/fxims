@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.conf.global_settings import SECURE_SSL_REDIRECT
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -158,3 +160,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
+
+
+# EMAIL settings
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
+
+
