@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'users',
     'custom_cmd',
     'crispy_forms',
+    'debug_toolbar',
 ]
 
 AUTH_USER_MODEL = "users.User"
@@ -60,6 +61,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'config.urls'

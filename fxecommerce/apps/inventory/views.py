@@ -13,8 +13,6 @@ from django.contrib import messages
 class HomeView(TemplateView):
     template_name = "index.html"
 
-
-
 class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Category
     template_name = "inventory/categories.html"
