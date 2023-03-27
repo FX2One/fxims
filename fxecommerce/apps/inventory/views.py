@@ -8,10 +8,11 @@ from .mixins import GroupRequiredMixin
 from .forms import OrderDetailsForm, ProductForm, CategoryForm
 from django import forms
 from django.contrib import messages
-
+from users.models import User
 
 class HomeView(TemplateView):
     template_name = "index.html"
+
 
 class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = Category
@@ -21,6 +22,7 @@ class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get("paginate_by", self.paginate_by)
+
 
 class CategoryCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     model = Category
@@ -34,26 +36,26 @@ class CategoryCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
         context['form'] = self.get_form()
         return context
 
+
 class OrderDetailsListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     model = OrderDetails
     template_name = "inventory/orders.html"
     paginate_by = 10
     group_required = ['ExtraStaff', 'Employee', 'Customer']
 
-
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         user_type = self.request.user.user_type
 
         if user_type == 4:
-            # If user_type is 4, only show OrderDetails created by the current user
-            return OrderDetails.objects.filter(created_by=self.request.user).exclude(created_by=None).search(search_query)
+            return OrderDetails.objects.filter(created_by_id=self.request.user.id).search(search_query)
         else:
-            # Otherwise if user_type == 1, show all OrderDetails
             return OrderDetails.objects.search(search_query)
+
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get("paginate_by", self.paginate_by)
+
 
 
 class OrderDetailsCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
@@ -110,6 +112,15 @@ class ProductListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     def get_queryset(self):
         search_query = self.request.GET.get('q')
         return Product.objects.search(search_query)
+
+    def get_current_user(self):
+        user_id = self.request.user.id
+        return User.objects.prefetch_related('groups').get(id=user_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_user'] = self.get_current_user()
+        return context
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get("paginate_by", self.paginate_by)

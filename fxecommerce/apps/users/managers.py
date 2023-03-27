@@ -40,11 +40,14 @@ class CustomUserManager(BaseUserManager):
 class EmployeeQuerySet(models.QuerySet):
     def search(self, search_query):
         if search_query:
-            return self.filter(
+            return self.select_related(
+                'user').filter(
                 Q(first_name__icontains=search_query) |
-                Q(last_name__icontains=search_query)
+                Q(last_name__icontains=search_query) |
+                Q(user__email__icontains=search_query)
             )
-        return self
+        return self.select_related('user')
+
 
 class EmployeeManager(models.Manager):
     def get_queryset(self):

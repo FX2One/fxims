@@ -59,12 +59,13 @@ Products
                 <td>
                     <a class="btn btn-info btn-sm mr-2"
                        href="{% url 'inventory:product_edit' p.slug %}">Edit</a>
-                    {% for group_for in request.user.groups.all %}
+                    {% for group_for in current_user.groups.all %}
                         {% if group_for.name == 'ExtraStaff' or user.is_superuser %}
-                        <a class="btn btn-danger btn-sm ml-2"
-                           href="{% url 'inventory:product_delete' p.slug %}">Delete</a>
+                            <a class="btn btn-danger btn-sm ml-2"
+                               href="{% url 'inventory:product_delete' p.slug %}">Delete</a>
                         {% endif %}
                     {% endfor %}
+
                 </td>
                 {% endif %}
             </tr>

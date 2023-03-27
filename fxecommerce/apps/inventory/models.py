@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
-from .managers import ProductManager, OrderDetailsManager
+from .managers import ProductManager, OrderDetailsManager, OrderManager, CategoryManager
 import uuid
 from django.db.models.signals import pre_save, post_save, pre_delete, post_delete
 from django.dispatch import receiver
@@ -183,6 +183,9 @@ class Category(models.Model):
         blank=True,
         upload_to='category/'
     )
+
+    objects = CategoryManager()
+
 
     class Meta:
         db_table = 'category'
@@ -509,6 +512,9 @@ class Order(models.Model):
         blank=True,
         through='OrderDetails'
     )
+
+    objects = OrderManager()
+
 
     class Meta:
         db_table = 'order'

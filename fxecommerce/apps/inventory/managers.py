@@ -1,14 +1,16 @@
 from django.db import models
 from django.db.models import Q
-from django.db.models import Prefetch
+
 
 class ProductQuerySet(models.QuerySet):
     def search(self, search_query):
         if search_query:
-            return self.filter(
-                Q(product_name__icontains=search_query)
+            return self.select_related('category_id').filter(
+                Q(product_name__icontains=search_query) |
+                Q(category_id__category_name__icontains=search_query)
             )
-        return self
+        return self.select_related('category_id')
+
 
 class ProductManager(models.Manager):
     def get_queryset(self):
@@ -18,8 +20,21 @@ class ProductManager(models.Manager):
         return self.get_queryset().search(search_query)
 
 
+class CategoryQuerySet(models.QuerySet):
+    def search(self, search_query):
+        if search_query:
+            return self.filter(
+                Q(category_name__icontains=search_query)
+            )
+        return self
+
+
 class CategoryManager(models.Manager):
-    pass
+    def get_queryset(self):
+        return CategoryQuerySet(self.model, using=self._db)
+
+    def search(self,search_query):
+        return self.get_queryset().search(search_query)
 
 
 class OrderDetailsQuerySet(models.QuerySet):
@@ -27,19 +42,16 @@ class OrderDetailsQuerySet(models.QuerySet):
         if search_query:
             return self.select_related(
                 'order_id',
-                'order_id__customer_id',
-                'order_id__customer_id__user',
                 'product_id',
-                'product_id__category_id'
-            ).filter(
+                'product_id__category_id',
+                'created_by').filter(
                 Q(order_id__order_id__icontains=search_query) |
                 Q(product_id__category_id__category_name__icontains=search_query) |
                 Q(product_id__product_name__icontains=search_query) |
                 Q(quantity__icontains=search_query) |
-                Q(order_id__customer_id__user__email__icontains=search_query)
+                Q(created_by__email__icontains=search_query)
             )
-        return self
-
+        return self.select_related('order_id', 'product_id', 'product_id__category_id', 'created_by')
 
 
 class OrderDetailsManager(models.Manager):
@@ -50,8 +62,18 @@ class OrderDetailsManager(models.Manager):
         return self.get_queryset().search(search_query)
 
 
+class OrderQuerySet(models.QuerySet):
+    def search(self, search_query):
+        if search_query:
+            return self.filter(
+                Q(order_id__icontains=search_query)
+            )
+        return self
 
 
+class OrderManager(models.Manager):
+    def get_queryset(self):
+        return OrderQuerySet(self.model, using=self._db)
 
-
-
+    def search(self, search_query):
+        return self.get_queryset().search(search_query)
