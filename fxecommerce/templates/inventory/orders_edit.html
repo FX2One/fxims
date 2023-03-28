@@ -11,9 +11,32 @@ Edit Order
     <div class="card-body-sm">
         <form method="post">
             {% csrf_token %}
-            {{ form|crispy }}
-            <!-- exclude discounted_total, total_amount, total_price ,unit_price -->
-            <button type="submit" class="btn btn-success">Update</button>
+            {{ forms|crispy }}
+
+            <!--display for every User -->
+            {{ form.product_id|as_crispy_field }}
+            {{ form.quantity|as_crispy_field  }}
+
+
+            <!--only for user_type == 1 or admin-->
+            {% if request.user.user_type == 1 or user.is_superuser %}
+
+            {{ form.order_id|as_crispy_field }}
+            {{ form.created_by|as_crispy_field }}
+            {{ form.discount|as_crispy_field }}
+
+            <!--only for user_type == 4-->
+            {% else %}
+
+            {{ form.order_id.as_hidden }}
+            {{ form.created_by.as_hidden }}
+            {{ form.discount.as_hidden }}
+            {{ form.total_amount.as_hidden }}
+            {{ form.discounted_total.as_hidden }}
+            {{ form.total_price.as_hidden }}
+
+            {% endif %}
+            <button type="submit" class="btn btn-success">Create</button>
         </form>
     </div>
 </div>

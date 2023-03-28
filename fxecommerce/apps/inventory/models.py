@@ -533,7 +533,8 @@ class OrderDetails(models.Model):
         null=True,
         blank=True,
         default=None,
-        related_name='orders'
+        related_name='orders',
+        unique=True
     )
 
     product_id = models.ForeignKey(

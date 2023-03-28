@@ -41,7 +41,7 @@ Products
             {% for p in object_list %}
             <tr>
                 <td>
-                    {% if request.user.user_type == 1 %}
+                    {% if current_user.user_type == 1 %}
                     <a class="text-decoration-none text-dark" href="{{ p.get_absolute_url }}">
                         <span>{{p.product_name}}</span>
                     </a>
