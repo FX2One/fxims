@@ -2,6 +2,7 @@ from django import forms
 from .models import Product, Category, OrderDetails
 from django.core.exceptions import ValidationError
 from users.models import User
+from django.forms import HiddenInput
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -31,8 +32,6 @@ class OrderDetailsForm(forms.ModelForm):
     def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['product_id'].label = 'Select Product'
-        self.fields['order_id'].label = 'Order'
         self.fields['quantity'].label = 'Quantity'
         self.fields['discount'].label = 'Discount'
         self.fields['created_by'].label = 'Select Customer to assign Order*'
