@@ -7,14 +7,23 @@ from .models import (Category, Product, Supplier,
 from users.models import User
 from inventory.forms import OrderDetailsForm
 
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_name', 'product_id', 'units_in_stock', 'units_on_order','reorder_level')
     prepopulated_fields = {'slug': ('product_name',)}
     list_per_page = 20
 
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('order_id','ship_via','order_status',)
     exclude = ('freight',)
+
+    # turn off Order creation
+    # Order is auto-created via OrderDetails model and connected signals
+    def has_add_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return False
+        return super().has_add_permission(request)
 
 class ShipperAdmin(admin.ModelAdmin):
     list_display = ('company_name','freight_price')
@@ -22,8 +31,16 @@ class ShipperAdmin(admin.ModelAdmin):
 
 class OrderDetailsAdmin(admin.ModelAdmin):
     list_display = ['order_id', 'product_id', 'quantity', 'discount', 'total_amount','discounted_total','total_price']
-    exclude = ('unit_price','total_amount','discounted_total','total_price')
+    exclude = ('order_id','unit_price','total_amount','discounted_total','total_price')
+
     form = OrderDetailsForm
+
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # If obj is not None, it means the object is being edited
+            return ['product_id', 'order_id']  # Make field1 and field2 read-only
+        else:  # If obj is None, it means the object is being added
+            return []
 
     # limit created_by only to user_type=4
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
