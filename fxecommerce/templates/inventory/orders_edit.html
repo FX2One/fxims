@@ -6,37 +6,42 @@ Edit Order
 {% load crispy_forms_tags %}
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title">Update the Order</h5>
+        <h5 class="card-title">Update the Order </h5>
     </div>
     <div class="card-body-sm">
         <form method="post">
             {% csrf_token %}
-            {{ forms|crispy }}
+
 
             <!--display for every User -->
-            {{ form.product_id|as_crispy_field }}
+            <span>{{ form.instance.product_id.product_name }}</span>
+            <span>{{ form.instance.order_id }}</span>
+            {{ form.order_id.as_hidden }}
+            {{ form.product_id.as_hidden }}
             {{ form.quantity|as_crispy_field  }}
 
 
             <!--only for user_type == 1 or admin-->
             {% if request.user.user_type == 1 or user.is_superuser %}
 
-            {{ form.order_id|as_crispy_field }}
-            {{ form.created_by|as_crispy_field }}
-            {{ form.discount|as_crispy_field }}
+                {{ form.created_by|as_crispy_field }}
+                {{ form.discount|as_crispy_field }}
 
             <!--only for user_type == 4-->
             {% else %}
 
-            {{ form.order_id.as_hidden }}
-            {{ form.created_by.as_hidden }}
-            {{ form.discount.as_hidden }}
-            {{ form.total_amount.as_hidden }}
-            {{ form.discounted_total.as_hidden }}
-            {{ form.total_price.as_hidden }}
+
+                {{ form.created_by.as_hidden }}
+                {{ form.discount.as_hidden }}
+                {{ form.total_amount.as_hidden }}
+                {{ form.discounted_total.as_hidden }}
+                {{ form.total_price.as_hidden }}
 
             {% endif %}
-            <button type="submit" class="btn btn-success">Create</button>
+
+            <button type="submit" class="btn btn-success">Update</button>
+
+
         </form>
     </div>
 </div>

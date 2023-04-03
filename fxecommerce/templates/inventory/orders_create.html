@@ -21,7 +21,7 @@ Create New Order
             <!--only for user_type == 1 or admin-->
             {% if request.user.user_type == 1 or user.is_superuser %}
 
-                {{ form.order_id|as_crispy_field }}
+                {{ form.order_id.as_hidden }}
                 {{ form.created_by|as_crispy_field }}
                 {{ form.discount|as_crispy_field }}
 
