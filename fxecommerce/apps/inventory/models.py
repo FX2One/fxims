@@ -529,12 +529,11 @@ class OrderDetails(models.Model):
     order_id = models.ForeignKey(
         Order,
         db_column='OrderID',
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         null=True,
         blank=True,
         default=None,
         related_name='orders',
-        unique=True
     )
 
     product_id = models.ForeignKey(
@@ -611,7 +610,7 @@ class OrderDetails(models.Model):
 
     objects = OrderDetailsManager()
 
-    #move form into the model and check here
+
     def clean(self):
         super().clean()
         if not self.product_id_id:
@@ -624,9 +623,20 @@ class OrderDetails(models.Model):
 
         if self.quantity == 0:
             raise ValidationError('Quantity must be greater than zero.')
-        elif self.quantity > self.product_id.units_in_stock:
 
-            raise ValidationError(f"Only {self.product_id.units_in_stock} units available in stock.")
+        # Check if it's a new instance or an existing one being updated
+        if self.pk:
+            current_order_details = OrderDetails.objects.get(pk=self.pk)
+            current_quantity = current_order_details.quantity
+            quantity_difference = self.quantity - current_quantity
+        else:
+            current_quantity = 0
+            quantity_difference = self.quantity
+
+        # Check if there are enough units_in_stock to fulfill the new quantity
+        if quantity_difference > self.product_id.units_in_stock:
+            raise ValidationError(f"Only {self.product_id.units_in_stock} more units available in stock.")
+
 
     def save(self, *args, **kwargs):
         # create new order if order_id is not set
@@ -635,6 +645,7 @@ class OrderDetails(models.Model):
             self.order_id = order
             order.save()
         super().save(*args, **kwargs)
+
 
     class Meta:
         db_table = 'order_details'
@@ -650,16 +661,12 @@ def update_product_stock(sender, instance, **kwargs):
     # template error to employee in views to be done /admin panel form ???
     existing_order_details = OrderDetails.objects.filter(order_id=instance.order_id)
     if existing_order_details.exists() and existing_order_details[0].id != instance.id:
-        message = "OrderDetails with order_id already exists"
-        # Add the error message to the form's non_field_errors() method
-        instance.order_id.add_error(None, message)
         raise ValidationError("OrderDetails with order_id already exists")
 
     if instance.pk is None:
         instance.product_id.units_in_stock -= instance.quantity
         instance.product_id.units_on_order += instance.quantity
         instance.product_id.save(update_fields=['units_in_stock', 'units_on_order'])
-
 
 
 @receiver(pre_delete, sender=OrderDetails)
@@ -675,27 +682,6 @@ def revert_product_stock(sender, instance, **kwargs):
 
 
 
-
-@receiver(post_delete, sender=OrderDetails)
-def orderdetails_order_status_change_after_delete(sender, instance, **kwargs):
-    order = instance.order_id
-    # change status
-    order.order_status = 3
-    # unbind customer
-    order.customer_id = None
-    # remove shipper
-    order.ship_via = None
-
-    cancel = 'cancelled'
-    order.ship_name = cancel
-    order.ship_address = cancel
-    order.ship_city = cancel
-    order.ship_region = cancel
-    order.ship_postal_code = cancel
-    order.ship_country = cancel
-
-    order.save()
-
 @receiver(pre_save, sender=Order)
 def update_order_freight(sender, instance, **kwargs):
     # Check if the instance has a related Shipper
@@ -708,7 +694,7 @@ def update_order_freight(sender, instance, **kwargs):
             pass
 
 
-# fix guards
+
 @receiver(post_save, sender=OrderDetails)
 def update_order_customer(sender, instance, created, **kwargs):
     if created and instance.created_by.user_type == 4:  # check if user is a customer
@@ -718,6 +704,7 @@ def update_order_customer(sender, instance, created, **kwargs):
         if hasattr(customer, 'customer_specialist'):
             order.employee_id = customer.customer_specialist  # assign employee_id to order if customer has customer_specialist
         order.save()
+
 
 @receiver(pre_save, sender=Product)
 def restock_product(sender, instance, **kwargs):
@@ -759,6 +746,7 @@ def update_order_freight_price(sender, instance, **kwargs):
             order_detail.total_price = order_detail.discounted_total + instance.freight
             order_detail.save()
 
+# fix update order_status against orderdetails_order_status_change_after_delete
 @receiver(post_save, sender=OrderDetails)
 def update_order_status(sender, instance, **kwargs):
     # Check if the total_price of the OrderDetail instance is greater than 0
@@ -773,3 +761,39 @@ def update_order_status(sender, instance, **kwargs):
             order.save()
 
 
+@receiver(post_delete, sender=OrderDetails)
+def orderdetails_order_status_change_after_delete(sender, instance, **kwargs):
+    if instance.order_id:  # Check if the OrderDetails instance had an order_id
+        order = instance.order_id
+        order.order_status = 3
+        order.customer_id = None
+        order.ship_via = None
+
+        cancel = '-'
+        order.ship_name = cancel
+        order.ship_address = cancel
+        order.ship_city = cancel
+        order.ship_region = cancel
+        order.ship_postal_code = cancel
+        order.ship_country = cancel
+        order.save()
+
+
+@receiver(post_save, sender=OrderDetails)
+def update_order_customer_id(sender, instance, **kwargs):
+    # Check if the OrderDetails.created_by field has been updated, instance.pk check if it's saved to db
+    if instance.created_by and instance.pk:
+        user = instance.created_by
+        # Get the related Order instance
+        order = instance.order_id
+
+        # Check if the user is a customer
+        if user.user_type == 4:
+            customer = Customer.objects.get(user=user)
+
+            # Update the Order.customer_id field
+            if order.customer_id != customer:
+                order.customer_id = customer
+                if hasattr(customer, 'customer_specialist'):
+                    order.employee_id = customer.customer_specialist
+                order.save()
