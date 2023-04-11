@@ -5,9 +5,13 @@
     "fields": {
       "order_id": 10255,
       "product_id": 1,
-      "unit_price": 150,
-      "quantity": 12,
-      "discount": 0
+      "unit_price": 10,
+      "quantity": 10,
+      "discount": 0,
+      "created_by": "8a52869d034e4044a7d93da18f6b7e5d",
+      "total_amount": 100,
+      "discounted_total": 100,
+      "total_price": 150
     }
   },
   {
@@ -16,9 +20,13 @@
     "fields": {
       "order_id": 10269,
       "product_id": 2,
-      "unit_price": 165,
-      "quantity": 35,
-      "discount": 0.150000006
+      "unit_price": 20,
+      "quantity": 10,
+      "discount": 0,
+      "created_by": "2051e40555c946d1b00ad7060cfe0511",
+      "total_amount": 200,
+      "discounted_total": 200,
+      "total_price": 300
     }
   },
   {
@@ -27,9 +35,13 @@
     "fields": {
       "order_id": 10276,
       "product_id": 3,
-      "unit_price": 110,
-      "quantity": 40,
-      "discount": 0.0500000007
+      "unit_price": 30,
+      "quantity": 10,
+      "discount": 0,
+      "created_by": "55b0c7d4c2d34ed38aca1bbcb07912c0",
+      "total_amount": 300,
+      "discounted_total": 300,
+      "total_price": 450
     }
   }
 ]

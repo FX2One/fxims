@@ -8,6 +8,7 @@
       "updated_at": "2022-12-02 14:22:52.562348",
       "is_verified": true,
       "image": "user_profile/example_photo.png",
+      "customer_specialist": "ff7c82fe8fe348b48e51daa5ca76f401",
       "company_name": "Richter Supermarkt",
       "contact_name": "Michael Holz",
       "contact_title": "Sales Manager",
@@ -17,7 +18,8 @@
       "postal_code": "1203",
       "country": "Switzerland",
       "phone": "0897-034214",
-      "fax": null
+      "fax": null,
+      "slug": "ca713e2cba424bc0bf0192cda36c5e39"
     }
   },
   {
@@ -29,6 +31,7 @@
       "updated_at": "2022-12-02 14:22:52.562348",
       "is_verified": true,
       "image": "user_profile/example_photo.png",
+      "customer_specialist": "d52baeb69fe043f0b001908cf9e7ff67",
       "company_name": "White Clover Markets",
       "contact_name": "Karl Jablonski",
       "contact_title": "Owner",
@@ -38,7 +41,8 @@
       "postal_code": "98128",
       "country": "USA",
       "phone": "(206) 555-4112",
-      "fax": "(206) 555-4115"
+      "fax": "(206) 555-4115",
+      "slug": "35c078fb43974fc0902fb90116123cbe"
     }
   },
   {
@@ -50,6 +54,7 @@
       "updated_at": "2022-12-02 14:22:52.562348",
       "is_verified": true,
       "image": "user_profile/example_photo.png",
+      "customer_specialist": "bcb3bacfdc284dd0846588180c5e62c1",
       "company_name": "Tortuga Restaurante",
       "contact_name": "Miguel Angel Paolino",
       "contact_title": "Owner",
@@ -59,7 +64,8 @@
       "postal_code": "05033",
       "country": "Mexico",
       "phone": "(5) 555-2933",
-      "fax": null
+      "fax": null,
+      "slug": "5ab2504a0c514f3884026250b46f12bd"
     }
   }
 ]

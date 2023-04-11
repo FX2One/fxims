@@ -9,9 +9,9 @@
       "category_id": 1,
       "quantity_per_unit": "10 boxes x 30 bags",
       "unit_price": 150,
-      "units_in_stock": 2000,
-      "units_on_order": 400,
-      "reorder_level": 300,
+      "units_in_stock": 90,
+      "units_on_order": 10,
+      "reorder_level": 60,
       "discontinued": true,
       "slug": "chai"
     }
@@ -26,9 +26,9 @@
       "category_id": 2,
       "quantity_per_unit": "24 - 12 oz bottles",
       "unit_price": 165,
-      "units_in_stock": 1000,
-      "units_on_order": 300,
-      "reorder_level": 200,
+      "units_in_stock": 190,
+      "units_on_order": 10,
+      "reorder_level": 50,
       "discontinued": false,
       "slug": "chang"
     }
@@ -43,8 +43,8 @@
       "category_id": 3,
       "quantity_per_unit": "12 - 550 ml bottles",
       "unit_price": 110,
-      "units_in_stock": 500,
-      "units_on_order": 100,
+      "units_in_stock": 290,
+      "units_on_order": 10,
       "reorder_level": 80,
       "discontinued": true,
       "slug": "aniseed-syrup"
