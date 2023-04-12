@@ -10,7 +10,8 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "user_type": 4
+      "user_type": 4,
+      "groups": [3]
     }
   },
   {
@@ -24,7 +25,8 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "user_type": 4
+      "user_type": 4,
+      "groups": [3]
     }
   },
   {
@@ -38,7 +40,8 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "user_type": 4
+      "user_type": 4,
+      "groups": [3]
     }
   },
   {
@@ -52,7 +55,8 @@
       "is_superuser": false,
       "is_staff": true,
       "is_active": true,
-      "user_type": 1
+      "user_type": 1,
+      "groups": [2]
     }
     },
   {
@@ -66,7 +70,8 @@
       "is_superuser": false,
       "is_staff": true,
       "is_active": true,
-      "user_type": 1
+      "user_type": 1,
+      "groups": [2]
     }
     },
   {
@@ -80,7 +85,8 @@
       "is_superuser": false,
       "is_staff": true,
       "is_active": true,
-      "user_type": 1
+      "user_type": 1,
+      "groups": [2]
     }
     }
 ]

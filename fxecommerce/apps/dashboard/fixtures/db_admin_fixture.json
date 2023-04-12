@@ -10,7 +10,8 @@
       "is_superuser": true,
       "is_staff": true,
       "is_active": true,
-      "user_type": 1
+      "user_type": 1,
+      "groups": [1]
     }
   }
 ]

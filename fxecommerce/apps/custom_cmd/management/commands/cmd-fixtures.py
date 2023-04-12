@@ -13,11 +13,12 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         call_command("makemigrations")
         call_command("migrate")
+        call_command('loaddata', 'db_group_fixture.json')
         call_command('groups')
         call_command('loaddata', 'db_admin_fixture.json')
         call_command('loaddata', 'db_user_fixture.json')
-        call_command('loaddata', 'db_customer_fixture.json')
         call_command('loaddata', 'db_employee_fixture.json')
+        call_command('loaddata', 'db_customer_fixture.json')
         call_command('loaddata', 'db_region_fixture.json')
         call_command('loaddata', 'db_territory_fixture.json')
         call_command('loaddata', 'db_employee_territories_fixture.json')
