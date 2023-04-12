@@ -5,7 +5,7 @@
     "fields": {
       "id" : "8a52869d034e4044a7d93da18f6b7e5d",
       "email": "ricsu@ricsu.com",
-      "password": "ed242ad85ee1b286a54f860e94b8a7811ec93163ca6f85eed13b5de6fe23d124",
+      "password": "pbkdf2_sha256$600000$jAN7dystSY8NPpzxOV4sF4$zQev/SkLOB3RA08C7JuJCMyjeQ5dd8GU/WbYoVdhvrw=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": false,
@@ -19,7 +19,7 @@
     "fields": {
       "id": "2051e40555c946d1b00ad7060cfe0511",
       "email": "whitc@whitc.com",
-      "password": "e4bca8c794217db2fe679eca6538683694f91ee3c60236d6fbca7bb3e06f8839",
+      "password": "pbkdf2_sha256$600000$1tIa7o3AVUS1bG6EYpY9az$eKR8idtKYWHNY8rCAZz7G0kGfxEphmlLjdpniN+GV9w=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": false,
@@ -33,7 +33,7 @@
     "fields": {
       "id": "55b0c7d4c2d34ed38aca1bbcb07912c0",
       "email": "tortu@tortu.com",
-      "password": "4767ce4f57a8ed00ac4e22ca240a97ab8fbb7a37f05be5cac86d66e669f86602",
+      "password": "pbkdf2_sha256$600000$p9nhWBKRgPx0Iy39cOPkkR$IXgGSSA5OObLiUsJrRyzph/6/v2snMsRmZ9WTWCeowI=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": false,
@@ -47,7 +47,7 @@
     "fields": {
       "id": "ff7c82fe8fe348b48e51daa5ca76f401",
       "email": "emp1@work.com",
-      "password": "11015668684f4814511c5da25328014172c70264019d5708e50fb913c877396d",
+      "password": "pbkdf2_sha256$600000$yuJwnfIpLQy51c7eEjCEeE$XA2+coePIcPF3+Vmh2iAl7XAvqYaP4Wks1RcYyaTUIc=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": true,
@@ -61,7 +61,7 @@
     "fields": {
       "id": "d52baeb69fe043f0b001908cf9e7ff67",
       "email": "emp2@work.com",
-      "password": "7f446237d3a2ecfc8567b7120e5651e08d59193a162b752f69392fa5cb8d5f15",
+      "password": "pbkdf2_sha256$600000$WuQDk2vjUThPwl1CmTHEbS$6vB+SmodLnIoO6rSr2HVS3WkjRERipHTcISEKW0xqLI=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": true,
@@ -75,7 +75,7 @@
     "fields": {
       "id": "bcb3bacfdc284dd0846588180c5e62c1",
       "email": "emp3@work.com",
-      "password": "e18da902e44290f7d5e77fb2adb51237e2e3bd4917f8499a1a17262d93f92eb4",
+      "password": "pbkdf2_sha256$600000$rsGAJFNgNresntfYlGjUPM$YbWBnFym96pklsOQ9hkMJf4BkmKfrqFWnugDM7ugTSc=",
       "last_login": null,
       "is_superuser": false,
       "is_staff": true,
