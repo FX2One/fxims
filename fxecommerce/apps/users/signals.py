@@ -24,8 +24,3 @@ def save_user_profile(sender, instance, created, **kwargs):
             group = Group.objects.get(name='Customer')
             instance.groups.add(group)
         instance.save()
-
-
-
-
-

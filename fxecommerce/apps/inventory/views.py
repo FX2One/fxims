@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Category, Product, Order, OrderDetails
@@ -6,8 +5,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import GroupRequiredMixin
 from .forms import OrderDetailsForm, ProductForm, CategoryForm
-from django import forms
 from users.models import User
+
 
 class HomeView(TemplateView):
     template_name = "index.html"
@@ -18,6 +17,7 @@ class CategoryListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
     template_name = "inventory/categories.html"
     paginate_by = 10
     group_required = ['ExtraStaff', 'Employee', 'Customer']
+    ordering = ['category_name']
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get("paginate_by", self.paginate_by)
@@ -51,10 +51,8 @@ class OrderDetailsListView(GroupRequiredMixin, LoginRequiredMixin, ListView):
         else:
             return OrderDetails.objects.search(search_query)
 
-
     def get_paginate_by(self, queryset):
         return self.request.GET.get("paginate_by", self.paginate_by)
-
 
 
 class OrderDetailsCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
@@ -106,7 +104,8 @@ class OrderDetailsUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView)
                 obj.product_id.units_in_stock -= abs(quantity_diff)
                 obj.product_id.units_on_order += abs(quantity_diff)
 
-            obj.product_id.save(update_fields=['units_in_stock', 'units_on_order'])
+            obj.product_id.save(
+                update_fields=['units_in_stock', 'units_on_order'])
 
         obj.save()
         return super().form_valid(form)
@@ -154,6 +153,8 @@ class ProductDetailView(GroupRequiredMixin, LoginRequiredMixin, DetailView):
     group_required = ['ExtraStaff', 'Employee']
 
 
+
+
 class ProductCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     model = Product
     fields = [
@@ -170,6 +171,8 @@ class ProductCreateView(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     template_name = "inventory/product_create.html"
     success_url = reverse_lazy('inventory:product_list')
     group_required = ['ExtraStaff', 'Employee']
+
+
 
 
 class ProductUpdateView(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
