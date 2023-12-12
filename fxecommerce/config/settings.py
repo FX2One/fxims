@@ -11,24 +11,39 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 import os
 import sys
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-from django.conf.global_settings import SECURE_SSL_REDIRECT
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env()
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+if os.environ.get('DJANGO_ENV') == 'production':
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env.production'))
+elif os.environ.get('DJANGO_ENV') == 'development':
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env.development'))
+else:
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env.testing'))
+
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env.bool('DEBUG', default=False)
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+DATABASES = {
+    'default': env.db('DATABASE_URL')
+}
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nxm_xuqpn&4bi@ca)bhp6)(_n22v_jf$&$cx3@)l$&adlrc9e-'
+#SECRET_KEY = 'django-insecure-nxm_xuqpn&4bi@ca)bhp6)(_n22v_jf$&$cx3@)l$&adlrc9e-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+#DEBUG = True
+#ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = 'inventory:home'
 # LOGOUT_REDIRECT_URL = 'inventory:home'
@@ -93,12 +108,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 # sqlite default database connection
-DATABASES = {
+'''DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.sqlite3',
          'NAME': BASE_DIR / 'db.sqlite3',
      }
- }
+ }'''
 # postgres default database connection
 '''DATABASES = {
     'default': {
@@ -163,6 +178,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
 
